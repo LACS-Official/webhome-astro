@@ -75,6 +75,10 @@ export interface AnalyticsConfig {
       id?: string;
       partytown?: boolean;
     };
+    umami?: {
+      websiteId?: string;
+      src?: string;
+    };
   };
 }
 
@@ -187,10 +191,27 @@ const getAnalytics = (config: Config) => {
         id: undefined,
         partytown: true,
       },
+      umami: {
+        websiteId: undefined,
+        src: 'https://umami.lacs.cc/script.js',
+      },
     },
   };
 
-  return merge({}, _default, config?.analytics ?? {}) as AnalyticsConfig;
+  const merged = merge({}, _default, config?.analytics ?? {}) as AnalyticsConfig;
+
+  // Override with environment variables if available
+  if (process.env.UMAMI_WEBSITE_ID) {
+    merged.vendors.umami = merged.vendors.umami || {};
+    merged.vendors.umami.websiteId = process.env.UMAMI_WEBSITE_ID;
+  }
+
+  if (process.env.UMAMI_SRC) {
+    merged.vendors.umami = merged.vendors.umami || {};
+    merged.vendors.umami.src = process.env.UMAMI_SRC;
+  }
+
+  return merged;
 };
 
 export default (config: Config) => ({

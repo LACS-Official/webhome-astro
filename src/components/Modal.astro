@@ -3,24 +3,24 @@
 ---
 
 <!-- 模态框 -->
-<div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-  <div class="bg-white/95 dark:bg-gray-800/95 rounded-xl border border-gray-200 dark:border-gray-700 shadow-neon-accent dark:shadow-neon-primary tech-border backdrop-blur-md max-w-lg w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+<div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm items-center justify-center z-50 hidden p-4">
+  <div class="bg-white/95 dark:bg-gray-800/95 rounded-xl border border-gray-200 dark:border-gray-700 shadow-neon-accent dark:shadow-neon-primary tech-border backdrop-blur-md max-w-lg w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
     <!-- 装饰性网格背景 -->
     <div class="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
       <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
     </div>
-    
+
     <!-- 关闭按钮 -->
-    <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 z-10">
-      <i class="fas fa-times text-xl"></i>
+    <button id="close-modal" class="absolute top-3 right-3 md:top-4 md:right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 dark:bg-gray-700/80 hover:bg-white dark:hover:bg-gray-700" aria-label="关闭">
+      <i class="fas fa-times text-sm md:text-base"></i>
     </button>
-    
+
     <!-- 模态框内容 -->
-    <div class="p-6 relative z-10">
-      <img id="modal-image" src="" alt="" class="w-full h-48 object-cover rounded-lg mb-4">
-      <h3 id="modal-title" class="text-xl font-bold mb-2 text-gray-900 dark:text-white"></h3>
-      <p id="modal-description" class="text-gray-600 dark:text-gray-300 mb-4"></p>
-      <div id="modal-actions" class="flex space-x-3">
+    <div class="p-4 md:p-6 relative z-10">
+      <img id="modal-image" src="" alt="" class="w-full h-48 md:h-56 object-contain rounded-lg mb-4 bg-gray-50 dark:bg-gray-700">
+      <h3 id="modal-title" class="text-lg md:text-xl font-bold mb-2 text-gray-900 dark:text-white"></h3>
+      <p id="modal-description" class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4"></p>
+      <div id="modal-actions" class="flex flex-col sm:flex-row gap-2 sm:gap-3">
         <!-- 动态添加的按钮 -->
       </div>
     </div>
@@ -60,8 +60,8 @@
 </style>
 
 <script>
-  // 模态框功能
-  document.addEventListener('DOMContentLoaded', () => {
+  // 模态框功能 - 立即执行，不等待DOMContentLoaded
+  function initModal() {
     const modal = document.getElementById('modal');
     const modalContent = document.getElementById('modal-content');
     const modalImage = document.getElementById('modal-image');
@@ -70,20 +70,22 @@
     const modalActions = document.getElementById('modal-actions');
     const closeModal = document.getElementById('close-modal');
 
-    // 显示模态框
+    // 显示模态框 - 定义为全局函数
     window.showModal = function(imageUrl, title = '', description = '', actions = []) {
+      console.log('showModal called with:', { imageUrl, title, description, actions });
+
       if (modalImage) modalImage.src = imageUrl;
       if (modalTitle) modalTitle.textContent = title;
       if (modalDescription) modalDescription.textContent = description;
-      
+
       // 清空并添加动作按钮
       if (modalActions) {
         modalActions.innerHTML = '';
-        actions.forEach(action => {
+        actions.forEach((action) => {
           const button = document.createElement('a');
           button.href = action.href || '#';
           button.target = action.target || '_self';
-          button.className = `btn-primary px-4 py-2 rounded-lg transition-all duration-300 ${action.className || ''}`;
+          button.className = `bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center justify-center text-sm font-medium ${action.className || ''}`;
           button.innerHTML = `<i class="${action.icon || 'fas fa-external-link-alt'} mr-1"></i> ${action.text}`;
           modalActions.appendChild(button);
         });
@@ -91,25 +93,27 @@
 
       if (modal && modalContent) {
         modal.classList.remove('hidden');
+        modal.classList.add('flex');
         setTimeout(() => {
           modalContent.classList.remove('scale-95', 'opacity-0');
           modalContent.classList.add('scale-100', 'opacity-100');
         }, 10);
-        
+
         // 禁止背景滚动
         document.body.style.overflow = 'hidden';
       }
     };
 
     // 隐藏模态框
-    function hideModal() {
+    window.hideModal = function() {
       if (modal && modalContent) {
         modalContent.classList.remove('scale-100', 'opacity-100');
         modalContent.classList.add('scale-95', 'opacity-0');
         setTimeout(() => {
           modal.classList.add('hidden');
+          modal.classList.remove('flex');
         }, 300);
-        
+
         // 恢复背景滚动
         document.body.style.overflow = '';
       }
@@ -117,14 +121,14 @@
 
     // 关闭按钮事件
     if (closeModal) {
-      closeModal.addEventListener('click', hideModal);
+      closeModal.addEventListener('click', window.hideModal);
     }
 
     // 点击背景关闭
     if (modal) {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
-          hideModal();
+          window.hideModal();
         }
       });
     }
@@ -132,8 +136,15 @@
     // ESC键关闭
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-        hideModal();
+        window.hideModal();
       }
     });
-  });
+  }
+
+  // 立即初始化或在DOM加载后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initModal);
+  } else {
+    initModal();
+  }
 </script>

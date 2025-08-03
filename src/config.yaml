@@ -18,7 +18,7 @@ metadata:
   openGraph:
     site_name: 领创工作室
     images:
-      - url: '~/assets/images/bg-lacs-group.webp'
+      - url: '~/assets/images/bg.webp'
         width: 1200
         height: 628
     type: website
@@ -67,6 +67,9 @@ analytics:
   vendors:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"
+    umami:
+      websiteId: null # Will be set via UMAMI_WEBSITE_ID environment variable
+      src: "https://umami.lacs.cc/script.js"
 
 ui:
   theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

@@ -11,3 +11,14 @@ import { ANALYTICS } from 'astrowind:config';
     />
   ) : null
 }
+
+{
+  ANALYTICS?.vendors?.umami?.websiteId ? (
+    <script
+      is:inline
+      defer
+      src={ANALYTICS.vendors.umami.src || 'https://umami.lacs.cc/script.js'}
+      data-website-id={ANALYTICS.vendors.umami.websiteId}
+    ></script>
+  ) : null
+}

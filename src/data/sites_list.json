@@ -28,10 +28,10 @@
   },
   {
     "id": 4,
-    "name": "技术支持",
-    "description": "提供项目技术支持、问题解答和个性化定制服务",
-    "link": "https://lacs.cc/support",
+    "name": "远程刷机",
+    "description": "提供专业的远程刷机服务，支持各种Android设备",
+    "link": "/remote-flash",
     "bgColor": "dark",
-    "analyticsEvent": "访问技术支持"
+    "analyticsEvent": "访问远程刷机"
   }
 ]

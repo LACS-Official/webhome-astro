@@ -6,7 +6,7 @@ import ToggleMenu from '~/components/common/ToggleMenu.astro';
 import Button from '~/components/ui/Button.astro';
 
 import { getHomePermalink } from '~/utils/permalinks';
-import { trimSlash, getAsset } from '~/utils/permalinks';
+import { trimSlash } from '~/utils/permalinks';
 import type { CallToAction } from '~/types';
 
 interface Link {
@@ -49,8 +49,9 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
 <header
   class:list={[
-    { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+    'fixed',
+    { dark: isDark },
+    'top-0 z-50 flex-none mx-auto w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-50/20 dark:border-slate-800/20 transition-[opacity] ease-in-out',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -70,12 +71,44 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       },
     ]}
   >
-    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
+    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between items-center w-full']}>
       <a class="flex items-center" href={getHomePermalink()}>
         <Logo />
       </a>
-      <div class="flex items-center md:hidden">
-        <ToggleMenu />
+
+      <!-- 移动端功能按钮区域 -->
+      <div class="flex items-center gap-1 md:hidden">
+        <!-- 主题切换按钮 -->
+        {showToggleTheme && (
+          <div class="flex items-center">
+            <ToggleTheme iconClass="w-5 h-5" />
+          </div>
+        )}
+
+        <!-- 返回顶部按钮 -->
+        <button
+          id="mobile-back-to-top"
+          class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 rounded-lg p-2 inline-flex items-center justify-center min-w-[44px] min-h-[44px] transition-all duration-150"
+          aria-label="返回顶部"
+          title="返回顶部"
+        >
+          <Icon name="tabler:arrow-up" class="w-5 h-5" />
+        </button>
+
+        <!-- 去底部按钮 -->
+        <button
+          id="mobile-go-to-bottom"
+          class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 rounded-lg p-2 inline-flex items-center justify-center min-w-[44px] min-h-[44px] transition-all duration-150"
+          aria-label="去底部"
+          title="去底部"
+        >
+          <Icon name="tabler:arrow-down" class="w-5 h-5" />
+        </button>
+
+        <!-- 菜单切换按钮 -->
+        <div class="flex items-center">
+          <ToggleMenu />
+        </div>
       </div>
     </div>
     <nav
@@ -136,19 +169,29 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       ]}
     >
       <div class="items-center flex justify-between w-full md:w-auto">
-        <div class="flex">
-          {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}
-          {
-            showRssFeed && (
-              <a
-                class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-                aria-label="RSS Feed"
-                href={getAsset('/rss.xml')}
-              >
-                <Icon name="tabler:rss" class="w-5 h-5" />
-              </a>
-            )
-          }
+        <!-- 桌面端功能按钮 -->
+        <div class="hidden md:flex items-center space-x-1">
+          {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
+
+          <!-- 桌面端返回顶部按钮 -->
+          <button
+            id="desktop-back-to-top"
+            class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+            aria-label="返回顶部"
+            title="返回顶部"
+          >
+            <Icon name="tabler:arrow-up" class="w-5 h-5" />
+          </button>
+
+          <!-- 桌面端去底部按钮 -->
+          <button
+            id="desktop-go-to-bottom"
+            class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+            aria-label="去底部"
+            title="去底部"
+          >
+            <Icon name="tabler:arrow-down" class="w-5 h-5" />
+          </button>
         </div>
         {
           actions?.length ? (
@@ -165,3 +208,93 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     </div>
   </div>
 </header>
+
+<script>
+  // 返回顶部和去底部功能
+  document.addEventListener('DOMContentLoaded', () => {
+    // 移动端按钮
+    const mobileBackToTopButton = document.getElementById('mobile-back-to-top');
+    const mobileGoToBottomButton = document.getElementById('mobile-go-to-bottom');
+
+    // 桌面端按钮
+    const desktopBackToTopButton = document.getElementById('desktop-back-to-top');
+    const desktopGoToBottomButton = document.getElementById('desktop-go-to-bottom');
+
+    // 返回顶部功能
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    };
+
+    // 去底部功能
+    const scrollToBottom = () => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    };
+
+    // 为所有按钮添加事件监听器
+    if (mobileBackToTopButton) {
+      mobileBackToTopButton.addEventListener('click', scrollToTop);
+      // 添加触摸反馈
+      mobileBackToTopButton.addEventListener('touchstart', () => {
+        mobileBackToTopButton.style.transform = 'scale(0.95)';
+      });
+      mobileBackToTopButton.addEventListener('touchend', () => {
+        setTimeout(() => {
+          mobileBackToTopButton.style.transform = 'scale(1)';
+        }, 100);
+      });
+    }
+
+    if (mobileGoToBottomButton) {
+      mobileGoToBottomButton.addEventListener('click', scrollToBottom);
+      // 添加触摸反馈
+      mobileGoToBottomButton.addEventListener('touchstart', () => {
+        mobileGoToBottomButton.style.transform = 'scale(0.95)';
+      });
+      mobileGoToBottomButton.addEventListener('touchend', () => {
+        setTimeout(() => {
+          mobileGoToBottomButton.style.transform = 'scale(1)';
+        }, 100);
+      });
+    }
+
+    if (desktopBackToTopButton) {
+      desktopBackToTopButton.addEventListener('click', scrollToTop);
+    }
+
+    if (desktopGoToBottomButton) {
+      desktopGoToBottomButton.addEventListener('click', scrollToBottom);
+    }
+
+    // 移动端菜单关闭优化
+    const header = document.getElementById('header');
+    const toggleMenuButton = document.querySelector('[data-aw-toggle-menu]');
+
+    if (header && toggleMenuButton) {
+      // 点击菜单外部关闭菜单
+      document.addEventListener('click', (e) => {
+        const target = e.target as Node;
+        if (header.classList.contains('expanded') &&
+            target &&
+            !header.contains(target) &&
+            !toggleMenuButton.contains(target)) {
+          header.classList.remove('expanded');
+          toggleMenuButton.classList.remove('expanded');
+        }
+      });
+
+      // ESC键关闭菜单
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && header.classList.contains('expanded')) {
+          header.classList.remove('expanded');
+          toggleMenuButton.classList.remove('expanded');
+        }
+      });
+    }
+  });
+</script>

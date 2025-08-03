@@ -5,60 +5,33 @@ import Content from '~/components/widgets/Content.astro';
 import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
+import Modal from '~/components/Modal.astro';
+
+// 导入数据文件
+import mediaPlatformsData from '~/data/mediaPlatforms.json';
+import contactInfoData from '~/data/contactInfo.json';
+import groupChatsData from '~/data/groupChats.json';
 
 const metadata = {
   title: '联系我们 - 领创工作室',
-  description: '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。',
-  keywords: '联系我们,技术支持,商务合作,领创工作室,客服',
+  description: '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。了解我们的媒体平台和官方群聊。',
+  keywords: '联系我们,技术支持,商务合作,领创工作室,客服,媒体平台,官方群聊',
 };
 
-// 联系方式数据
-const contactMethods = [
-  {
-    title: '电子邮件',
-    description: '24小时内回复',
-    info: 'admin@lacs.cc',
-    action: 'mailto:admin@lacs.cc',
-    icon: 'tabler:mail',
-    color: 'primary',
-  },
-  {
-    title: 'QQ联系',
-    description: '商务合作',
-    info: '2935278133',
-    action: 'https://qm.qq.com/q/9myAkzwVY4',
-    icon: 'tabler:brand-qq',
-    color: 'secondary',
-  },
-  {
-    title: '微信联系',
-    description: '商务合作/远程刷机',
-    info: 'LACS177',
-    action: 'tencent://message/?uin=2935278133&Site=领创工作室&Menu=yes',
-    icon: 'tabler:brand-wechat',
-    color: 'accent',
-  },
-];
+// 转换联系方式数据格式
+const contactMethods = contactInfoData.map(contact => ({
+  title: contact.title,
+  description: contact.description,
+  info: contact.info,
+  action: contact.action,
+  icon: contact.title === '电子邮件' ? 'tabler:mail' :
+        contact.title === 'QQ' ? 'tabler:brand-qq' :
+        contact.title === '微信' ? 'tabler:brand-wechat' : 'tabler:message',
+  color: contact.title === '电子邮件' ? 'primary' :
+         contact.title === 'QQ' ? 'secondary' : 'accent',
+}));
 
-// QQ群数据 - TODO: 部署前请更新为真实的群号和链接
-const qqGroups = [
-  {
-    title: '领创工作室官方群',
-    description: '技术交流、问题反馈',
-    info: '群号：123456789', // TODO: 更新为真实群号
-    action: 'https://qm.qq.com/cgi-bin/qm/qr?k=your_group_key', // TODO: 更新为真实群链接
-    icon: 'tabler:users',
-    color: 'primary',
-  },
-  {
-    title: '远程刷机服务群',
-    description: '刷机服务、技术支持',
-    info: '群号：987654321', // TODO: 更新为真实群号
-    action: 'https://qm.qq.com/cgi-bin/qm/qr?k=your_group_key2', // TODO: 更新为真实群链接
-    icon: 'tabler:device-mobile',
-    color: 'secondary',
-  },
-];
+
 ---
 
 <Layout metadata={metadata}>
@@ -68,7 +41,7 @@ const qqGroups = [
   <Hero
     tagline="联系我们"
     title="随时为您提供专业服务"
-    subtitle="领创工作室致力于为用户提供优质的技术支持和服务。无论您有任何问题或需求，我们都会及时回复并提供专业的解决方案。"
+    subtitle="领创工作室致力于为用户提供优质的技术支持和服务。无论您有任何问题或需求，我们都会及时回复并提供专业的解决方案。关注我们的媒体平台，获取最新资讯和技术分享。"
     actions={[
       {
         variant: 'primary',
@@ -76,8 +49,74 @@ const qqGroups = [
         href: '#contact-methods',
         icon: 'tabler:arrow-down',
       },
+      {
+        variant: 'secondary',
+        text: '关注我们',
+        href: '#media-platforms',
+        icon: 'tabler:share',
+      },
     ]}
   />
+
+  <!-- 媒体平台 -->
+  <section id="media-platforms" class="py-16 md:py-20 relative">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900"></div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-12">
+        <div class="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-4">媒体平台</div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">关注我们的媒体平台</h2>
+        <p class="text-xl text-muted max-w-2xl mx-auto">获取最新资讯、技术分享和项目动态</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        {mediaPlatformsData.map((platform) => (
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 min-h-[180px] flex flex-col">
+            <div class="flex items-start mb-4 flex-grow">
+              <img
+                src={platform.logo}
+                alt={platform.name}
+                class="w-12 h-12 md:w-14 md:h-14 rounded-lg mr-3 md:mr-4 flex-shrink-0 object-cover"
+                loading="lazy"
+              />
+              <div class="flex-grow min-w-0">
+                <h3 class="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-1 truncate">{platform.name}</h3>
+                <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 mb-1 truncate">@{platform.account}</p>
+                {platform.accountId && (
+                  <p class="text-xs text-gray-500 dark:text-gray-500 truncate">ID: {platform.accountId}</p>
+                )}
+              </div>
+            </div>
+
+            <div class="flex space-x-2 mt-auto">
+              <button
+                class="qr-button flex-1 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2 md:px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center text-sm font-medium"
+                data-qrcode={platform.qrcode}
+                data-title={platform.qrcodeTitle || platform.name}
+                data-description={platform.qrcodeDesc || '扫码关注'}
+                data-link={platform.link}
+                aria-label={`查看${platform.name}二维码`}
+                type="button"
+              >
+                <i class="fas fa-qrcode mr-1 text-xs md:text-sm"></i>
+                <span class="hidden sm:inline">二维码</span>
+                <span class="sm:hidden">码</span>
+              </button>
+              <a
+                href={platform.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex-1 bg-primary hover:bg-primary/90 text-white px-2 md:px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center text-sm font-medium"
+                aria-label={`访问${platform.name}平台`}
+              >
+                <i class="fas fa-external-link-alt mr-1 text-xs md:text-sm"></i>
+                访问
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- 联系方式 -->
   <Features
@@ -104,23 +143,49 @@ const qqGroups = [
   </Features>
 
   <!-- QQ群聊 -->
-  <Features
-    title="加入我们的社区"
-    subtitle="与其他用户交流，获取最新资讯和技术支持"
-    tagline="官方群聊"
-    items={qqGroups.map(group => ({
-      title: group.title,
-      description: `${group.description}<br><strong>${group.info}</strong>`,
-      icon: group.icon,
-      callToAction: {
-        text: '加入群聊',
-        href: group.action,
-        target: '_blank',
-        variant: 'link',
-      },
-    }))}
-    columns={2}
-  />
+  <section class="py-16 md:py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-block px-3 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full mb-4">官方群聊</div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">加入我们的社区</h2>
+        <p class="text-xl text-muted max-w-2xl mx-auto">与其他用户交流，获取最新资讯和技术支持</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {groupChatsData.map((group) => (
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center mb-4">
+              <img src={group.logo} alt={group.name} class="w-12 h-12 rounded-lg mr-4" />
+              <div>
+                <h3 class="text-lg font-bold">{group.name}</h3>
+                {group.limit && <p class="text-sm text-muted">{group.limit}</p>}
+                {group.groupNumber && <p class="text-xs text-muted">群号: {group.groupNumber}</p>}
+              </div>
+            </div>
+
+            <div class="flex space-x-2">
+              <button
+                class="flex-1 bg-green-50 hover:bg-green-100 text-green-600 px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center"
+                onclick={`showModal('${group.qrcode}', '${group.name}', '扫码加入群聊', [{text: '直接加入', href: '${group.joinLink}', target: '_blank', icon: 'fas fa-user-plus'}])`}
+              >
+                <i class="fas fa-qrcode mr-1"></i>
+                二维码
+              </button>
+              <a
+                href={group.joinLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex-1 bg-green-600 text-white px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center hover:bg-green-700"
+              >
+                <i class="fas fa-user-plus mr-1"></i>
+                加入
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- 服务时间和说明 -->
   <Content
@@ -181,4 +246,70 @@ const qqGroups = [
       欢迎浏览我们的项目展示，或返回首页了解更多信息。
     </Fragment>
   </CallToAction>
+
+  <!-- 模态框组件 -->
+  <Modal />
+
+  <!-- 二维码按钮事件处理 -->
+  <script>
+    console.log('Contact page script loading...');
+
+    function initQRButtons() {
+      console.log('Initializing QR buttons...');
+      const qrButtons = document.querySelectorAll('.qr-button');
+      console.log('Found QR buttons:', qrButtons.length);
+
+      if (qrButtons.length === 0) {
+        console.warn('No QR buttons found!');
+        return;
+      }
+
+      qrButtons.forEach((button, index) => {
+        console.log(`Setting up button ${index}:`, button);
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          console.log('QR button clicked:', this);
+
+          const qrcode = this.dataset.qrcode;
+          const title = this.dataset.title;
+          const description = this.dataset.description;
+          const link = this.dataset.link;
+
+          console.log('Button data:', { qrcode, title, description, link });
+
+          if (window.showModal) {
+            console.log('Calling showModal...');
+            window.showModal(qrcode, title, description, [
+              {
+                text: '访问平台',
+                href: link,
+                target: '_blank',
+                icon: 'fas fa-external-link-alt'
+              }
+            ]);
+          } else {
+            console.error('showModal function not found on window object');
+            console.log('Available window functions:', Object.keys(window).filter(key => typeof window[key] === 'function'));
+          }
+        });
+      });
+    }
+
+    // 多种初始化方式确保代码执行
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, initializing...');
+        setTimeout(initQRButtons, 200);
+      });
+    } else {
+      console.log('DOM already loaded, initializing immediately...');
+      setTimeout(initQRButtons, 200);
+    }
+
+    // 备用初始化
+    window.addEventListener('load', function() {
+      console.log('Window loaded, backup initialization...');
+      setTimeout(initQRButtons, 300);
+    });
+  </script>
 </Layout>
