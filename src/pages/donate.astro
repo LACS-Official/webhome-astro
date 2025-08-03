@@ -1,0 +1,325 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features from '~/components/widgets/Features.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import CustomStyles from '~/components/CustomStyles.astro';
+
+const metadata = {
+  title: '支持我们 - 领创工作室',
+  description: '支持领创工作室的发展，您的捐赠将帮助我们提供更好的服务和开发更多优质项目。多种捐赠方式，感谢您的支持！',
+  keywords: '捐赠,支持,赞助,领创工作室,开源项目',
+};
+
+// 捐赠方式
+const donationMethods = [
+  {
+    title: '微信支付',
+    description: '扫描二维码或转账到微信号',
+    info: '微信号：LACS177',
+    action: '#wechat-qr',
+    icon: 'tabler:brand-wechat',
+    color: 'green',
+  },
+  {
+    title: '支付宝',
+    description: '扫描二维码或转账到支付宝账号',
+    info: '账号：admin@lacs.cc',
+    action: '#alipay-qr',
+    icon: 'tabler:brand-alipay',
+    color: 'blue',
+  },
+  {
+    title: 'QQ钱包',
+    description: '通过QQ转账或红包支持',
+    info: 'QQ：2935278133',
+    action: 'https://qm.qq.com/q/9myAkzwVY4',
+    icon: 'tabler:brand-qq',
+    color: 'primary',
+  },
+];
+
+// 捐赠用途
+const donationUsage = [
+  {
+    title: '服务器维护',
+    description: '维护网站服务器、域名续费、CDN加速等基础设施费用。',
+    icon: 'tabler:server',
+    percentage: '40%',
+  },
+  {
+    title: '项目开发',
+    description: '投入新项目的研发，购买开发工具和软件许可证。',
+    icon: 'tabler:code',
+    percentage: '35%',
+  },
+  {
+    title: '技术学习',
+    description: '团队成员技术培训、购买学习资料和参加技术会议。',
+    icon: 'tabler:book',
+    percentage: '15%',
+  },
+  {
+    title: '社区建设',
+    description: '维护技术社区、举办活动、奖励贡献者等。',
+    icon: 'tabler:users',
+    percentage: '10%',
+  },
+];
+
+// 支持者权益
+const supporterBenefits = [
+  {
+    title: '专属标识',
+    description: '在我们的项目和网站中展示支持者专属标识。',
+    icon: 'tabler:badge',
+  },
+  {
+    title: '优先支持',
+    description: '享受技术支持和服务的优先处理权。',
+    icon: 'tabler:star',
+  },
+  {
+    title: '内测权限',
+    description: '优先体验我们的新项目和功能内测版本。',
+    icon: 'tabler:eye',
+  },
+  {
+    title: '定制服务',
+    description: '根据需求提供个性化的技术解决方案。',
+    icon: 'tabler:settings',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <CustomStyles />
+  
+  <!-- Hero Section -->
+  <Hero
+    tagline="支持我们"
+    title="您的支持是我们前进的动力"
+    subtitle="领创工作室致力于为用户提供优质的技术服务和开源项目。您的每一份支持都将帮助我们做得更好，为技术社区贡献更多价值。"
+    actions={[
+      {
+        variant: 'primary',
+        text: '立即支持',
+        href: '#donation-methods',
+        icon: 'tabler:heart',
+      },
+      {
+        variant: 'secondary',
+        text: '了解用途',
+        href: '#usage',
+        icon: 'tabler:arrow-down',
+      },
+    ]}
+  />
+
+  <!-- 捐赠方式 -->
+  <Features
+    id="donation-methods"
+    title="多种支持方式"
+    subtitle="选择最方便的方式支持我们"
+    tagline="捐赠方式"
+    items={donationMethods.map(method => ({
+      title: method.title,
+      description: `${method.description}<br><strong>${method.info}</strong>`,
+      icon: method.icon,
+      callToAction: {
+        text: '立即支持',
+        href: method.action,
+        target: method.action.startsWith('http') ? '_blank' : '_self',
+        variant: 'link',
+      },
+    }))}
+    columns={3}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </Features>
+
+  <!-- 二维码展示 -->
+  <section class="py-16 md:py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">扫码支持</h2>
+        <p class="text-xl text-muted mb-12">使用手机扫描下方二维码即可快速支持</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div id="wechat-qr" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <h3 class="text-2xl font-bold mb-4 text-green-600">微信支付</h3>
+            <div class="w-48 h-48 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+              <i class="fas fa-qrcode text-6xl text-gray-400"></i>
+            </div>
+            <p class="text-sm text-muted">微信扫码支付</p>
+          </div>
+          
+          <div id="alipay-qr" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <h3 class="text-2xl font-bold mb-4 text-blue-600">支付宝</h3>
+            <div class="w-48 h-48 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+              <i class="fas fa-qrcode text-6xl text-gray-400"></i>
+            </div>
+            <p class="text-sm text-muted">支付宝扫码支付</p>
+          </div>
+        </div>
+        
+        <p class="text-sm text-muted mt-8">
+          * 二维码图片加载中，如无法显示请直接联系我们
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 资金用途 -->
+  <Features
+    id="usage"
+    title="资金使用透明化"
+    subtitle="您的每一分支持都将用于以下方面"
+    tagline="资金用途"
+    items={donationUsage.map(usage => ({
+      title: usage.title,
+      description: `${usage.description}<br><span class="text-primary font-bold">${usage.percentage}</span>`,
+      icon: usage.icon,
+    }))}
+    columns={4}
+  />
+
+  <!-- 支持者权益 -->
+  <Content
+    title="支持者专属权益"
+    subtitle="感谢您的支持，我们为支持者准备了专属权益"
+    items={supporterBenefits}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        成为我们的支持者
+      </h3>
+      支持金额不限，每一份心意都是对我们最大的鼓励。我们会定期公布资金使用情况，确保透明公开。
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </Content>
+
+  <!-- 支持者名单 -->
+  <section class="py-16 md:py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">感谢支持者</h2>
+        <p class="text-xl text-muted mb-12">感谢以下朋友对领创工作室的支持</p>
+        
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div class="p-4">
+              <div class="w-16 h-16 mx-auto mb-2 bg-primary/10 rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-primary text-2xl"></i>
+              </div>
+              <p class="font-semibold">匿名用户</p>
+              <p class="text-sm text-muted">¥50</p>
+            </div>
+            <div class="p-4">
+              <div class="w-16 h-16 mx-auto mb-2 bg-primary/10 rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-primary text-2xl"></i>
+              </div>
+              <p class="font-semibold">技术爱好者</p>
+              <p class="text-sm text-muted">¥100</p>
+            </div>
+            <div class="p-4">
+              <div class="w-16 h-16 mx-auto mb-2 bg-primary/10 rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-primary text-2xl"></i>
+              </div>
+              <p class="font-semibold">开发者</p>
+              <p class="text-sm text-muted">¥200</p>
+            </div>
+            <div class="p-4">
+              <div class="w-16 h-16 mx-auto mb-2 bg-primary/10 rounded-full flex items-center justify-center">
+                <i class="fas fa-plus text-primary text-2xl"></i>
+              </div>
+              <p class="font-semibold">更多支持者</p>
+              <p class="text-sm text-muted">期待您的加入</p>
+            </div>
+          </div>
+          
+          <div class="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <p class="text-sm text-muted">
+              <i class="fas fa-info-circle mr-2"></i>
+              支持者名单每月更新，如需匿名请在支付时备注说明
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 其他支持方式 -->
+  <Content
+    title="其他支持方式"
+    subtitle="除了资金支持，您还可以通过以下方式帮助我们"
+    items={[
+      {
+        title: '分享推荐',
+        description: '向朋友推荐我们的服务和项目，帮助我们扩大影响力。',
+        icon: 'tabler:share',
+      },
+      {
+        title: '反馈建议',
+        description: '提供宝贵的意见和建议，帮助我们改进产品和服务。',
+        icon: 'tabler:message-circle',
+      },
+      {
+        title: '技术贡献',
+        description: '参与开源项目开发，贡献代码或文档。',
+        icon: 'tabler:code',
+      },
+      {
+        title: '内容创作',
+        description: '撰写技术文章、制作教程视频等内容。',
+        icon: 'tabler:edit',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        多种支持方式
+      </h3>
+      您的支持不仅限于资金，任何形式的帮助都是对我们最大的鼓励。
+    </Fragment>
+  </Content>
+
+  <!-- Call to Action -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: '立即支持',
+        href: '#donation-methods',
+        icon: 'tabler:heart',
+      },
+      {
+        variant: 'secondary',
+        text: '联系我们',
+        href: '/contact',
+        icon: 'tabler:message-circle',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      感谢您的支持！
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      您的每一份支持都将帮助我们做得更好，<br class="hidden md:inline" />
+      为技术社区贡献更多价值。
+    </Fragment>
+  </CallToAction>
+</Layout>
+
+<style>
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300;
+  }
+</style>

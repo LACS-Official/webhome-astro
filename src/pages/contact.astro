@@ -1,0 +1,184 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features from '~/components/widgets/Features.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import CustomStyles from '~/components/CustomStyles.astro';
+
+const metadata = {
+  title: '联系我们 - 领创工作室',
+  description: '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。',
+  keywords: '联系我们,技术支持,商务合作,领创工作室,客服',
+};
+
+// 联系方式数据
+const contactMethods = [
+  {
+    title: '电子邮件',
+    description: '24小时内回复',
+    info: 'admin@lacs.cc',
+    action: 'mailto:admin@lacs.cc',
+    icon: 'tabler:mail',
+    color: 'primary',
+  },
+  {
+    title: 'QQ联系',
+    description: '商务合作',
+    info: '2935278133',
+    action: 'https://qm.qq.com/q/9myAkzwVY4',
+    icon: 'tabler:brand-qq',
+    color: 'secondary',
+  },
+  {
+    title: '微信联系',
+    description: '商务合作/远程刷机',
+    info: 'LACS177',
+    action: 'tencent://message/?uin=2935278133&Site=领创工作室&Menu=yes',
+    icon: 'tabler:brand-wechat',
+    color: 'accent',
+  },
+];
+
+// QQ群数据 - TODO: 部署前请更新为真实的群号和链接
+const qqGroups = [
+  {
+    title: '领创工作室官方群',
+    description: '技术交流、问题反馈',
+    info: '群号：123456789', // TODO: 更新为真实群号
+    action: 'https://qm.qq.com/cgi-bin/qm/qr?k=your_group_key', // TODO: 更新为真实群链接
+    icon: 'tabler:users',
+    color: 'primary',
+  },
+  {
+    title: '远程刷机服务群',
+    description: '刷机服务、技术支持',
+    info: '群号：987654321', // TODO: 更新为真实群号
+    action: 'https://qm.qq.com/cgi-bin/qm/qr?k=your_group_key2', // TODO: 更新为真实群链接
+    icon: 'tabler:device-mobile',
+    color: 'secondary',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <CustomStyles />
+
+  <!-- Hero Section -->
+  <Hero
+    tagline="联系我们"
+    title="随时为您提供专业服务"
+    subtitle="领创工作室致力于为用户提供优质的技术支持和服务。无论您有任何问题或需求，我们都会及时回复并提供专业的解决方案。"
+    actions={[
+      {
+        variant: 'primary',
+        text: '立即联系',
+        href: '#contact-methods',
+        icon: 'tabler:arrow-down',
+      },
+    ]}
+  />
+
+  <!-- 联系方式 -->
+  <Features
+    id="contact-methods"
+    title="多种联系方式"
+    subtitle="选择最适合您的联系方式，我们会尽快回复"
+    tagline="联系方式"
+    items={contactMethods.map(method => ({
+      title: method.title,
+      description: `${method.description}<br><strong>${method.info}</strong>`,
+      icon: method.icon,
+      callToAction: {
+        text: '立即联系',
+        href: method.action,
+        target: method.action.startsWith('http') ? '_blank' : '_self',
+        variant: 'link',
+      },
+    }))}
+    columns={3}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </Features>
+
+  <!-- QQ群聊 -->
+  <Features
+    title="加入我们的社区"
+    subtitle="与其他用户交流，获取最新资讯和技术支持"
+    tagline="官方群聊"
+    items={qqGroups.map(group => ({
+      title: group.title,
+      description: `${group.description}<br><strong>${group.info}</strong>`,
+      icon: group.icon,
+      callToAction: {
+        text: '加入群聊',
+        href: group.action,
+        target: '_blank',
+        variant: 'link',
+      },
+    }))}
+    columns={2}
+  />
+
+  <!-- 服务时间和说明 -->
+  <Content
+    title="服务说明"
+    subtitle="了解我们的服务时间和响应政策"
+    items={[
+      {
+        title: '响应时间',
+        description: '工作日内24小时回复邮件，QQ和微信消息通常在2小时内回复。',
+        icon: 'tabler:clock',
+      },
+      {
+        title: '服务范围',
+        description: '技术支持、软件问题、商务合作、远程刷机服务等。',
+        icon: 'tabler:tools',
+      },
+      {
+        title: '工作时间',
+        description: '周一至周日 9:00-22:00，节假日可能延迟回复。',
+        icon: 'tabler:calendar',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        专业的技术支持团队
+      </h3>
+      我们拥有经验丰富的技术团队，为您提供专业、及时的技术支持和服务。
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Call to Action -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: '返回首页',
+        href: '/',
+        icon: 'tabler:home',
+      },
+      {
+        variant: 'secondary',
+        text: '查看项目',
+        href: '/#projects',
+        icon: 'tabler:apps',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      还有其他问题？
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      欢迎浏览我们的项目展示，或返回首页了解更多信息。
+    </Fragment>
+  </CallToAction>
+</Layout>

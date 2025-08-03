@@ -1,0 +1,26 @@
+[
+    {
+        "logo": "https://img.lacs.cc/img/25-07/05/QQ-email.webp",
+        "title": "电子邮件",
+        "description": "24小时内回复",
+        "info": "2935278133@qq.com",
+        "action": "mailto:2935278133@qq.com",
+        "analyticsEvent": "联系电子邮件"
+    },
+    {
+        "logo": "https://img.lacs.cc/img/25-07/05/wechat.webp",
+        "title": "微信",
+        "description": "商务合作/远程刷机",
+        "info": "LACS177",
+        "action": "tencent://message/?uin=2935278133&Site=领创工作室&Menu=yes",
+        "analyticsEvent": "在线联系"
+    },
+    {
+        "logo": "https://img.lacs.cc/img/25-07/05/QQ.webp",
+        "title": "QQ",
+        "description": "商务合作",
+        "info": "2935278133",
+        "action": "https://qm.qq.com/q/9myAkzwVY4",
+        "analyticsEvent": "在线联系"
+    }
+]

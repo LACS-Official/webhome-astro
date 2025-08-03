@@ -1,0 +1,133 @@
+---
+import '@fontsource-variable/inter';
+
+// 'DM Sans'
+// Nunito
+// Dosis
+// Outfit
+// Roboto
+// Literata
+// 'IBM Plex Sans'
+// Karla
+// Poppins
+// 'Fira Sans'
+// 'Libre Franklin'
+// Inconsolata
+// Raleway
+// Oswald
+// 'Space Grotesk'
+// Urbanist
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: 'Inter Variable', 'Noto Sans SC', sans-serif;
+    --aw-font-serif: 'Inter Variable', 'Noto Sans SC', serif;
+    --aw-font-heading: 'Inter Variable', 'Noto Sans SC', sans-serif;
+
+    /* 领创工作室品牌色彩 */
+    --aw-color-primary: rgb(28 100 242); /* #1C64F2 */
+    --aw-color-secondary: rgb(6 148 162); /* #0694A2 */
+    --aw-color-accent: rgb(243 192 0); /* #F3C000 */
+
+    --aw-color-text-heading: rgb(10 31 68);
+    --aw-color-text-default: rgb(55 65 81);
+    --aw-color-text-muted: rgb(107 114 128);
+    --aw-color-bg-page: rgb(249 250 251);
+
+    --aw-color-bg-page-dark: rgb(15 23 42);
+
+    ::selection {
+      background-color: rgb(28 100 242 / 20%);
+    }
+  }
+
+  /* 领创工作室自定义样式 */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--aw-color-primary), var(--aw-color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shadow-neon-primary {
+    box-shadow: 0 0 20px rgba(28, 100, 242, 0.3);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .typing-effect {
+    border-right: 2px solid var(--aw-color-primary);
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--aw-color-primary); }
+  }
+
+  /* 悬浮按钮动画 */
+  @keyframes bounce-highlight {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    25% { transform: translateX(-50%) translateY(-5px); }
+    50% { transform: translateX(-50%) translateY(0); }
+    75% { transform: translateX(-50%) translateY(-3px); }
+  }
+
+  .animate-bounce-highlight {
+    animation: bounce-highlight 2s ease-in-out 3;
+  }
+
+  /* 脉冲动画 */
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* 项目卡片悬停效果 */
+  .project-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  .dark {
+    --aw-font-sans: 'Inter Variable';
+    --aw-font-serif: 'Inter Variable';
+    --aw-font-heading: 'Inter Variable';
+
+    --aw-color-primary: rgb(1 97 239);
+    --aw-color-secondary: rgb(1 84 207);
+    --aw-color-accent: rgb(109 40 217);
+
+    --aw-color-text-heading: rgb(247, 248, 248);
+    --aw-color-text-default: rgb(229 236 246);
+    --aw-color-text-muted: rgb(229 236 246 / 66%);
+    --aw-color-bg-page: rgb(3 6 32);
+
+    ::selection {
+      background-color: black;
+      color: snow;
+    }
+  }
+</style>

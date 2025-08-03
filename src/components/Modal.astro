@@ -1,0 +1,139 @@
+---
+// 模态框组件
+---
+
+<!-- 模态框 -->
+<div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+  <div class="bg-white/95 dark:bg-gray-800/95 rounded-xl border border-gray-200 dark:border-gray-700 shadow-neon-accent dark:shadow-neon-primary tech-border backdrop-blur-md max-w-lg w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+    <!-- 装饰性网格背景 -->
+    <div class="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
+      <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+    </div>
+    
+    <!-- 关闭按钮 -->
+    <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 z-10">
+      <i class="fas fa-times text-xl"></i>
+    </button>
+    
+    <!-- 模态框内容 -->
+    <div class="p-6 relative z-10">
+      <img id="modal-image" src="" alt="" class="w-full h-48 object-cover rounded-lg mb-4">
+      <h3 id="modal-title" class="text-xl font-bold mb-2 text-gray-900 dark:text-white"></h3>
+      <p id="modal-description" class="text-gray-600 dark:text-gray-300 mb-4"></p>
+      <div id="modal-actions" class="flex space-x-3">
+        <!-- 动态添加的按钮 -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tech-border {
+    position: relative;
+  }
+  
+  .tech-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(45deg, var(--aw-color-primary), var(--aw-color-secondary), var(--aw-color-accent));
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+  
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .shadow-neon-accent {
+    box-shadow: 0 0 30px rgba(243, 192, 0, 0.2);
+  }
+  
+  .shadow-neon-primary {
+    box-shadow: 0 0 30px rgba(28, 100, 242, 0.2);
+  }
+</style>
+
+<script>
+  // 模态框功能
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modal-content');
+    const modalImage = document.getElementById('modal-image');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalActions = document.getElementById('modal-actions');
+    const closeModal = document.getElementById('close-modal');
+
+    // 显示模态框
+    window.showModal = function(imageUrl, title = '', description = '', actions = []) {
+      if (modalImage) modalImage.src = imageUrl;
+      if (modalTitle) modalTitle.textContent = title;
+      if (modalDescription) modalDescription.textContent = description;
+      
+      // 清空并添加动作按钮
+      if (modalActions) {
+        modalActions.innerHTML = '';
+        actions.forEach(action => {
+          const button = document.createElement('a');
+          button.href = action.href || '#';
+          button.target = action.target || '_self';
+          button.className = `btn-primary px-4 py-2 rounded-lg transition-all duration-300 ${action.className || ''}`;
+          button.innerHTML = `<i class="${action.icon || 'fas fa-external-link-alt'} mr-1"></i> ${action.text}`;
+          modalActions.appendChild(button);
+        });
+      }
+
+      if (modal && modalContent) {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modalContent.classList.remove('scale-95', 'opacity-0');
+          modalContent.classList.add('scale-100', 'opacity-100');
+        }, 10);
+        
+        // 禁止背景滚动
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    // 隐藏模态框
+    function hideModal() {
+      if (modal && modalContent) {
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 300);
+        
+        // 恢复背景滚动
+        document.body.style.overflow = '';
+      }
+    }
+
+    // 关闭按钮事件
+    if (closeModal) {
+      closeModal.addEventListener('click', hideModal);
+    }
+
+    // 点击背景关闭
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          hideModal();
+        }
+      });
+    }
+
+    // ESC键关闭
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        hideModal();
+      }
+    });
+  });
+</script>

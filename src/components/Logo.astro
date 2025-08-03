@@ -1,0 +1,12 @@
+---
+import { SITE } from 'astrowind:config';
+---
+
+<div class="flex items-center group self-center ml-2 rtl:ml-0 rtl:mr-2">
+  <div class="relative overflow-hidden rounded-full p-0.5 mr-2 bg-gradient-to-r from-primary-400 to-secondary-400">
+    <img src="/lacs.webp" class="h-8 w-8 rounded-full object-cover transform group-hover:scale-110 transition-transform duration-300" alt="领创工作室Logo">
+  </div>
+  <span class="text-xl font-bold gradient-text">
+    {SITE?.name}
+  </span>
+</div>
