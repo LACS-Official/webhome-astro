@@ -3,8 +3,7 @@
         "name": "小米玩机交流总群",
         "limit": "QQ群-500人",
         "groupNumber": "676581092",
-        "logo":"https://img.lacs.cc/img/25-07/05/QQ.webp" ,
-        "qrcode": "https://img.lacs.cc/img/25-07/06/qqqun-xmwjzq.webp",
+        "qrcode": "/images/qrcodes/qqqun-xmwjzq.webp",
         "joinLink": "https://qm.qq.com/q/rEYFmCSdIO",
         "analyticsEvent": "加入群聊1"
     },
@@ -12,8 +11,7 @@
         "name": "小米玩机交流群-分群",
         "limit": "QQ群-500人",
         "groupNumber": "921998770",
-        "logo":"https://img.lacs.cc/img/25-07/05/QQ.webp" ,
-        "qrcode": "https://img.lacs.cc/img/25-07/06/qqun-xmwj2.webp",
+        "qrcode": "/images/qrcodes/qqqun-xmwj2.webp",
         "joinLink": "https://qm.qq.com/q/Qy1TiDrhsq",
         "analyticsEvent": "加入群聊1"
     },
@@ -21,16 +19,14 @@
         "name": "澎湃解锁工具箱(hout)交流总群",
         "limit": "QQ群-500人",
         "groupNumber": "921998770",
-        "logo":"https://img.lacs.cc/img/25-07/05/QQ.webp" ,
-        "qrcode": "https://img.lacs.cc/img/25-07/06/qqun-hout.webp",
+        "qrcode": "/images/qrcodes/qqqun-hout.webp",
         "joinLink": "https://qm.qq.com/q/1mdbZBhcEw",
         "analyticsEvent": "加入群聊1"
     },
     {
         "name": "QQ频道",
         "groupNumber": "4k233e56bg",
-        "logo":"https://img.lacs.cc/img/25-07/05/QQ.webp" ,
-        "qrcode": "https://img.lacs.cc/img/25-07/06/qqpd.webp",
+        "qrcode": "/images/qrcodes/qqpd.webp",
         "joinLink": "https://pd.qq.com/s/ausyns0uk?b=5",
         "analyticsEvent": "加入QQ频道"
     }

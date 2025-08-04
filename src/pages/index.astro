@@ -2,11 +2,9 @@
 import Layout from '~/layouts/PageLayout.astro';
 
 import Hero from '~/components/widgets/Hero.astro';
-import Stats from '~/components/widgets/Stats.astro';
 import Content from '~/components/widgets/Content.astro';
 import Projects from '~/components/widgets/Projects.astro';
 import Sites from '~/components/widgets/Sites.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import ParticleBackground from '~/components/ParticleBackground.astro';
 
 import Modal from '~/components/Modal.astro';
@@ -106,7 +104,7 @@ const sitesData = [
     id: 4,
     name: "远程刷机",
     description: "提供专业的远程刷机服务，支持各种Android设备",
-    link: "/remote-flash",
+    link: "/ycsj",
     bgColor: "dark",
     analyticsEvent: "访问远程刷机"
   }
@@ -129,7 +127,13 @@ const metadata = {
         href: '#projects',
         icon: 'tabler:rocket',
       },
-      { text: '了解更多', href: '#about' },
+      {
+        variant: 'secondary',
+        text: '其他分站',
+        href: '#sites',
+      },
+      
+      { text: '关于我们', href: '/#about' },
     ]}
     image={{ src: heroImage, alt: '领创工作室团队展示' }}
   >
@@ -142,6 +146,8 @@ const metadata = {
       <ParticleBackground />
     </Fragment>
   </Hero>
+
+
 
 
   <!-- Projects Widget ****************** -->
@@ -163,6 +169,7 @@ const metadata = {
   <!-- Sites Widget ****************** -->
 
   <Sites
+    id="sites"
     title="我们的分站平台"
     subtitle="探索领创工作室旗下的各个专业平台"
     tagline="分站导航"
@@ -177,38 +184,14 @@ const metadata = {
     subtitle="我们是一个专注于数码科技领域的创新团队"
     tagline="关于我们"
     content="领创工作室成立于2020年，致力于为用户提供高质量的软件工具和技术解决方案。我们的团队由经验丰富的开发者、设计师和技术专家组成，专注于移动设备工具开发、软件开发和数字内容创作。"
+    callToAction={{
+      variant: 'primary',
+      text: '联系我们',
+      href: '/contact',
+      icon: 'tabler:mail',
+    }}
   />
 
-
-
-  <!-- CallToAction Widget *********** -->
-
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: '联系我们',
-        href: 'mailto:admin@lacs.cc',
-        icon: 'tabler:mail',
-      },
-      {
-        variant: 'secondary',
-        text: '加入QQ群',
-        href: 'https://qm.qq.com/cgi-bin/qm/qr?k=your_qq_group_key', // TODO: 部署前请更新为真实的QQ群链接
-        target: '_blank',
-        icon: 'tabler:brand-qq',
-      },
-    ]}
-  >
-    <Fragment slot="title">
-      加入领创工作室<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">数码科技社区</span>
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      与我们一起探索数码科技的无限可能，获取最新的技术资讯和工具资源。<br class="hidden md:inline" />
-      立即加入我们的社区！
-    </Fragment>
-  </CallToAction>
 
 
 

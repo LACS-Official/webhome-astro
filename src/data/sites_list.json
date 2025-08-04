@@ -30,7 +30,7 @@
     "id": 4,
     "name": "远程刷机",
     "description": "提供专业的远程刷机服务，支持各种Android设备",
-    "link": "/remote-flash",
+    "link": "/ycsj",
     "bgColor": "dark",
     "analyticsEvent": "访问远程刷机"
   }

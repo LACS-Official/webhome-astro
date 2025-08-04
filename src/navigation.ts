@@ -11,16 +11,16 @@ export const headerData = {
       href: getPermalink('/#projects'),
     },
     {
-      text: '远程刷机',
-      href: getPermalink('/remote-flash'),
-    },
-    {
       text: '关于我们',
       href: getPermalink('/#about'),
     },
     {
       text: '联系我们',
       href: getPermalink('/contact'),
+    },
+    {
+      text: '远程刷机',
+      href: getPermalink('/ycsj'),
     },
     {
       text: '捐赠我们',

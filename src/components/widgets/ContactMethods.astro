@@ -1,0 +1,303 @@
+---
+import { Icon } from 'astro-icon/components';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+
+interface ContactMethod {
+  title: string;
+  description: string;
+  icon: string;
+  qrCode: string;
+  link: string;
+  linkText: string;
+  color: string;
+  bgColor: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+  contactMethods?: ContactMethod[];
+  id?: string;
+  isDark?: boolean;
+  classes?: Record<string, string>;
+  bg?: string;
+}
+
+const {
+  title = '',
+  subtitle = '',
+  tagline = '',
+  contactMethods = [],
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-12">
+    {contactMethods.map((method) => (
+      <div class="contact-method-card bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 text-center hover:shadow-xl transition-all duration-300">
+        <!-- 图标和标题 -->
+        <div class={`inline-flex items-center justify-center w-16 h-16 ${method.bgColor} dark:bg-gray-700 rounded-full mb-4`}>
+          <Icon name={method.icon} class={`w-8 h-8 ${method.color} dark:text-white`} />
+        </div>
+        
+        <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{method.title}</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-6 text-sm leading-relaxed">{method.description}</p>
+        
+        <!-- 二维码区域 -->
+        <div class="mb-6">
+          <div
+            class="qr-area bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onclick={`showQRCode('${method.title}', '${method.qrCode}')`}
+            onkeydown="if(event.key==='Enter'||event.key===' '){this.click()}"
+            tabindex="0"
+            role="button"
+            aria-label={`查看${method.title}二维码`}
+          >
+            <div class="w-32 h-32 mx-auto bg-white rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-500 overflow-hidden">
+              {method.qrCode ? (
+                <img
+                  src={method.qrCode}
+                  alt={`${method.title}二维码`}
+                  class="w-full h-full object-cover rounded-lg"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="text-gray-400 text-xs text-center">
+                  <Icon name="tabler:qrcode" class="w-16 h-16 mb-2" />
+                  <p>点击查看二维码</p>
+                </div>
+              )}
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">扫码快速联系 • 点击放大查看</p>
+        </div>
+        
+        <!-- 链接按钮 -->
+        <div class="space-y-3">
+          <a
+            href={method.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`contact-button inline-flex items-center justify-center w-full px-4 py-2.5 ${method.color.replace('text-', 'bg-').replace('-600', '-500')} text-white font-medium rounded-full hover:${method.color.replace('text-', 'bg-').replace('-600', '-600')} transition-all duration-200 shadow-lg`}
+          >
+            <Icon name={method.icon} class="w-4 h-4 mr-2" />
+            {method.linkText}
+          </a>
+          
+          <!-- 复制链接按钮 -->
+          <button
+            onclick={`copyToClipboard('${method.link}', '${method.title}')`}
+            class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200"
+          >
+            <Icon name="tabler:copy" class="w-4 h-4 mr-2" />
+            复制链接
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+  
+  <!-- 额外说明 -->
+  <div class="mt-12 text-center">
+    <div class="bg-blue-50 dark:bg-gray-800 rounded-lg p-6 max-w-4xl mx-auto">
+      <div class="flex items-center justify-center mb-4">
+        <Icon name="tabler:info-circle" class="w-6 h-6 text-blue-600 dark:text-blue-400 mr-2" />
+        <h4 class="text-lg font-semibold text-blue-900 dark:text-blue-300">联系说明</h4>
+      </div>
+      <div class="text-sm text-blue-800 dark:text-blue-200 space-y-2">
+        <p>• 工作时间：周一至周日 9:00-22:00</p>
+        <p>• 咨询前请准备好设备型号、当前系统版本等信息</p>
+        <p>• 我们承诺24小时内回复您的咨询</p>
+        <p>• 支持远程协助，无需到店即可完成服务</p>
+        <p>• 具体价格根据设备型号和刷机难度而定，最终价格以客服报价为准</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 二维码模态框 -->
+  <div
+    id="qrModal"
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="qrModalTitle"
+  >
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-sm w-full mx-auto" role="document">
+      <div class="text-center">
+        <h3 id="qrModalTitle" class="text-xl font-bold mb-4 text-gray-900 dark:text-white"></h3>
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+          <div class="w-48 h-48 mx-auto bg-white rounded-lg flex items-center justify-center overflow-hidden">
+            <img
+              id="qrModalImage"
+              src=""
+              alt="二维码"
+              class="w-full h-full object-cover rounded-lg"
+              style="display: none;"
+            />
+            <div id="qrModalPlaceholder" class="text-gray-400 text-center">
+              <Icon name="tabler:qrcode" class="w-24 h-24 mb-2 mx-auto" />
+              <p class="text-sm">二维码占位符</p>
+              <p class="text-xs mt-2">请联系管理员添加实际二维码</p>
+            </div>
+          </div>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">使用手机扫描上方二维码</p>
+        <button
+          onclick="closeQRModal()"
+          class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200"
+        >
+          关闭
+        </button>
+      </div>
+    </div>
+  </div>
+</WidgetWrapper>
+
+<script>
+  // 显示二维码模态框
+  function showQRCode(title, qrCodeUrl) {
+    const modal = document.getElementById('qrModal');
+    const modalTitle = document.getElementById('qrModalTitle');
+    modalTitle.textContent = title + ' 二维码';
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+
+    // 焦点管理
+    const closeButton = modal.querySelector('button');
+    if (closeButton) {
+      closeButton.focus();
+    }
+  }
+
+  // 关闭二维码模态框
+  function closeQRModal() {
+    const modal = document.getElementById('qrModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+
+    // 恢复焦点到触发元素
+    const activeElement = document.activeElement;
+    if (activeElement && activeElement.classList.contains('qr-area')) {
+      activeElement.focus();
+    }
+  }
+
+  // 复制到剪贴板
+  function copyToClipboard(text, title) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`${title}链接已复制到剪贴板`);
+      }).catch(() => {
+        fallbackCopyTextToClipboard(text, title);
+      });
+    } else {
+      fallbackCopyTextToClipboard(text, title);
+    }
+  }
+
+  // 备用复制方法
+  function fallbackCopyTextToClipboard(text, title) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      document.execCommand('copy');
+      showToast(`${title}链接已复制到剪贴板`);
+    } catch (err) {
+      showToast('复制失败，请手动复制链接');
+    }
+
+    document.body.removeChild(textArea);
+  }
+
+  // 显示提示消息
+  function showToast(message) {
+    // 创建提示元素
+    const toast = document.createElement('div');
+    toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // 3秒后自动移除
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 300);
+    }, 3000);
+  }
+
+  // 点击模态框背景关闭
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('qrModal');
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeQRModal();
+      }
+    });
+
+    // ESC键关闭模态框
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeQRModal();
+      }
+    });
+  });
+</script>
+
+<style>
+  /* 自定义样式 */
+  .contact-method-card {
+    transition: all 0.3s ease;
+  }
+
+  .contact-method-card:hover {
+    transform: translateY(-5px);
+  }
+
+  /* 模态框动画 */
+  #qrModal {
+    transition: opacity 0.3s ease;
+  }
+
+  #qrModal.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #qrModal:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* 按钮悬停效果 */
+  .contact-button {
+    transition: all 0.2s ease;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 二维码区域悬停效果 */
+  .qr-area:hover {
+    transform: scale(1.02);
+  }
+</style>

@@ -4,9 +4,10 @@ import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features from '~/components/widgets/Features.astro';
 import Steps from '~/components/widgets/Steps.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import ContactMethods from '~/components/widgets/ContactMethods.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
-
+import heroImage from '~/assets/images/ycsj.webp';
 const metadata = {
   title: '远程刷机服务 - 领创工作室',
   description: '领创工作室提供专业的远程刷机服务，支持各种Android设备，安全可靠，价格合理。专业技术团队为您提供一对一服务。',
@@ -71,39 +72,41 @@ const flashingSteps = [
   },
 ];
 
-// 支持的设备品牌
-const supportedBrands = [
+
+// 联系方式数据
+const contactMethods = [
   {
-    title: '小米/红米',
-    description: 'MIUI系统刷机，支持解锁Bootloader，刷入第三方ROM。',
-    icon: 'tabler:device-mobile',
+    title: '微信咨询',
+    description: '扫码添加微信，获取一对一专业咨询服务，支持语音通话',
+    icon: 'tabler:brand-wechat',
+    qrCode: '/images/qrcodes/qr-wechat.webp', // 需要添加微信二维码图片
+    link: 'https://lacs.cc/wechat', // 微信联系页面
+    linkText: '添加微信',
+    color: 'text-green-600',
+    bgColor: 'bg-green-50',
   },
   {
-    title: '华为/荣耀',
-    description: 'EMUI/HarmonyOS系统优化，支持降级和系统修复。',
-    icon: 'tabler:device-mobile',
+    title: 'QQ咨询',
+    description: '点击直接跳转QQ聊天，快速获得技术支持和在线答疑',
+    icon: 'tabler:brand-qq',
+    qrCode: '/images/qrcodes/qq-qr.webp', // 需要添加QQ二维码图片
+    link: 'https://qm.qq.com/q/9myAkzwVY4', // QQ联系页面
+    linkText: '联系QQ',
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-50',
   },
   {
-    title: 'OPPO/一加',
-    description: 'ColorOS系统刷机，支持官方固件和第三方ROM。',
-    icon: 'tabler:device-mobile',
-  },
-  {
-    title: 'vivo/iQOO',
-    description: 'OriginOS系统刷机，支持系统降级和功能定制。',
-    icon: 'tabler:device-mobile',
-  },
-  {
-    title: '三星',
-    description: 'One UI系统刷机，支持官方固件刷入和系统修复。',
-    icon: 'tabler:device-mobile',
-  },
-  {
-    title: '其他品牌',
-    description: '魅族、联想、中兴等品牌设备，具体支持情况请咨询。',
-    icon: 'tabler:devices',
+    title: '闲鱼店铺',
+    description: '访问我们的闲鱼店铺，查看真实用户评价和服务案例',
+    icon: 'tabler:shopping-cart',
+    qrCode: '/images/qrcodes/xianyu.png', // 需要添加闲鱼二维码图片
+    link: 'https://m.tb.cn/h.hoyOrYl?tk=1mnp4TPgpjd', // 闲鱼店铺页面
+    linkText: '访问店铺',
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-50',
   },
 ];
+
 ---
 
 <Layout metadata={metadata}>
@@ -118,7 +121,7 @@ const supportedBrands = [
       {
         variant: 'primary',
         text: '立即咨询',
-        href: 'https://lacs.cc/yc',
+        href: '#contact',
         target: '_blank',
         icon: 'tabler:message-circle',
       },
@@ -129,7 +132,21 @@ const supportedBrands = [
         icon: 'tabler:arrow-down',
       },
     ]}
+        image={{ src: heroImage, alt: '展示' }}
   />
+  <!-- 联系方式-->
+  <ContactMethods
+    id='contact'
+    title="联系我们"
+    subtitle="多种联系方式，选择最适合您的沟通方式，我们的团队将尽快与您联系。"
+    tagline="联系方式"
+    contactMethods={contactMethods}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-gray-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </ContactMethods>
+  
 
   <!-- 服务特色 -->
   <Features
@@ -151,15 +168,6 @@ const supportedBrands = [
     subtitle="我们遵循标准化的刷机流程，确保每一步都安全可控"
     tagline="服务流程"
     items={flashingSteps}
-  />
-
-  <!-- 支持的设备 -->
-  <Features
-    title="支持的设备品牌"
-    subtitle="我们支持市面上主流的Android设备品牌"
-    tagline="设备支持"
-    items={supportedBrands}
-    columns={3}
   />
 
   <!-- 注意事项 -->
@@ -201,77 +209,9 @@ const supportedBrands = [
     </Fragment>
   </Content>
 
-  <!-- 价格说明 -->
-  <section class="py-16 md:py-20">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">服务价格</h2>
-        <p class="text-xl text-muted mb-12">透明合理的价格，专业优质的服务</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-            <h3 class="text-2xl font-bold mb-4 text-primary">基础刷机服务</h3>
-            <div class="text-4xl font-bold mb-4">¥50-100</div>
-            <ul class="text-left space-y-3 mb-6">
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 官方固件刷入</li>
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 系统降级/升级</li>
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 基础功能测试</li>
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 7天售后支持</li>
-            </ul>
-            <a href="https://lacs.cc/yc" target="_blank" class="btn-primary w-full py-3 rounded-lg font-semibold">
-              立即咨询
-            </a>
-          </div>
-          
-          <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg border border-primary">
-            <h3 class="text-2xl font-bold mb-4 text-primary">高级刷机服务</h3>
-            <div class="text-4xl font-bold mb-4">¥100-200</div>
-            <ul class="text-left space-y-3 mb-6">
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 第三方ROM刷入</li>
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 系统深度定制</li>
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 数据迁移服务</li>
-              <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> 30天售后支持</li>
-            </ul>
-            <a href="https://lacs.cc/yc" target="_blank" class="btn-primary w-full py-3 rounded-lg font-semibold">
-              立即咨询
-            </a>
-          </div>
-        </div>
-        
-        <p class="text-sm text-muted mt-8">
-          * 具体价格根据设备型号和刷机难度而定，最终价格以客服报价为准
-        </p>
-      </div>
-    </div>
-  </section>
 
-  <!-- Call to Action -->
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: '立即咨询刷机',
-        href: 'https://lacs.cc/yc',
-        target: '_blank',
-        icon: 'tabler:message-circle',
-      },
-      {
-        variant: 'secondary',
-        text: '联系客服',
-        href: '/contact',
-        icon: 'tabler:headset',
-      },
-    ]}
-  >
-    <Fragment slot="title">
-      准备开始刷机了吗？
-    </Fragment>
 
-    <Fragment slot="subtitle">
-      联系我们的专业团队，获取个性化的刷机方案和报价。<br class="hidden md:inline" />
-      让您的设备获得更好的使用体验！
-    </Fragment>
-  </CallToAction>
+
 </Layout>
 
 <style>

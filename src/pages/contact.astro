@@ -6,12 +6,13 @@ import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
+import { Icon } from 'astro-icon/components';
 
 // 导入数据文件
 import mediaPlatformsData from '~/data/mediaPlatforms.json';
 import contactInfoData from '~/data/contactInfo.json';
 import groupChatsData from '~/data/groupChats.json';
-
+import heroImage from '~/assets/images/contact.webp';
 const metadata = {
   title: '联系我们 - 领创工作室',
   description: '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。了解我们的媒体平台和官方群聊。',
@@ -30,7 +31,6 @@ const contactMethods = contactInfoData.map(contact => ({
   color: contact.title === '电子邮件' ? 'primary' :
          contact.title === 'QQ' ? 'secondary' : 'accent',
 }));
-
 
 ---
 
@@ -56,7 +56,35 @@ const contactMethods = contactInfoData.map(contact => ({
         icon: 'tabler:share',
       },
     ]}
+    image={{ src: heroImage, alt: '展示' }}
   />
+  
+  <!-- 联系方式 -->
+  <Features
+    id="contact-methods"
+    title="联系我们"
+    subtitle="选择您喜欢的方式与我们取得联系"
+    tagline="沟通渠道"
+    highlight="24小时响应"
+    items={contactMethods.map(method => ({
+      title: method.title,
+      description: `${method.description}<br><strong class="text-primary dark:text-blue-400">${method.info}</strong>`,
+      icon: method.icon,
+      class: 'hover:shadow-lg hover:-translate-y-1 transition-all duration-300',
+      callToAction: {
+        text: '立即联系',
+        href: method.action,
+        target: method.action.startsWith('http') ? '_blank' : '_self',
+        variant: 'primary',
+        class: 'group',
+      },
+    }))}
+    columns={3}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900"></div>
+    </Fragment>
+  </Features>
 
   <!-- 媒体平台 -->
   <section id="media-platforms" class="py-16 md:py-20 relative">
@@ -118,29 +146,7 @@ const contactMethods = contactInfoData.map(contact => ({
     </div>
   </section>
 
-  <!-- 联系方式 -->
-  <Features
-    id="contact-methods"
-    title="多种联系方式"
-    subtitle="选择最适合您的联系方式，我们会尽快回复"
-    tagline="联系方式"
-    items={contactMethods.map(method => ({
-      title: method.title,
-      description: `${method.description}<br><strong>${method.info}</strong>`,
-      icon: method.icon,
-      callToAction: {
-        text: '立即联系',
-        href: method.action,
-        target: method.action.startsWith('http') ? '_blank' : '_self',
-        variant: 'link',
-      },
-    }))}
-    columns={3}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
-    </Fragment>
-  </Features>
+
 
   <!-- QQ群聊 -->
   <section class="py-16 md:py-20">
@@ -155,7 +161,9 @@ const contactMethods = contactInfoData.map(contact => ({
         {groupChatsData.map((group) => (
           <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div class="flex items-center mb-4">
-              <img src={group.logo} alt={group.name} class="w-12 h-12 rounded-lg mr-4" />
+              <div class="w-12 h-12 rounded-lg mr-4 bg-blue-500 flex items-center justify-center">
+                <Icon name="tabler:brand-qq" class="w-8 h-8 text-white" />
+              </div>
               <div>
                 <h3 class="text-lg font-bold">{group.name}</h3>
                 {group.limit && <p class="text-sm text-muted">{group.limit}</p>}
