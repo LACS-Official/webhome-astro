@@ -1,0 +1,92 @@
+---
+// 客户端数据获取组件
+---
+
+<div id="donation-list-container">
+  <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+    <div id="donation-loading" class="text-center py-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+      <p class="text-muted">正在加载支持者数据...</p>
+    </div>
+    
+    <div id="donation-content" class="hidden">
+      <div id="donation-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 动态内容将在这里插入 -->
+      </div>
+    </div>
+    
+    <div id="donation-error" class="hidden text-center py-8">
+      <p class="text-muted">暂无支持者数据</p>
+    </div>
+
+    <div class="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+      <p class="text-sm text-muted">
+        <i class="fas fa-info-circle mr-2"></i>
+        支持者名单实时更新，如需匿名请在支付时备注说明
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function loadDonationData() {
+    const loadingEl = document.getElementById('donation-loading');
+    const contentEl = document.getElementById('donation-content');
+    const errorEl = document.getElementById('donation-error');
+    const gridEl = document.getElementById('donation-grid');
+
+    try {
+      // 尝试从本地API获取数据
+      let response = await fetch('/api/donations');
+      
+      // 如果本地API失败，直接从外部API获取
+      if (!response.ok) {
+        response = await fetch('https://api-g.lacs.cc/api/donors');
+      }
+
+      if (response.ok) {
+        const result = await response.json();
+        let donationData = [];
+
+        // 处理不同的响应格式
+        if (result.success && result.data) {
+          donationData = result.data;
+        } else if (Array.isArray(result)) {
+          donationData = result;
+        }
+
+        if (donationData.length > 0) {
+          // 渲染数据
+          gridEl.innerHTML = donationData.map(supporter => `
+            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="flex items-center justify-between mb-2">
+                <p class="font-semibold text-lg">${supporter.name}</p>
+                <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+                  支持者
+                </span>
+              </div>
+              <p class="text-sm text-muted">
+                <i class="fas fa-calendar mr-1"></i>
+                捐赠日期: ${supporter.donationDate}
+              </p>
+            </div>
+          `).join('');
+          
+          loadingEl.classList.add('hidden');
+          contentEl.classList.remove('hidden');
+        } else {
+          throw new Error('No data available');
+        }
+      } else {
+        throw new Error('API request failed');
+      }
+    } catch (error) {
+      console.error('获取捐赠数据失败:', error);
+      loadingEl.classList.add('hidden');
+      errorEl.classList.remove('hidden');
+    }
+  }
+
+  // 页面加载完成后获取数据
+  document.addEventListener('DOMContentLoaded', loadDonationData);
+</script>
