@@ -6,13 +6,59 @@ import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import heroImage from '~/assets/images/donate.webp';
-import donateData from '~/data/donate.json';
 
 const metadata = {
   title: '支持我们 - 领创工作室',
   description: '支持领创工作室的发展，您的捐赠将帮助我们提供更好的服务和开发更多优质项目。多种捐赠方式，感谢您的支持！',
   keywords: '捐赠,支持,赞助,领创工作室,开源项目',
 };
+
+// 获取捐赠者数据
+let donationData = [];
+let apiError = false;
+
+try {
+  // 直接从外部 API 获取捐赠数据
+  const response = await fetch('https://api-g.lacs.cc/api/donors');
+
+  if (response.ok) {
+    const result = await response.json();
+    if (result.success && result.data) {
+      donationData = result.data;
+      console.log('成功获取捐赠数据，共', donationData.length, '条记录');
+    } else {
+      console.warn('API 返回数据格式异常:', result);
+      apiError = true;
+    }
+  } else {
+    console.error('API 响应错误:', response.status, response.statusText);
+    if (response.status === 401) {
+      console.error('API 需要身份验证，请检查 API 密钥或认证配置');
+    }
+    apiError = true;
+  }
+} catch (error) {
+  console.error('获取捐赠数据失败:', error);
+  apiError = true;
+}
+
+// 如果 API 请求失败，使用备用数据
+if (apiError || donationData.length === 0) {
+  console.log('使用备用捐赠数据');
+  donationData = [
+    { name: '晋梁育123', donationDate: '2024-06-19' },
+    { name: '翊哲', donationDate: '2024-09-11' },
+    { name: 'Fancy', donationDate: '2024-11-08' },
+    { name: '一只_狼', donationDate: '2024-11-04' },
+    { name: '幸颖琴', donationDate: '2025-01-23' },
+    { name: '酸奶', donationDate: '2025-05-06' },
+    { name: '宜购闲人', donationDate: '2025-07-05' },
+    { name: '小俊没实力', donationDate: '2025-07-13' },
+    { name: '2ove', donationDate: '2025-07-28' },
+    { name: '放开那只快递i让我来', donationDate: '2025-08-13' },
+    { name: '小谢', donationDate: '2025-08-15' },
+  ];
+}
 
 // 捐赠方式
 const donationMethods = [
@@ -136,9 +182,48 @@ const supporterBenefits = [
           </div>
         </div>
         
-        <p class="text-sm text-muted mt-8">
-          * 二维码图片加载中，如无法显示请直接联系我们
-        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 支持者名单 -->
+  <section class="py-16 md:py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">感谢支持者</h2>
+        <p class="text-xl text-muted mb-12">感谢以下朋友对领创工作室的支持</p>
+
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+          {donationData.length > 0 ? (
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {donationData.map((supporter) => (
+                <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                  <div class="flex items-center justify-between mb-2">
+                    <p class="font-semibold text-lg">{supporter.name}</p>
+                    <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+                      支持者
+                    </span>
+                  </div>
+                  <p class="text-sm text-muted">
+                    <i class="fas fa-calendar mr-1"></i>
+                    捐赠日期: {supporter.donationDate}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div class="text-center py-8">
+              <p class="text-muted">暂无支持者数据</p>
+            </div>
+          )}
+
+          <div class="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <p class="text-sm text-muted">
+              <i class="fas fa-info-circle mr-2"></i>
+              支持者名单实时更新，如需匿名请在支付时备注说明
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -175,34 +260,7 @@ const supporterBenefits = [
     </Fragment>
   </Content>
 
-  <!-- 支持者名单 -->
-  <section class="py-16 md:py-20">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">感谢支持者</h2>
-        <p class="text-xl text-muted mb-12">感谢以下朋友对领创工作室的支持</p>
-        
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            {donateData.name_list.map((supporter) => (
-              <div class="p-4">
-                <p class="font-semibold">{supporter}</p>
-                <p class="text-sm text-muted">感谢支持</p>
-              </div>
-            ))}
-            </div>
-          </div>
-          
-          <div class="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <p class="text-sm text-muted">
-              <i class="fas fa-info-circle mr-2"></i>
-              支持者名单每月更新，如需匿名请在支付时备注说明
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
 
   <!-- Call to Action -->
