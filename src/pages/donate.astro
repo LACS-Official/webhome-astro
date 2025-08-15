@@ -42,22 +42,9 @@ try {
   apiError = true;
 }
 
-// 如果 API 请求失败，使用备用数据
+// 如果 API 请求失败
 if (apiError || donationData.length === 0) {
-  console.log('使用备用捐赠数据');
-  donationData = [
-    { name: '晋梁育123', donationDate: '2024-06-19' },
-    { name: '翊哲', donationDate: '2024-09-11' },
-    { name: 'Fancy', donationDate: '2024-11-08' },
-    { name: '一只_狼', donationDate: '2024-11-04' },
-    { name: '幸颖琴', donationDate: '2025-01-23' },
-    { name: '酸奶', donationDate: '2025-05-06' },
-    { name: '宜购闲人', donationDate: '2025-07-05' },
-    { name: '小俊没实力', donationDate: '2025-07-13' },
-    { name: '2ove', donationDate: '2025-07-28' },
-    { name: '放开那只快递i让我来', donationDate: '2025-08-13' },
-    { name: '小谢', donationDate: '2025-08-15' },
-  ];
+  console.log('api获取失败');
 }
 
 // 捐赠方式
