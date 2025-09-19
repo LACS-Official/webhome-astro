@@ -291,6 +291,7 @@ export interface Project {
   updateDate: string;
   link: string;
   icon: string;
+  p_language?: string[];  // 添加编程语言字段
 }
 
 export interface Site {

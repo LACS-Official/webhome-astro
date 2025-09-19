@@ -14,6 +14,9 @@ const {
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
+
+// 按ID降序排列项目（最新的项目显示在最前面）
+const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
 ---
 
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
@@ -37,7 +40,7 @@ const {
 
   <!-- 项目卡片网格 -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
-    {projects.map((project) => (
+    {sortedProjects.map((project) => (
       <div class="project-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700" data-category={project.category}>
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center">
@@ -59,9 +62,17 @@ const {
         </p>
         
         <div class="flex items-center justify-between">
-          <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
-            {project.categoryName}
-          </span>
+          <div class="flex flex-wrap gap-1">
+            <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
+              {project.categoryName}
+            </span>
+            <!-- 显示编程语言标签 -->
+            {project.p_language && project.p_language.map((lang) => (
+              <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
+                {lang}
+              </span>
+            ))}
+          </div>
           {project.link !== '#' && (
             <a 
               href={project.link} 
@@ -101,12 +112,15 @@ const {
         // 筛选项目卡片
         projectCards.forEach(card => {
           const cardCategory = card.getAttribute('data-category');
+          // 修复 TS2339: 类型"Element"上不存在属性"style"
+          // 通过类型断言告诉 TypeScript 这是一个 HTMLElement
+          const htmlCard = card as HTMLElement;
           if (category === 'all' || cardCategory === category) {
-            card.style.display = 'block';
-            card.classList.add('animate-fade-in');
+            htmlCard.style.display = 'block';
+            htmlCard.classList.add('animate-fade-in');
           } else {
-            card.style.display = 'none';
-            card.classList.remove('animate-fade-in');
+            htmlCard.style.display = 'none';
+            htmlCard.classList.remove('animate-fade-in');
           }
         });
       });
@@ -120,16 +134,23 @@ const {
         const imageUrl = card.querySelector('img')?.src || '';
         const links = card.querySelectorAll('a');
 
-        const actions = Array.from(links).map(link => ({
-          text: link.textContent.trim(),
-          href: link.href,
-          target: link.target,
-          icon: link.querySelector('i')?.className || 'fas fa-external-link-alt'
-        }));
+        const actions = Array.from(links).map(link => {
+          // 修复 TS18047: "link.textContent"可能为"null"
+          const text = link.textContent?.trim() || '';
+          return {
+            text: text,
+            href: link.href,
+            target: link.target,
+            icon: link.querySelector('i')?.className || 'fas fa-external-link-alt'
+          };
+        });
 
+        // 修复 TS2339: 类型"Window & typeof globalThis"上不存在属性"showModal"
+        // 通过类型断言告诉 TypeScript window 对象上有 showModal 属性
+        const win = window as any;
         // 显示模态框
-        if (window.showModal) {
-          window.showModal(imageUrl, title, description, actions);
+        if (win.showModal) {
+          win.showModal(imageUrl, title, description, actions);
         }
       });
     });

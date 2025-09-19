@@ -12,103 +12,14 @@ import Modal from '~/components/Modal.astro';
 // 导入图片
 import heroImage from '~/assets/images/bg.webp';
 
-// 导入项目数据
+// 导入数据加载函数
+import { getProjectsData, getSitesData } from '~/utils/dataLoader';
 
-const projectsData = [
-  {
-    "id": 1,
-    "category": "project1",
-    "categoryName": "玩机工具",
-    "title": "玩机管家(ADMT)",
-    "description": "安卓设备跨平台全能玩机管家",
-    "platform": "Windows",
-    "updateDate": "2025",
-    "link": "https://admt.lacs.cc",
-    "icon": "fa-tools"
-  },
-  {
-    "id": 2,
-    "category": "project1",
-    "categoryName": "玩机工具",
-    "title": "澎湃解锁工具箱(重构版)",
-    "description": "一款功能强大的安卓手机工具集合，支持多种系统功能解锁与优化",
-    "platform": "Windows",
-    "updateDate": "2025",
-    "link": "https://hout.lacs.cc/",
-    "icon": "fa-tools"
-  },
-  {
-    "id": 3,
-    "category": "project1",
-    "categoryName": "玩机工具",
-    "title": "小米手机一键Root工具箱（bat版）",
-    "description": "即将集成在HOUT工具箱中,敬请期待！",
-    "platform": "Windows",
-    "updateDate": "2024",
-    "link": "https://www.coolapk.com/collection/3368316",
-    "icon": "fa-tools"
-  },
-  {
-    "id": 4,
-    "category": "project2",
-    "categoryName": "面具模块",
-    "title": "坤坤模块",
-    "description": "自定义安卓状态栏，支持多种样式和布局调整，让你的状态栏焕然一新",
-    "platform": "Magisk",
-    "updateDate": "2023",
-    "link": "#",
-    "icon": "fa-mask"
-  },
-    {
-    "id": 5,
-    "category": "project2",
-    "categoryName": "面具模块",
-    "title": "Flyme On Mi模块",
-    "description": "自定义安卓状态栏，支持多种样式和布局调整，让你的状态栏焕然一新",
-    "platform": "Magisk",
-    "updateDate": "2023",
-    "link": "#",
-    "icon": "fa-mask"
-  }
-]
+// 加载项目数据
+const projectsData = await getProjectsData();
 
-const sitesData = [
-  {
-    id: 1,
-    name: "领创博客",
-    description: "分享数码科技、编程开发、设计创意等方面的文章和教程",
-    link: "https://blog.lacs.cc/",
-    logo: "https://img.lacs.cc/img/25-07/06/lac-blog.webp",
-    bgColor: "primary",
-    analyticsEvent: "访问领创博客",
-    category:"blog"
-  },
-  {
-    id: 2,
-    name: "资源商店",
-    description: "提供各种高质量的数码资源下载，包括主题、壁纸、字体等",
-    link: "https://app.lacs.cc",
-    iconContent: "fa-shopping-bag",
-    bgColor: "secondary",
-    analyticsEvent: "访问资源商店"
-  },
-  {
-    id: 3,
-    name: "技术论坛",
-    description: "技术交流社区，讨论数码玩机、编程开发、设计创意等话题",
-    link: "https://lacs.cc/forum",
-    bgColor: "accent",
-    analyticsEvent: "访问技术论坛"
-  },
-  {
-    id: 4,
-    name: "远程刷机",
-    description: "提供专业的远程刷机服务，支持各种Android设备",
-    link: "/ycsj",
-    bgColor: "dark",
-    analyticsEvent: "访问远程刷机"
-  }
-];
+// 加载站点数据
+const sitesData = await getSitesData();
 
 const metadata = {
   title: '领创工作室 - 数码科技与创意内容平台',
