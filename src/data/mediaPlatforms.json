@@ -1,0 +1,74 @@
+[
+    {
+        "id": "bilibili",
+        "name": "哔哩哔哩",
+        "logo": "/images/platforms/blibli.svg",
+        "account": "领创工作室",
+        "accountId": "1779662818",
+        "qrcode": "/images/qrcodes/qr-bilibili.webp",
+        "qrcodeTitle": "哔哩哔哩 媒体平台",
+        "qrcodeDesc": "哔哩哔哩uid:1779662818",
+        "link": "https://space.bilibili.com/1779662818",
+        "analyticsEvent": "访问哔哩哔哩"
+    },
+    {
+        "id": "wechat",
+        "name": "微信公众号",
+        "logo": "/images/platforms/wechat.svg",
+        "account": "领创工作室",
+        "accountId": "lacsgf",
+        "qrcode": "/images/qrcodes/gzh-qr.webp",
+        "qrcodeTitle": "微信公众号",
+        "qrcodeDesc": "扫码关注领创工作室",
+        "link": "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzE5MTc5OTIyMg==&scene=124#wechat_redirect",
+        "analyticsEvent": "访问微信公众号"
+    },
+    {
+        "id": "coolapk",
+        "name": "酷安",
+        "logo": "/images/platforms/coolapk.svg",
+        "account": "领创工作室",
+        "accountId": "13237789",
+        "qrcode": "/images/qrcodes/qr-coolapk.webp",
+        "qrcodeTitle": "酷安",
+        "qrcodeDesc": "扫码关注领创工作室",
+        "link": "http://www.coolapk.com/u/13237789",
+        "analyticsEvent": "访问酷安"
+    },
+    {
+        "id": "csdn",
+        "name": "CSDN",
+        "logo": "/images/platforms/csdn.webp",
+        "account": "领创工作室",
+        "accountId": "qq_57391324",
+        "qrcode": "/images/qrcodes/csdn-qr.webp",
+        "qrcodeTitle": "CSDN",
+        "qrcodeDesc": "扫码关注领创工作室",
+        "link": "https://blog.csdn.net/qq_57391324",
+        "analyticsEvent": "访问CSDN"
+    },
+    {
+        "id": "mt",
+        "name": "MT论坛",
+        "logo": "/images/platforms/MT.webp",
+        "account": "领创工作室",
+        "accountId": "114957",
+        "qrcode": "/images/qrcodes/mt-qr.webp",
+        "qrcodeTitle": "MT论坛",
+        "qrcodeDesc": "扫码关注领创工作室",
+        "link": "https://bbs.binmt.cc/?114957",
+        "analyticsEvent": "访问MT论坛"
+    },
+    {
+        "id": "xiaomi",
+        "name": "小米社区",
+        "logo": "/images/platforms/MiBBS.svg",
+        "account": "领创工作室",
+        "accountId": "LCStudio",
+        "qrcode": "/images/qrcodes/MIBBS-qr.webp",
+        "qrcodeTitle": "小米社区",
+        "qrcodeDesc": "扫码关注领创工作室",
+        "link": "https://web.vip.miui.com/page/info/mio/mio/homePage?uid=2376012419",
+        "analyticsEvent": "访问小米社区"
+    }
+]
