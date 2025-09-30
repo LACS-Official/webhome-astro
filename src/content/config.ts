@@ -65,38 +65,8 @@ const postCollection = defineCollection({
   }),
 });
 
-const projectCollection = defineCollection({
-  loader: glob({ pattern: ['projects_list.json'], base: 'src/data' }),
-  schema: z.array(z.object({
-    id: z.number(),
-    category: z.string(),
-    categoryName: z.string(),
-    title: z.string(),
-    description: z.string(),
-    platform: z.string(),
-    updateDate: z.string(),
-    link: z.string(),
-    icon: z.string(),
-  })),
-});
 
-const siteCollection = defineCollection({
-  loader: glob({ pattern: ['sites_list.json'], base: 'src/data' }),
-  schema: z.array(z.object({
-    id: z.number(),
-    name: z.string(),
-    description: z.string(),
-    link: z.string(),
-    logo: z.string().optional(),
-    iconContent: z.string().optional(),
-    bgColor: z.string(),
-    analyticsEvent: z.string(),
-    category: z.string().optional(),
-  })),
-});
 
 export const collections = {
   post: postCollection,
-  project: projectCollection,
-  site: siteCollection,
 };

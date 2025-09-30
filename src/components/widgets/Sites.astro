@@ -49,7 +49,7 @@ const getBgColorClass = (bgColor: string) => {
                 <img src={site.logo} alt={site.name} class="w-12 h-12 rounded-lg object-cover" />
               ) : site.iconContent ? (
                 <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <Icon name={`tabler:${site.iconContent.replace('fa-', '')}`} class="w-6 h-6 text-white" />
+                  <Icon name={site.iconContent && /^[a-zA-Z0-9-]+$/.test(site.iconContent.replace('fa-', '')) ? `tabler:${site.iconContent.replace('fa-', '')}` : 'tabler:world'} class="w-6 h-6 text-white" />
                 </div>
               ) : (
                 <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">

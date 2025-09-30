@@ -1,4 +1,7 @@
 ---
+// 启用 SSR - 每次请求时动态渲染此页面
+export const prerender = false;
+
 import Layout from '~/layouts/PageLayout.astro';
 
 import Hero from '~/components/widgets/Hero.astro';
@@ -12,14 +15,58 @@ import Modal from '~/components/Modal.astro';
 // 导入图片
 import heroImage from '~/assets/images/bg.webp';
 
-// 导入数据加载函数
-import { getProjectsData, getSitesData } from '~/utils/dataLoader';
+// API 配置
+const API_BASE_URL = 'https://api-g.lacs.cc/api';
 
-// 加载项目数据
-const projectsData = await getProjectsData();
+// 获取项目数据
+let projectsData: any[] = [];
+try {
+  const projectsResponse = await fetch(`${API_BASE_URL}/info-management/projects`);
+  if (projectsResponse.ok) {
+    const projectsResult = await projectsResponse.json();
+    if (projectsResult.success && projectsResult.data) {
+      projectsData = projectsResult.data;
+      console.log('成功获取项目数据，共', projectsData.length, '条记录');
+    } else {
+      console.warn('项目 API 返回数据格式异常:', projectsResult);
+    }
+  } else {
+    console.error('项目 API 响应错误:', projectsResponse.status, projectsResponse.statusText);
+  }
+} catch (error) {
+  console.error('获取项目数据失败:', error);
+}
 
-// 加载站点数据
-const sitesData = await getSitesData();
+// 获取站点数据
+let sitesData: any[] = [];
+try {
+  const sitesResponse = await fetch(`${API_BASE_URL}/websites`);
+  if (sitesResponse.ok) {
+    const sitesResult = await sitesResponse.json();
+    if (sitesResult.success && sitesResult.data && sitesResult.data.websites) {
+      // 新的 API 结构：data.websites 包含站点数组
+      sitesData = sitesResult.data.websites.map((site: any) => ({
+        id: site.id,
+        name: site.name,
+        description: site.description || `访问 ${site.name}`,
+        link: site.domain,
+        logo: site.logo || '',
+        iconContent: site.logo ? '' : site.name.charAt(0), // 如果没有 logo，使用首字母
+        bgColor: site.category || '#3B82F6', // 默认蓝色
+        analyticsEvent: `visit_${site.name.toLowerCase().replace(/\s+/g, '_')}`,
+        category: site.category || '网站',
+      }));
+      console.log('成功获取站点数据，共', sitesData.length, '条记录');
+      console.log('分页信息:', sitesResult.data.pagination);
+    } else {
+      console.warn('站点 API 返回数据格式异常:', sitesResult);
+    }
+  } else {
+    console.error('站点 API 响应错误:', sitesResponse.status, sitesResponse.statusText);
+  }
+} catch (error) {
+  console.error('获取站点数据失败:', error);
+}
 
 const metadata = {
   title: '领创工作室 - 数码科技与创意内容平台',
@@ -47,7 +94,7 @@ const metadata = {
       // { text: '关于我们', href: '/#about' },
     ]}
     image={{ src: heroImage, alt: '领创工作室团队展示' }}
-  >
+    >
     <Fragment slot="bg">
       <ParticleBackground />
     </Fragment>

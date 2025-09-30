@@ -1,4 +1,7 @@
 ---
+// 启用 SSR - 每次请求时动态渲染此页面
+export const prerender = false;
+
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
@@ -8,16 +11,93 @@ import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
 import { Icon } from 'astro-icon/components';
 
-// 导入数据文件
-import mediaPlatformsData from '~/data/mediaPlatforms.json';
-import contactInfoData from '~/data/contactInfo.json';
-import groupChatsData from '~/data/groupChats.json';
-import heroImage from '~/assets/images/contact.webp';
-const metadata = {
-  title: '联系我们 - 领创工作室',
-  description: '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。了解我们的媒体平台和官方群聊。',
-  keywords: '联系我们,技术支持,商务合作,领创工作室,客服,媒体平台,官方群聊',
-};
+// 定义类型接口
+interface ContactInfo {
+  title: string;
+  description: string;
+  info: string;
+  action: string;
+}
+
+interface MediaPlatform {
+  name: string;
+  logo: string;
+  account: string;
+  accountId?: string;
+  qrcode: string;
+  qrcodeTitle?: string;
+  qrcodeDesc?: string;
+  link: string;
+}
+
+interface GroupChat {
+  name: string;
+  description?: string;
+  limit?: string;
+  groupNumber?: string;
+  qrcode: string;
+  joinLink: string;
+}
+
+// API 配置
+const API_BASE_URL = 'https://api-g.lacs.cc/api/info-management';
+
+// 获取联系方式数据
+let contactInfoData: ContactInfo[] = [];
+try {
+  const contactResponse = await fetch(`${API_BASE_URL}/contact-info`);
+  if (contactResponse.ok) {
+    const contactResult = await contactResponse.json();
+    if (contactResult.success && contactResult.data) {
+      contactInfoData = contactResult.data;
+      console.log('成功获取联系方式数据，共', contactInfoData.length, '条记录');
+    } else {
+      console.warn('联系方式 API 返回数据格式异常:', contactResult);
+    }
+  } else {
+    console.error('联系方式 API 响应错误:', contactResponse.status, contactResponse.statusText);
+  }
+} catch (error) {
+  console.error('获取联系方式数据失败:', error);
+}
+
+// 获取媒体平台数据
+let mediaPlatformsData: MediaPlatform[] = [];
+try {
+  const mediaResponse = await fetch(`${API_BASE_URL}/media-platforms`);
+  if (mediaResponse.ok) {
+    const mediaResult = await mediaResponse.json();
+    if (mediaResult.success && mediaResult.data) {
+      mediaPlatformsData = mediaResult.data;
+      console.log('成功获取媒体平台数据，共', mediaPlatformsData.length, '条记录');
+    } else {
+      console.warn('媒体平台 API 返回数据格式异常:', mediaResult);
+    }
+  } else {
+    console.error('媒体平台 API 响应错误:', mediaResponse.status, mediaResponse.statusText);
+  }
+} catch (error) {
+  console.error('获取媒体平台数据失败:', error);
+}
+
+// 获取群聊数据
+let groupChatsData: GroupChat[] = [];
+try {
+  const groupResponse = await fetch(`${API_BASE_URL}/group-chats`);
+  if (groupResponse.ok) {
+    const groupResult = await groupResponse.json();
+    if (groupResult.success && groupResult.data) {
+      groupChatsData = groupResult.data;
+      console.log('成功获取群聊数据，共', groupChatsData.length, '条记录');
+    } else {
+      console.warn('群聊 API 返回数据格式异常:', groupResult);
+    }
+  } else {
+    console.error('群聊 API 响应错误:', groupResponse.status, groupResponse.statusText);
+  }
+} catch (error) {
+  console.error('获取群聊数据失败:', error);
+}
 
 // 转换联系方式数据格式
 const contactMethods = contactInfoData.map(contact => ({
@@ -31,6 +111,13 @@ const contactMethods = contactInfoData.map(contact => ({
   color: contact.title === '电子邮件' ? 'primary' :
          contact.title === 'QQ' ? 'secondary' : 'accent',
 }));
+
+import heroImage from '~/assets/images/contact.webp';
+const metadata = {
+  title: '联系我们 - 领创工作室',
+  description: '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。了解我们的媒体平台和官方群聊。',
+  keywords: '联系我们,技术支持,商务合作,领创工作室,客服,媒体平台,官方群聊',
+};
 
 ---
 
@@ -257,50 +344,32 @@ const contactMethods = contactInfoData.map(contact => ({
 
   <!-- 二维码按钮事件处理 -->
   <script>
-    console.log('Contact page script loading...');
-
+    // 初始化二维码按钮
     function initQRButtons() {
-      console.log('Initializing QR buttons...');
       const qrButtons = document.querySelectorAll('.qr-button');
       console.log('Found QR buttons:', qrButtons.length);
 
-      if (qrButtons.length === 0) {
-        console.warn('No QR buttons found!');
-        return;
-      }
-
-      qrButtons.forEach((button, index) => {
-        console.log(`Setting up button ${index}:`, button);
+      qrButtons.forEach((button) => {
         button.addEventListener('click', function(e) {
           e.preventDefault();
-          console.log('QR button clicked:', this);
-
           const qrcode = this.dataset.qrcode;
           const title = this.dataset.title;
           const description = this.dataset.description;
           const link = this.dataset.link;
 
-          console.log('Button data:', { qrcode, title, description, link });
-
+          console.log('QR button clicked:', { qrcode, title, description, link });
+          // 这里可以添加显示二维码的逻辑
         });
       });
     }
 
-    // 多种初始化方式确保代码执行
+    // 页面加载完成后执行
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded, initializing...');
-        setTimeout(initQRButtons, 200);
+        setTimeout(initQRButtons, 300);
       });
     } else {
-      console.log('DOM already loaded, initializing immediately...');
-      setTimeout(initQRButtons, 200);
-    }
-
-    // 备用初始化
-    window.addEventListener('load', function() {
-      console.log('Window loaded, backup initialization...');
       setTimeout(initQRButtons, 300);
-    });
+    }
   </script>
 </Layout>
