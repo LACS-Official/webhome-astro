@@ -77,28 +77,86 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: '探索',
-        href: '#projects',
-        icon: 'tabler:rocket',
-      },
-      // {
-      //   variant: 'secondary',
-      //   text: '其他分站',
-      //   href: '#sites',
-      // },
-      
-      // { text: '关于我们', href: '/#about' },
-    ]}
-    image={{ src: heroImage, alt: '领创工作室团队展示' }}
-    >
-    <Fragment slot="bg">
+  <section class="hero-section relative h-screen w-full not-prose">
+    <div class="absolute inset-0 bg-gradient-to-br from-white via-blue-100 to-blue-300"></div>
+    <div class="absolute inset-0 pointer-events-none z-10" aria-hidden="true">
       <ParticleBackground />
-    </Fragment>
-  </Hero>
+    </div>
+    <div class="relative h-full flex items-center justify-center px-4 sm:px-6 z-20">
+      <div class="text-center max-w-5xl mx-auto">
+        <p class="text-base text-blue-600 font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+          创新 · 科技 · 未来
+        </p>
+        <h1 class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-blue-800 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+          领创工作室
+        </h1>
+        <div class="max-w-3xl mx-auto">
+          <p class="text-xl text-blue-700 mb-6 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+            专注于数码科技领域的创新团队，致力于提供高质量的软件工具和技术解决方案
+          </p>
+          <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+            <div class="flex w-full sm:w-auto">
+              <a href="#projects" class="btn-primary font-semibold bg-blue-600 text-white border-blue-600 hover:bg-blue-700 hover:border-blue-700 hover:text-white inline-flex items-center justify-center rounded-full font-medium text-center text-base leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 cursor-pointer">
+                <span>探索项目</span>
+                <svg class="w-5 h-5 ml-1 -mr-1.5 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c0 1.105.895 2 2 2s2-.895 2-2-.895-2-2-2-2 .895-2 2Zm9-9c0 1.105.895 2 2 2s2-.895 2-2-.895-2-2-2-2 .895-2 2Z"></path><path d="M13.5 5.5c0 1.105.895 2 2 2s2-.895 2-2-.895-2-2-2-2 .895-2 2Z"></path><path d="M13.5 5.5l-7 11"></path></svg>
+              </a>
+            </div>
+            <div class="flex w-full sm:w-auto">
+              <a href="#sites" class="btn inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-blue-600 leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 hover:bg-blue-50 hover:border-blue-500 cursor-pointer">
+                <span>访问分站</span>
+                <svg class="w-5 h-5 ml-1 -mr-1.5 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </a>
+            </div>
+            <div class="flex w-full sm:w-auto">
+              <a href="#about" class="btn btn-tertiary inline-flex items-center justify-center rounded-full border-none shadow-none text-blue-600 hover:text-blue-800 font-medium text-center text-base leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 cursor-pointer">
+                <span>关于我们</span>
+                <svg class="w-5 h-5 ml-1 -mr-1.5 inline-block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 支持我们卡片 -->
+        <div class="mt-8 md:mt-12 px-4 sm:px-6 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+          <div class="max-w-xs sm:max-w-sm md:max-w-md mx-auto bg-white/80 backdrop-blur-md rounded-2xl p-4 md:p-6 border border-blue-300 shadow-xl hover:bg-white/90 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+            <div class="text-center">
+              <div class="mb-3 md:mb-4">
+                <div class="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-full mb-2 md:mb-3 shadow-lg animate-pulse">
+                  <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-blue-800 mb-1 md:mb-2 tracking-wide">支持我们</h3>
+                <p class="text-blue-700 text-xs md:text-sm mb-3 md:mb-4 leading-relaxed px-2">
+                  帮助我们继续开发、维护和推广我们的项目
+                </p>
+              </div>
+              <div class="flex flex-col gap-2.5 md:gap-3 justify-center">
+                <a
+                  href="/donate"
+                  class="group inline-flex items-center justify-center px-5 py-2.5 md:py-2.5 bg-gradient-to-r from-red-500 to-pink-500 text-white font-medium text-sm rounded-full hover:from-red-600 hover:to-pink-600 transition-all duration-200 transform hover:scale-105 shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-transparent"
+                >
+                  <svg class="w-4 h-4 mr-2 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                  </svg>
+                  捐赠我们
+                </a>
+                <a
+                  href="/ycsj"
+                  class="group inline-flex items-center justify-center px-5 py-2.5 md:py-2.5 bg-blue-100 text-blue-700 font-medium text-sm rounded-full hover:bg-blue-200 transition-all duration-200 border border-blue-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent"
+                >
+                  <svg class="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                  </svg>
+                  远程刷机
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
 
