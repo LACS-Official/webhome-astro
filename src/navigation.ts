@@ -92,11 +92,12 @@ export const footerData = {
           href="https://www.lacs.cc/sitemap-0.xml"
           target="_blank"
           rel="noopener noreferrer"
-          class="group flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 transition-all duration-300 hover:
-        > 
+          class="group flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 transition-all duration-300 hover:shadow-md"
+        >
           <span class="text-xs font-medium text-gray-600 dark:text-gray-300 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
             sitemap
           </span>
+        </a>
       </div>
     </div>
   `,
