@@ -306,6 +306,16 @@ export interface Site {
   category?: string;
 }
 
+// API 返回的数据类型
+export interface ApiSiteResponse {
+  id: number;
+  name: string;
+  description?: string;
+  domain: string;
+  logo?: string;
+  category?: string;
+}
+
 export interface Projects extends Omit<Headline, 'classes'>, Widget {
   projects?: Array<Project>;
 }

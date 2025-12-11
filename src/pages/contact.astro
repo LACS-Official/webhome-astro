@@ -146,6 +146,9 @@ const metadata = {
     image={{ src: heroImage, alt: '展示' }}
   />
   
+  <!-- Modal Component -->
+  <Modal />
+  
   <!-- 联系方式 -->
   <Features
     id="contact-methods"
@@ -358,7 +361,17 @@ const metadata = {
           const link = this.dataset.link;
 
           console.log('QR button clicked:', { qrcode, title, description, link });
-          // 这里可以添加显示二维码的逻辑
+          // 使用全局showModal函数显示二维码弹窗
+          if (window.showModal) {
+            window.showModal(qrcode, title, description, [
+              {
+                text: '访问链接',
+                href: link,
+                target: '_blank',
+                icon: 'fas fa-external-link-alt'
+              }
+            ]);
+          }
         });
       });
     }

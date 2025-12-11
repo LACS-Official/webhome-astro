@@ -149,9 +149,6 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
         // 通过类型断言告诉 TypeScript window 对象上有 showModal 属性
         const win = window as any;
         // 显示模态框
-        if (win.showModal) {
-          win.showModal(imageUrl, title, description, actions);
-        }
       });
     });
   });

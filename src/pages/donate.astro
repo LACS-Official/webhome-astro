@@ -58,33 +58,6 @@ if (apiError || donationData.length === 0) {
   console.log('api获取失败');
 }
 
-// 捐赠方式
-const donationMethods = [
-  {
-    title: '微信支付',
-    description: '扫描二维码或转账到微信号',
-    info: '微信号：LACS177',
-    action: '#wechat-qr',
-    icon: 'tabler:brand-wechat',
-    color: 'green',
-  },
-  {
-    title: '支付宝',
-    description: '扫描二维码或转账到支付宝账号',
-    info: '账号：admin@lacs.cc',
-    action: '#alipay-qr',
-    icon: 'tabler:brand-alipay',
-    color: 'blue',
-  },
-  {
-    title: 'QQ钱包',
-    description: '通过QQ转账或红包支持',
-    info: 'QQ：2935278133',
-    action: 'https://qm.qq.com/q/9myAkzwVY4',
-    icon: 'tabler:brand-qq',
-    color: 'primary',
-  },
-];
 
 // 捐赠用途
 const donationUsage = [

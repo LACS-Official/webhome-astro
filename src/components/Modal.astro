@@ -16,11 +16,13 @@
     </button>
 
     <!-- 模态框内容 -->
-    <div class="p-4 md:p-6 relative z-10">
-      <img id="modal-image" src="" alt="" class="w-full h-48 md:h-56 object-contain rounded-lg mb-4 bg-gray-50 dark:bg-gray-700">
-      <h3 id="modal-title" class="text-lg md:text-xl font-bold mb-2 text-gray-900 dark:text-white"></h3>
-      <p id="modal-description" class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4"></p>
-      <div id="modal-actions" class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+    <div class="p-6 md:p-8 relative z-10 text-center">
+      <div class="bg-gray-50 dark:bg-gray-700/30 rounded-xl p-2 mb-6 overflow-hidden">
+        <img id="modal-image" src="" alt="" class="w-full h-auto max-h-[250px] object-contain rounded-lg mx-auto transform hover:scale-105 transition-transform duration-500">
+      </div>
+      <h3 id="modal-title" class="text-2xl font-bold mb-3 text-gray-900 dark:text-white font-heading"></h3>
+      <p id="modal-description" class="text-base text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"></p>
+      <div id="modal-actions" class="flex flex-col sm:flex-row gap-3 justify-center sm:gap-4">
         <!-- 动态添加的按钮 -->
       </div>
     </div>
@@ -85,10 +87,20 @@
           const button = document.createElement('a');
           button.href = action.href || '#';
           button.target = action.target || '_self';
-          button.className = `bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center justify-center text-sm font-medium ${action.className || ''}`;
+          button.className = `bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto ${action.className || ''}`;
           button.innerHTML = `<i class="${action.icon || 'fas fa-external-link-alt'} mr-1"></i> ${action.text}`;
           modalActions.appendChild(button);
         });
+
+        // 添加底部关闭按钮
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2.5 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium w-full sm:w-auto hover:shadow-md';
+        closeBtn.innerHTML = '<i class="fas fa-times mr-1"></i> 关闭';
+        closeBtn.onclick = function() { 
+          const win = window as any;
+          if (win.hideModal) win.hideModal();
+        };
+        modalActions.appendChild(closeBtn);
       }
 
       if (modal && modalContent) {

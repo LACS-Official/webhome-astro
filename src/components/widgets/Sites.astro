@@ -29,55 +29,38 @@ const getBgColorClass = (bgColor: string) => {
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} />
   
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     {sites.map((site) => (
       <a 
         href={site.link} 
         target="_blank" 
         rel="noopener noreferrer"
-        class="site-card group block"
+        class="group flex h-full"
       >
-        <div class={`relative overflow-hidden rounded-xl p-6 h-48 bg-gradient-to-br ${getBgColorClass(site.bgColor)} text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2`}>
-          <!-- 装饰性背景元素 -->
-          <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 translate-x-10"></div>
-          <div class="absolute bottom-0 left-0 w-16 h-16 bg-white/10 rounded-full translate-y-8 -translate-x-8"></div>
+        <div class="relative flex flex-col w-full p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 group-hover:border-primary/50 dark:group-hover:border-primary/50">
           
-          <div class="relative z-10 h-full flex flex-col">
-            <!-- 图标或Logo -->
-            <div class="mb-4">
+          <div class="flex items-center justify-between mb-4">
+             <div class={`flex items-center justify-center w-12 h-12 rounded-lg text-white shadow-md bg-gradient-to-br ${getBgColorClass(site.bgColor)} transform group-hover:scale-110 transition-transform duration-300`}>
               {site.logo ? (
-                <img src={site.logo} alt={site.name} class="w-12 h-12 rounded-lg object-cover" />
-              ) : site.iconContent ? (
-                <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <Icon name={site.iconContent && /^[a-zA-Z0-9-]+$/.test(site.iconContent.replace('fa-', '')) ? `tabler:${site.iconContent.replace('fa-', '')}` : 'tabler:world'} class="w-6 h-6 text-white" />
-                </div>
+                <img src={site.logo} alt={site.name} class="w-full h-full rounded-lg object-cover" />
               ) : (
-                <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <Icon name="tabler:world" class="w-6 h-6 text-white" />
-                </div>
+                <Icon name={site.iconContent && /^[a-zA-Z0-9-]+$/.test(site.iconContent.replace('fa-', '')) ? `tabler:${site.iconContent.replace('fa-', '')}` : 'tabler:world'} class="w-6 h-6" />
               )}
             </div>
-            
-            <!-- 内容 -->
-            <div class="flex-1">
-              <h3 class="text-xl font-bold mb-2 group-hover:text-yellow-200 transition-colors duration-200">
-                {site.name}
-              </h3>
-              <p class="text-white/80 text-sm leading-relaxed">
-                {site.description}
-              </p>
-            </div>
-            
-          
+             <div class="text-slate-300 dark:text-slate-600 group-hover:text-primary transition-colors">
+                 <Icon name="tabler:external-link" class="w-5 h-5" />
+             </div>
           </div>
+
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2 group-hover:text-primary transition-colors">
+            {site.name}
+          </h3>
+          
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-3">
+            {site.description}
+          </p>
         </div>
       </a>
     ))}
   </div>
 </WidgetWrapper>
-
-<style>
-  .site-card:hover .bg-gradient-to-br {
-    background-size: 110% 110%;
-  }
-</style>
