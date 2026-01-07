@@ -9,7 +9,6 @@ import Projects from '~/components/widgets/Projects.astro';
 import Sites from '~/components/widgets/Sites.astro';
 import Modal from '~/components/Modal.astro';
 import type { Project, Site, ApiSiteResponse } from '~/types';
-import GridDistortion from '../components/GridDistortion';
 
 // 导入图片
 
@@ -75,26 +74,66 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <section class="hero-section relative h-screen w-full not-prose">
-    <div class="absolute inset-0 bg-gradient-to-br from-white"></div>
-    <div class="relative w-full aspect-video flex items-center justify-center overflow-hidden my-10">
-      <GridDistortion
-        client:load
-        imageSrc="/images/bg.webp"
-        grid={10}
-        mouse={0.1}
-        strength={0.15}
-        relaxation={0.9}
-        className="custom-class"
-        fitLarge="cover"
-        fitSmall="cover"
-      />
-      <!-- 白色遮罩，透明度30% -->
+  <section class="hero-section relative h-screen w-full not-prose overflow-hidden">
+    <!-- 纯色背景 -->
+    <div class="absolute inset-0 bg-indigo-600">
+      <div class="absolute inset-0 bg-black opacity-40"></div>
+    </div>
+
+    <!-- 动态粒子背景 -->
+    <div class="absolute inset-0">
+      <div class="particles-container"></div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="relative h-full flex items-center justify-center px-4 sm:px-6 lg:px-8 z-10">
+      <div class="text-center max-w-5xl mx-auto">
+        <!-- 标语 -->
+        <p class="text-white text-lg md:text-xl font-bold tracking-widest uppercase mb-6 animate-pulse">领创工作室</p>
+
+        <!-- 主标题 -->
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tighter tracking-tighter mb-6 text-white">
+          数码科技与
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300"> 创意内容 </span>
+          平台
+        </h1>
+
+        <!-- 副标题 -->
+        <p class="text-lg md:text-xl text-white/90 mb-10 max-w-3xl mx-auto">
+          专注于移动设备工具开发、软件开发和数字内容创作的创新团队，为您提供高质量的软件工具和技术解决方案
+        </p>
+
+        <!-- 行动召唤按钮 -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <a
+            href="#projects"
+            class="btn-primary bg-white text-indigo-600 hover:bg-gray-100 border-0 px-8 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+          >
+            查看项目
+          </a>
+          <a
+            href="#sites"
+            class="bg-transparent text-white border-2 border-white hover:bg-white hover:text-indigo-600 px-8 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+          >
+            探索分站
+          </a>
+        </div>
+
+        <!-- 滚动提示 -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <svg
+            class="w-6 h-6 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+      </div>
     </div>
   </section>
-
-
-
 
   <!-- Projects Widget ****************** -->
 
@@ -109,8 +148,6 @@ const metadata = {
       <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
     </Fragment>
   </Projects>
-
-
 
   <!-- Sites Widget ****************** -->
 
@@ -137,9 +174,6 @@ const metadata = {
       icon: 'tabler:mail',
     }}
   />
-
-
-
 
   <!-- 模态框 -->
   <Modal />
