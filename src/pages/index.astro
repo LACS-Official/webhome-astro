@@ -76,8 +76,8 @@ const metadata = {
 
   <section class="hero-section relative h-screen w-full not-prose overflow-hidden">
     <!-- 纯色背景 -->
-    <div class="absolute inset-0 bg-indigo-600">
-      <div class="absolute inset-0 bg-black opacity-40"></div>
+    <div class="absolute inset-0 bg-slate-900">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-slate-900/90 to-slate-900"></div>
     </div>
 
     <!-- 动态粒子背景 -->
@@ -88,18 +88,25 @@ const metadata = {
     <!-- 主要内容 -->
     <div class="relative h-full flex items-center justify-center px-4 sm:px-6 lg:px-8 z-10">
       <div class="text-center max-w-5xl mx-auto">
-        <!-- 标语 -->
-        <p class="text-white text-lg md:text-xl font-bold tracking-widest uppercase mb-6 animate-pulse">领创工作室</p>
+        <!-- 标语图片 -->
+        <div class="mb-10">
+          <img
+            src="https://img.lacs.cc/img/25-08/16/lacs-maxbg-all-icons.webp"
+            alt="领创工作室"
+            class="h-24 md:h-36 lg:h-44 xl:h-52 w-auto mx-auto object-contain rounded-2xl"
+            loading="eager"
+          />
+        </div>
 
         <!-- 主标题 -->
         <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tighter tracking-tighter mb-6 text-white">
-          数码科技与
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300"> 创意内容 </span>
-          平台
+          专注于数码科技与
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400"> 创意内容 </span>
+          领域
         </h1>
 
         <!-- 副标题 -->
-        <p class="text-lg md:text-xl text-white/90 mb-10 max-w-3xl mx-auto">
+        <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-3xl mx-auto">
           专注于移动设备工具开发、软件开发和数字内容创作的创新团队，为您提供高质量的软件工具和技术解决方案
         </p>
 
@@ -107,13 +114,13 @@ const metadata = {
         <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
           <a
             href="#projects"
-            class="btn-primary bg-white text-indigo-600 hover:bg-gray-100 border-0 px-8 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+            class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40 transform hover:-translate-y-0.5 transition-all duration-200"
           >
             查看项目
           </a>
           <a
             href="#sites"
-            class="bg-transparent text-white border-2 border-white hover:bg-white hover:text-indigo-600 px-8 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+            class="bg-transparent text-white border border-slate-600 hover:bg-slate-800 hover:border-slate-500 px-8 py-4 text-lg font-semibold rounded-full shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
           >
             探索分站
           </a>
@@ -122,7 +129,7 @@ const metadata = {
         <!-- 滚动提示 -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
           <svg
-            class="w-6 h-6 text-white"
+            class="w-6 h-6 text-blue-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -161,19 +168,195 @@ const metadata = {
 
   <!-- About Widget ******************* -->
 
-  <Content
-    id="about"
-    title="关于领创工作室"
-    subtitle="我们是一个专注于数码科技领域的创新团队"
-    tagline="关于我们"
-    content="领创工作室成立于2020年，致力于为用户提供高质量的软件工具和技术解决方案。我们的团队由经验丰富的开发者、设计师和技术专家组成，专注于移动设备工具开发、软件开发和数字内容创作。"
-    callToAction={{
-      variant: 'primary',
-      text: '联系我们',
-      href: '/contact',
-      icon: 'tabler:mail',
-    }}
-  />
+  <Content id="about" title="关于领创工作室" subtitle="我们是一个专注于数码科技领域的创新团队" tagline="关于我们">
+    <Fragment slot="content">
+      <div class="mb-12">
+        <p class="text-lg dark:text-slate-400 mb-8">
+          领创工作室成立于2020年，致力于为用户提供高质量的软件工具和技术解决方案。专注于移动设备工具开发、软件开发和数字内容创作。
+        </p>
+
+        <!-- 时间流程图 -->
+        <div class="timeline-container">
+          <h3 class="text-2xl font-bold mb-6 text-center text-slate-800 dark:text-white">发展历程</h3>
+
+          <!-- 桌面端时间线 -->
+          <div class="hidden md:block relative">
+            <!-- 时间线 -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-200 dark:bg-blue-800"></div>
+
+            <!-- 2020年 -->
+            <div class="flex items-center mb-8">
+              <div class="flex-1 text-right pr-8">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                  <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2020年</h4>
+                  <p class="text-sm dark:text-slate-400">工作室‘’成立”，开始专注于安卓移动应用开发</p>
+                </div>
+              </div>
+              <div class="z-10 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="flex-1 pl-8"></div>
+            </div>
+
+            <!-- 2021年 -->
+            <div class="flex items-center mb-8">
+              <div class="flex-1 pr-8"></div>
+              <div class="z-10 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="flex-1 pl-8">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                  <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2021年</h4>
+                  <p class="text-sm dark:text-slate-400">
+                    着手Logo设计、平面设计，为仙龙阁、智简云、HZLM画质助手、LY画质盒、十三导航、极光点等产品、组织设计Logo
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022年 -->
+            <div class="flex items-center mb-8">
+              <div class="flex-1 text-right pr-8">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                  <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2022年</h4>
+                  <p class="text-sm dark:text-slate-400">开发多款安卓小程序和安卓面具模块资源</p>
+                </div>
+              </div>
+              <div class="z-10 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="flex-1 pl-8"></div>
+            </div>
+
+            <!-- 2023年 -->
+            <div class="flex items-center mb-8">
+              <div class="flex-1 pr-8"></div>
+              <div class="z-10 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="flex-1 pl-8">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                  <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2023年</h4>
+                  <p class="text-sm dark:text-slate-400">
+                    专注安卓玩机领域，免费/付费远程刷机救砖服务上百个客户、一键Root工具箱发布（用户破千）
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2024年 -->
+            <div class="flex items-center mb-8">
+              <div class="flex-1 text-right pr-8">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                  <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2024年</h4>
+                  <p class="text-sm dark:text-slate-400">
+                    专注安卓玩机领域，付费远程刷机救砖服务上线闲鱼和淘宝平台（单月最高破4000元收入）、基于Bat的澎湃解锁工具箱发布（累积用户近千人）
+                  </p>
+                </div>
+              </div>
+              <div class="z-10 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="flex-1 pl-8"></div>
+            </div>
+
+            <!-- 2025年 -->
+            <div class="flex items-center mb-8">
+              <div class="flex-1 pr-8"></div>
+              <div class="z-10 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="flex-1 pl-8">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                  <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2025年</h4>
+                  <p class="text-sm dark:text-slate-400">
+                    关键年，持续专注安卓玩机领域、编程能力与数字内容平台，基于Pyside6的澎湃解锁工具箱发布（累积用户近万人）、基于Tauri+React+Tauri的玩机管家发布（累积使用次数5000+次、用户2000+、管理设备22000+次），B站粉丝破1W+、Csdn粉丝破1K、哈基创工具箱小程序用户破2000+
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2026年 -->
+            <div class="flex items-center">
+              <div class="flex-1 text-right pr-8">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                  <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2026年</h4>
+                  <p class="text-sm dark:text-slate-400">持续创新，探索更多可能性</p>
+                </div>
+              </div>
+              <div class="z-10 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="flex-1 pl-8"></div>
+            </div>
+          </div>
+
+          <!-- 移动端时间线 -->
+          <div class="md:hidden">
+            <!-- 2020年 -->
+            <div class="mb-6 pl-8 relative">
+              <div class="absolute left-0 top-2 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2020年</h4>
+                <p class="text-sm dark:text-slate-400">工作室‘’成立”，开始专注于安卓移动应用开发</p>
+              </div>
+            </div>
+
+            <!-- 2021年 -->
+            <div class="mb-6 pl-8 relative">
+              <div class="absolute left-0 top-2 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2021年</h4>
+                <p class="text-sm dark:text-slate-400">
+                  着手Logo设计、平面设计，为仙龙阁、智简云、HZLM画质助手、LY画质盒、十三导航、极光点等产品、组织设计Logo
+                </p>
+              </div>
+            </div>
+
+            <!-- 2022年 -->
+            <div class="mb-6 pl-8 relative">
+              <div class="absolute left-0 top-2 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2022年</h4>
+                <p class="text-sm dark:text-slate-400">开发多款安卓小程序和安卓面具模块资源</p>
+              </div>
+            </div>
+
+            <!-- 2023年 -->
+            <div class="mb-6 pl-8 relative">
+              <div class="absolute left-0 top-2 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2023年</h4>
+                <p class="text-sm dark:text-slate-400">
+                  专注安卓玩机领域，免费/付费远程刷机救砖服务上百个客户、一键Root工具箱发布（用户破千）
+                </p>
+              </div>
+            </div>
+
+            <!-- 2024年 -->
+            <div class="mb-6 pl-8 relative">
+              <div class="absolute left-0 top-2 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2024年</h4>
+                <p class="text-sm dark:text-slate-400">
+                  专注安卓玩机领域，付费远程刷机救砖服务上线闲鱼和淘宝平台（单月最高破4000元收入）、基于Bat的澎湃解锁工具箱发布（累积用户近千人）
+                </p>
+              </div>
+            </div>
+
+            <!-- 2025年 -->
+            <div class="mb-6 pl-8 relative">
+              <div class="absolute left-0 top-2 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2025年</h4>
+                <p class="text-sm dark:text-slate-400">
+                  关键年，持续专注安卓玩机领域、编程能力与数字内容平台，基于Pyside6的澎湃解锁工具箱发布（累积用户近万人）、基于Tauri+React+Tauri的玩机管家发布（累积使用次数5000+次、用户2000+、管理设备22000+次），B站粉丝破1W+、Csdn粉丝破1K、哈基创工具箱小程序用户破2000+
+                </p>
+              </div>
+            </div>
+
+            <!-- 2026年 -->
+            <div class="mb-6 pl-8 relative">
+              <div class="absolute left-0 top-2 w-4 h-4 bg-blue-600 rounded-full"></div>
+              <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-400">2026年</h4>
+                <p class="text-sm dark:text-slate-400">持续创新，探索更多可能性</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Fragment>
+    <Fragment slot="callToAction">
+      <a href="/contact" class="btn-primary">联系我们</a>
+    </Fragment>
+  </Content>
 
   <!-- 模态框 -->
   <Modal />

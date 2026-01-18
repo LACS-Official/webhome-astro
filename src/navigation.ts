@@ -1,4 +1,4 @@
-import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
+import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
   links: [
@@ -39,7 +39,7 @@ export const footerData = {
       <!-- 版权信息 -->
       <div class="text-center lg:text-left">
         <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
-          © 2020-2025
+          © 2020-2026
           <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-semibold">
             领创工作室
           </span>
