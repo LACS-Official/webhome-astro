@@ -9,7 +9,9 @@ import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
+import Skeleton from '~/components/ui/Skeleton.astro';
 import { Icon } from 'astro-icon/components';
+import contactHero from '~/assets/images/heroes/contact-hero.jpg';
 
 // 定义类型接口
 interface ContactInfo {
@@ -100,25 +102,29 @@ try {
 }
 
 // 转换联系方式数据格式
-const contactMethods = contactInfoData.map(contact => ({
+const contactMethods = contactInfoData.map((contact) => ({
   title: contact.title,
   description: contact.description,
   info: contact.info,
   action: contact.action,
-  icon: contact.title === '电子邮件' ? 'tabler:mail' :
-        contact.title === 'QQ' ? 'tabler:brand-qq' :
-        contact.title === '微信' ? 'tabler:brand-wechat' : 'tabler:message',
-  color: contact.title === '电子邮件' ? 'primary' :
-         contact.title === 'QQ' ? 'secondary' : 'accent',
+  icon:
+    contact.title === '电子邮件'
+      ? 'tabler:mail'
+      : contact.title === 'QQ'
+        ? 'tabler:brand-qq'
+        : contact.title === '微信'
+          ? 'tabler:brand-wechat'
+          : 'tabler:message',
+  color: contact.title === '电子邮件' ? 'primary' : contact.title === 'QQ' ? 'secondary' : 'accent',
 }));
 
 import heroImage from '~/assets/images/contact.webp';
 const metadata = {
   title: '联系我们 - 领创工作室',
-  description: '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。了解我们的媒体平台和官方群聊。',
+  description:
+    '联系领创工作室，获取技术支持、商务合作或其他服务。我们提供多种联系方式，24小时内回复您的咨询。了解我们的媒体平台和官方群聊。',
   keywords: '联系我们,技术支持,商务合作,领创工作室,客服,媒体平台,官方群聊',
 };
-
 ---
 
 <Layout metadata={metadata}>
@@ -128,34 +134,40 @@ const metadata = {
   <Hero
     tagline="联系我们"
     title="随时为您提供专业服务"
-    subtitle="领创工作室致力于为用户提供优质的技术支持和服务。无论您有任何问题或需求，我们都会及时回复并提供专业的解决方案。关注我们的媒体平台，获取最新资讯和技术分享。"
-    actions={[
-      {
-        variant: 'primary',
-        text: '立即联系',
-        href: '#contact-methods',
-        icon: 'tabler:arrow-down',
-      },
-      {
-        variant: 'secondary',
-        text: '关注我们',
-        href: '#media-platforms',
-        icon: 'tabler:share',
-      },
-    ]}
-    image={{ src: heroImage, alt: '展示' }}
-  />
-  
+    subtitle="领创工作室致力于为用户提供优质的技术支持和服务。关注我们的媒体平台，获取最新资讯和技术分享。"
+    image={{
+      src: contactHero,
+      alt: 'Contact Us background',
+    }}
+  >
+    <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
+      <a
+        href="#contact-methods"
+        data-magnetic
+        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+      >
+        立即联系
+      </a>
+      <a
+        href="#media-platforms"
+        data-magnetic
+        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+      >
+        关注我们
+      </a>
+    </div>
+  </Hero>
+
   <!-- Modal Component -->
   <Modal />
-  
+
   <!-- 联系方式 -->
   <Features
     id="contact-methods"
     title="联系我们"
     subtitle="选择您喜欢的方式与我们取得联系"
     tagline="沟通渠道"
-    items={contactMethods.map(method => ({
+    items={contactMethods.map((method) => ({
       title: method.title,
       description: `${method.description}<br><strong class="text-primary dark:text-blue-400">${method.info}</strong>`,
       icon: method.icon,
@@ -169,117 +181,163 @@ const metadata = {
       },
     }))}
     columns={3}
+    mobileColumns={2}
   >
     <Fragment slot="bg">
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900">
+      </div>
     </Fragment>
   </Features>
 
   <!-- 媒体平台 -->
   <section id="media-platforms" class="py-16 md:py-20 relative">
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900">
+    </div>
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center mb-12">
-        <div class="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-4">媒体平台</div>
+        <div class="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-4">
+          媒体平台
+        </div>
         <h2 class="text-3xl md:text-4xl font-bold mb-4">关注我们的媒体平台</h2>
         <p class="text-xl text-muted max-w-2xl mx-auto">获取最新资讯、技术分享和项目动态</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        {mediaPlatformsData.map((platform) => (
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 min-h-[180px] flex flex-col">
-            <div class="flex items-start mb-4 flex-grow">
-              <img
-                src={platform.logo}
-                alt={platform.name}
-                class="w-12 h-12 md:w-14 md:h-14 rounded-lg mr-3 md:mr-4 flex-shrink-0 object-cover"
-                loading="lazy"
-              />
-              <div class="flex-grow min-w-0">
-                <h3 class="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-1 truncate">{platform.name}</h3>
-                <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 mb-1 truncate">@{platform.account}</p>
-                {platform.accountId && (
-                  <p class="text-xs text-gray-500 dark:text-gray-500 truncate">ID: {platform.accountId}</p>
-                )}
-              </div>
-            </div>
+      <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+        {
+          mediaPlatformsData.length > 0 ? (
+            mediaPlatformsData.map((platform) => (
+              <div class="group relative bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                {/* ... existing card content ... */}
+                <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>
+                
+                <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-4 md:mb-6 relative z-10">
+                  <div class="relative mb-3 md:mb-0">
+                    <div class="absolute inset-0 bg-blue-500/20 blur-lg rounded-full scale-0 group-hover:scale-110 transition-transform duration-500"></div>
+                    <img
+                      src={platform.logo}
+                      alt={platform.name}
+                      class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl relative z-10 object-cover shadow-sm border border-white/50 dark:border-slate-700/50"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="md:ml-4 flex-grow min-w-0 w-full">
+                    <h3 class="text-sm md:text-xl font-black text-slate-800 dark:text-white mb-0.5 md:mb-1 truncate">
+                      {platform.name}
+                    </h3>
+                    <div class="flex items-center justify-center md:justify-start text-[10px] md:text-sm font-medium text-blue-600 dark:text-blue-400">
+                      <span class="truncate">@{platform.account}</span>
+                    </div>
+                  </div>
+                </div>
 
-            <div class="flex space-x-2 mt-auto">
-              <button
-                class="qr-button flex-1 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 px-2 md:px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center text-sm font-medium"
-                data-qrcode={platform.qrcode}
-                data-title={platform.qrcodeTitle || platform.name}
-                data-description={platform.qrcodeDesc || '扫码关注'}
-                data-link={platform.link}
-                aria-label={`查看${platform.name}二维码`}
-                type="button"
-              >
-                <i class="fas fa-qrcode mr-1 text-xs md:text-sm"></i>
-                <span class="hidden sm:inline">二维码</span>
-                <span class="sm:hidden">码</span>
-              </button>
-              <a
-                href={platform.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex-1 bg-primary hover:bg-primary/90 text-white px-2 md:px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center text-sm font-medium"
-                aria-label={`访问${platform.name}平台`}
-              >
-                <i class="fas fa-external-link-alt mr-1 text-xs md:text-sm"></i>
-                访问
-              </a>
-            </div>
-          </div>
-        ))}
+                <div class="flex flex-col md:flex-row gap-2 relative z-10 mt-auto">
+                  <button
+                    class="qr-button flex-1 group/btn relative overflow-hidden bg-slate-800 dark:bg-slate-700 text-white px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 shadow-lg shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
+                    data-qrcode={platform.qrcode}
+                    data-title={platform.qrcodeTitle || platform.name}
+                    data-description={platform.qrcodeDesc || '扫码关注平台'}
+                    data-link={platform.link}
+                    type="button"
+                  >
+                    <span class="relative z-10 flex items-center">
+                      <Icon name="tabler:qrcode" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
+                      <span>查看码</span>
+                    </span>
+                  </button>
+                  <a
+                    href={platform.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex-1 bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
+                  >
+                    <Icon name="tabler:external-link" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
+                    访问
+                  </a>
+                </div>
+              </div>
+            ))
+          ) : (
+            Array.from({ length: 6 }).map(() => (
+              <div class="bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col items-center md:items-start">
+                <div class="flex flex-col md:flex-row items-center md:items-start w-full mb-4">
+                  <Skeleton class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl mb-3 md:mb-0" />
+                  <div class="md:ml-4 flex-grow w-full space-y-2">
+                    <Skeleton class="h-6 w-24 mx-auto md:mx-0" />
+                    <Skeleton class="h-4 w-32 mx-auto md:mx-0" />
+                  </div>
+                </div>
+                <div class="flex w-full gap-2 mt-auto">
+                  <Skeleton class="flex-1 h-10 rounded-xl md:rounded-2xl" />
+                  <Skeleton class="flex-1 h-10 rounded-xl md:rounded-2xl" />
+                </div>
+              </div>
+            ))
+          )
+        }
       </div>
     </div>
   </section>
 
-
-
   <!-- QQ群聊 -->
-  <section class="py-16 md:py-20" id="qun-group">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <div class="inline-block px-3 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full mb-4">官方群聊</div>
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">加入我们的社区</h2>
-        <p class="text-xl text-muted max-w-2xl mx-auto">与其他用户交流，获取最新资讯和技术支持</p>
+  <section class="py-16 md:py-24 relative overflow-hidden" id="qun-group">
+    <!-- 装饰性背景：数码网格与光斑 -->
+    <div class="absolute inset-0 pointer-events-none">
+       <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.4] dark:opacity-[0.2]"></div>
+       <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-blue-50/50 to-transparent dark:via-blue-900/10"></div>
+       <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px] animate-pulse"></div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center px-4 py-1.5 text-xs font-bold text-blue-600 bg-blue-100/50 dark:bg-blue-900/30 rounded-full mb-6 border border-blue-200 dark:border-blue-800 tracking-widest uppercase">
+          COMMUNITY <span class="mx-2 opacity-30">|</span> 官方群聊
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 dark:text-white">加入我们的社区</h2>
+        <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">与其他用户交流，获取最新资讯和技术支持</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        {groupChatsData.map((group) => (
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 rounded-lg mr-4 bg-blue-500 flex items-center justify-center">
-                <Icon name="tabler:brand-qq" class="w-8 h-8 text-white" />
+      <div class="grid grid-cols-2 gap-4 md:gap-8 max-w-5xl mx-auto">
+        {
+          groupChatsData.map((group) => (
+            <div class="group relative bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl rounded-[2rem] p-4 md:p-8 border border-white dark:border-slate-800 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_10px_30px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-500 flex flex-col overflow-hidden">
+              <!-- 背景抽象饰纹 -->
+              <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors"></div>
+              
+              <div class="flex flex-col md:flex-row items-center md:items-start mb-6 relative z-10">
+                <!-- 非对称图标容器 -->
+                <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-[1.5rem] mr-0 md:mr-6 bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-4 md:mb-0 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-xl shadow-blue-500/20">
+                  <Icon name="tabler:brand-qq" class="w-8 h-8 md:w-12 md:h-12 text-white" />
+                </div>
+                <div class="flex-grow text-center md:text-left overflow-hidden">
+                  <h3 class="text-base md:text-2xl font-black text-slate-800 dark:text-white mb-1 truncate">{group.name}</h3>
+                  <div class="flex flex-col gap-1">
+                    {group.limit && <p class="text-[10px] md:text-sm font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-tighter">{group.limit}</p>}
+                    <p class="text-[10px] md:text-xs text-slate-400 font-medium">官方合规交流群</p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h3 class="text-lg font-bold">{group.name}</h3>
-                {group.limit && <p class="text-sm text-muted">{group.limit}</p>}
-                {group.groupNumber && <p class="text-xs text-muted">群号: {group.groupNumber}</p>}
-              </div>
-            </div>
 
-            <div class="flex space-x-2">
-              <button
-                class="flex-1 bg-green-50 hover:bg-green-100 text-green-600 px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center"
-                onclick={`showModal('${group.qrcode}', '${group.name}', '扫码加入群聊', [{text: '直接加入', href: '${group.joinLink}', target: '_blank', icon: 'fas fa-user-plus'}])`}
-              >
-                <i class="fas fa-qrcode mr-1"></i>
-                二维码
-              </button>
-              <a
-                href={group.joinLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex-1 bg-green-600 text-white px-3 py-2 rounded-lg transition-colors duration-300 flex items-center justify-center hover:bg-green-700"
-              >
-                <i class="fas fa-user-plus mr-1"></i>
-                加入
-              </a>
+              <div class="flex flex-col md:flex-row gap-3 w-full mt-auto relative z-10">
+                <button
+                  class="flex-1 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-800 dark:border-white shadow-lg hover:shadow-xl active:scale-95"
+                  onclick={`showModal('${group.qrcode}', '${group.name}', '扫码加入群聊', [{text: '直接加入', href: '${group.joinLink}', target: '_blank', icon: 'fas fa-user-plus'}])`}
+                >
+                  <Icon name="tabler:qrcode" class="w-5 h-5 mr-2" />
+                  查看码
+                </button>
+                <a
+                  href={group.joinLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm active:scale-95"
+                >
+                  <Icon name="tabler:user-plus" class="w-5 h-5 mr-2" />
+                  加入群
+                </a>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </section>
@@ -307,9 +365,7 @@ const metadata = {
     ]}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        专业的技术支持团队
-      </h3>
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">专业的技术支持团队</h3>
       我们拥有经验丰富的技术团队，为您提供专业、及时的技术支持和服务。
     </Fragment>
 
@@ -335,15 +391,10 @@ const metadata = {
       },
     ]}
   >
-    <Fragment slot="title">
-      还有其他问题？
-    </Fragment>
+    <Fragment slot="title"> 还有其他问题？ </Fragment>
 
-    <Fragment slot="subtitle">
-      欢迎浏览我们的项目展示，或返回首页了解更多信息。
-    </Fragment>
+    <Fragment slot="subtitle"> 欢迎浏览我们的项目展示，或返回首页了解更多信息。 </Fragment>
   </CallToAction>
-
 
   <!-- 二维码按钮事件处理 -->
   <script>
@@ -353,7 +404,7 @@ const metadata = {
       console.log('Found QR buttons:', qrButtons.length);
 
       qrButtons.forEach((button) => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
           e.preventDefault();
           const qrcode = this.dataset.qrcode;
           const title = this.dataset.title;
@@ -368,8 +419,8 @@ const metadata = {
                 text: '访问链接',
                 href: link,
                 target: '_blank',
-                icon: 'fas fa-external-link-alt'
-              }
+                icon: 'fas fa-external-link-alt',
+              },
             ]);
           }
         });
@@ -378,7 +429,7 @@ const metadata = {
 
     // 页面加载完成后执行
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function () {
         setTimeout(initQRButtons, 300);
       });
     } else {

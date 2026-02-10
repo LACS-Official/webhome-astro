@@ -44,24 +44,41 @@ import { UI } from 'astrowind:config';
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
 
-    attachEvent('#header nav', 'click', function () {
+    const closeMenu = () => {
       document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
       document.body.classList.remove('overflow-hidden');
-      document.getElementById('header')?.classList.remove('h-screen');
       document.getElementById('header')?.classList.remove('expanded');
-      document.getElementById('header')?.classList.remove('bg-page');
-      document.querySelector('#header nav')?.classList.add('hidden');
-      document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+      const navMenu = document.getElementById('nav-menu');
+      if (navMenu) {
+        navMenu.classList.add('translate-x-full', 'invisible');
+        navMenu.classList.remove('translate-x-0', 'visible');
+      }
+    };
+
+    attachEvent('#nav-menu a', 'click', closeMenu);
+    attachEvent('#nav-menu button', 'click', (e, elem) => {
+      // 如果是下拉按钮，不关闭菜单；否则关闭
+      if (!elem.closest('.dropdown')) {
+        closeMenu();
+      }
     });
 
     attachEvent('[data-aw-toggle-menu]', 'click', function (_, elem) {
       elem.classList.toggle('expanded');
       document.body.classList.toggle('overflow-hidden');
-      document.getElementById('header')?.classList.toggle('h-screen');
       document.getElementById('header')?.classList.toggle('expanded');
-      document.getElementById('header')?.classList.toggle('bg-page');
-      document.querySelector('#header nav')?.classList.toggle('hidden');
-      document.querySelector('#header > div > div:last-child')?.classList.toggle('hidden');
+
+      const navMenu = document.getElementById('nav-menu');
+      if (navMenu) {
+        const isExpanded = elem.classList.contains('expanded');
+        if (isExpanded) {
+          navMenu.classList.remove('translate-x-full', 'invisible');
+          navMenu.classList.add('translate-x-0', 'visible');
+        } else {
+          navMenu.classList.add('translate-x-full', 'invisible');
+          navMenu.classList.remove('translate-x-0', 'visible');
+        }
+      }
     });
 
     attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
@@ -107,25 +124,36 @@ import { UI } from 'astrowind:config';
 
     const screenSize = window.matchMedia('(max-width: 767px)');
     screenSize.addEventListener('change', function () {
-      document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
-      document.body.classList.remove('overflow-hidden');
-      document.getElementById('header')?.classList.remove('h-screen');
-      document.getElementById('header')?.classList.remove('expanded');
-      document.getElementById('header')?.classList.remove('bg-page');
-      document.querySelector('#header nav')?.classList.add('hidden');
-      document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+      closeMenu();
     });
 
-    function applyHeaderStylesOnScroll() {
-      const header = document.querySelector('#header[data-aw-sticky-header]');
-      if (!header) return;
-      if (lastKnownScrollPosition > 60 && !header.classList.contains('scroll')) {
-        header.classList.add('scroll');
-      } else if (lastKnownScrollPosition <= 60 && header.classList.contains('scroll')) {
-        header.classList.remove('scroll');
-      }
-      ticking = false;
-    }
+    // 磁吸按钮逻辑
+    const initMagneticButtons = () => {
+      if (window.matchMedia('(pointer: coarse)').matches) return; // 移动端跳过
+
+      const magneticButtons = document.querySelectorAll('[data-magnetic]');
+      magneticButtons.forEach((btn) => {
+        btn.addEventListener('mousemove', (e) => {
+          const target = e.currentTarget;
+          if (!target) return;
+          const { left, top, width, height } = target.getBoundingClientRect();
+          const x = e.clientX - left - width / 2;
+          const y = e.clientY - top - height / 2;
+          const strength = 15;
+          target.style.transform = `translate(${x * (strength / (width / 2))}px, ${y * (strength / (height / 2))}px)`;
+          target.style.transition = 'transform 0.1s ease-out';
+        });
+
+        btn.addEventListener('mouseleave', (e) => {
+          const target = e.currentTarget;
+          if (!target) return;
+          target.style.transform = 'translate(0px, 0px)';
+          target.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        });
+      });
+    };
+
+    initMagneticButtons();
     applyHeaderStylesOnScroll();
 
     attachEvent([document], 'scroll', function () {
@@ -138,6 +166,27 @@ import { UI } from 'astrowind:config';
         ticking = true;
       }
     });
+
+    // ESC 键关闭菜单
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    // 点击外部关闭菜单
+    document.addEventListener('click', (e) => {
+      const header = document.getElementById('header');
+      if (!header || !header.classList.contains('expanded')) return;
+
+      const target = e.target;
+      const toggleButton = document.querySelector('[data-aw-toggle-menu]');
+      const navMenu = document.getElementById('nav-menu');
+
+      if (target && !header.contains(target) && !toggleButton?.contains(target) && !navMenu?.contains(target)) {
+        closeMenu();
+      }
+    });
   };
   const onPageShow = function () {
     document.documentElement.classList.add('motion-safe:scroll-smooth');
@@ -146,9 +195,11 @@ import { UI } from 'astrowind:config';
       elem.classList.remove('expanded');
     }
     document.body.classList.remove('overflow-hidden');
-    document.getElementById('header')?.classList.remove('h-screen');
     document.getElementById('header')?.classList.remove('expanded');
-    document.querySelector('#header nav')?.classList.add('hidden');
+    const navMenu = document.getElementById('nav-menu');
+    if (navMenu) {
+      navMenu.classList.add('translate-x-full', 'invisible');
+    }
   };
 
   window.onload = onLoad;

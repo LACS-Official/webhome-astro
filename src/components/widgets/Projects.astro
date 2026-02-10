@@ -19,74 +19,109 @@ const {
 const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`max-w-7xl mx-auto relative ${classes?.container ?? ''}`}
+  bg={bg}
+>
+  <div
+    class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"
+  >
+  </div>
   <Headline title={title} subtitle={subtitle} tagline={tagline} />
-  
+
   <!-- 项目分类筛选按钮 -->
-  <div class="flex flex-wrap justify-center gap-4 mb-8" id="project-filters">
-    <button class="filter-btn active px-6 py-2 rounded-full bg-primary text-white font-medium transition-all duration-300 hover:bg-primary-600" data-category="all">
-      全部项目
+  <div class="flex flex-wrap justify-center gap-4 mb-12" id="project-filters">
+    <button
+      class="filter-btn active group relative inline-flex items-center justify-center px-6 py-2 overflow-hidden text-sm font-bold text-white rounded-full bg-slate-900 shadow-[0_1px_15px_rgba(15,23,42,0.1)] transition-all duration-300 hover:scale-105 active:scale-95"
+      data-category="all"
+    >
+      <span class="relative z-10">全部项目</span>
     </button>
-    <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium transition-all duration-300 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" data-category="project1">
-      玩机工具
+    <button
+      class="filter-btn group relative inline-flex items-center justify-center px-6 py-2 overflow-hidden text-sm font-bold text-slate-600 dark:text-slate-400 rounded-full border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-300 hover:scale-105 active:scale-95 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm"
+      data-category="project1"
+    >
+      <span class="relative z-10">玩机工具</span>
     </button>
-    <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium transition-all duration-300 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" data-category="project2">
-      面具模块
+    <button
+      class="filter-btn group relative inline-flex items-center justify-center px-6 py-2 overflow-hidden text-sm font-bold text-slate-600 dark:text-slate-400 rounded-full border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-300 hover:scale-105 active:scale-95 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm"
+      data-category="project2"
+    >
+      <span class="relative z-10">面具模块</span>
     </button>
-    <button class="filter-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium transition-all duration-300 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" data-category="project3">
-      小工具
+    <button
+      class="filter-btn group relative inline-flex items-center justify-center px-6 py-2 overflow-hidden text-sm font-bold text-slate-600 dark:text-slate-400 rounded-full border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-300 hover:scale-105 active:scale-95 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm"
+      data-category="project3"
+    >
+      <span class="relative z-10">小工具</span>
     </button>
   </div>
 
   <!-- 项目卡片网格 -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
-    {sortedProjects.map((project) => (
-      <div class="project-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700" data-category={project.category}>
-        <div class="flex items-start justify-between mb-4">
-          <div class="flex items-center">
-            <div class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center mr-4">
-              <Icon name={project.icon && /^[a-zA-Z0-9-]+$/.test(project.icon.replace('fa-', '')) ? `tabler:${project.icon.replace('fa-', '')}` : 'tabler:box'} class="w-6 h-6 text-white" />
+  <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6" id="projects-grid">
+    {
+      sortedProjects.map((project) => (
+        <div
+          class="project-card group relative bg-[var(--glass-bg)] backdrop-blur-[var(--glass-blur)] border border-[var(--glass-border)] rounded-3xl p-5 md:p-8 shadow-[var(--shadow-boutique-lg)] hover:shadow-[var(--shadow-boutique-xl)] hover:-translate-y-2 transition-all duration-500 flex flex-col h-full overflow-hidden"
+          data-category={project.category}
+        >
+          <!-- 饰点 -->
+          <div class="absolute -right-4 -top-4 w-20 h-20 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors"></div>
+
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 md:mb-4 gap-2">
+            <div class="flex items-center w-full min-w-0">
+              <div class="w-10 h-10 md:w-14 md:h-14 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center mr-3 md:mr-4 shrink-0 transition-all duration-500 group-hover:bg-primary group-hover:rotate-6 shadow-inner border border-slate-100 dark:border-slate-700/50">
+                <Icon
+                  name={
+                    project.icon && /^[a-zA-Z0-9-]+$/.test(project.icon.replace('fa-', ''))
+                      ? `tabler:${project.icon.replace('fa-', '')}`
+                      : 'tabler:box'
+                  }
+                  class="w-5 h-5 md:w-7 md:h-7 text-slate-600 dark:text-slate-300 transition-colors duration-500 group-hover:text-white"
+                />
+              </div>
+              <div class="min-w-0 flex-grow relative overflow-hidden">
+                <div class="overflow-x-auto no-scrollbar whitespace-nowrap md:whitespace-normal mask-fade-right">
+                  <h3 class="text-sm md:text-lg font-extrabold text-gray-900 dark:text-white mb-0 md:mb-1 inline-block md:block">
+                    {project.title}
+                  </h3>
+                </div>
+                <span class="text-[10px] md:text-sm text-primary font-medium truncate block">{project.platform}</span>
+              </div>
             </div>
-            <div>
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{project.title}</h3>
-              <span class="text-sm text-primary font-medium">{project.platform}</span>
-            </div>
-          </div>
-          <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
-            {project.updateDate}
-          </span>
-        </div>
-        
-        <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-          {project.description}
-        </p>
-        
-        <div class="flex items-center justify-between">
-          <div class="flex flex-wrap gap-1">
-            <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
-              {project.categoryName}
+            <span class="hidden sm:inline-block text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
+              {project.updateDate}
             </span>
-            <!-- 显示编程语言标签 -->
-            {project.p_language && project.p_language.map((lang) => (
-              <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
-                {lang}
-              </span>
-            ))}
           </div>
-          {project.link !== '#' && (
-            <a 
-              href={project.link} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary-600 transition-colors duration-200"
-            >
-              <Icon name="tabler:external-link" class="w-4 h-4 mr-2" />
-              访问项目
-            </a>
-          )}
+
+          <p class="text-gray-600 dark:text-gray-300 mb-3 md:mb-4 text-[11px] md:text-sm leading-relaxed line-clamp-2 md:line-clamp-none flex-grow">
+            {project.description}
+          </p>
+
+          <div class="flex flex-col gap-3 mt-auto">
+            <div class="flex flex-wrap gap-1">
+              <span class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                {project.categoryName}
+              </span>
+            </div>
+            {project.link !== '#' && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-magnetic
+                class="inline-flex items-center justify-center px-2 md:px-4 py-1.5 md:py-2 bg-primary text-white text-[11px] md:text-sm font-medium rounded-lg hover:bg-primary-600 shadow-[var(--glow-primary)] transition-all duration-200 w-full"
+              >
+                <Icon name="tabler:external-link" class="hidden md:block w-4 h-4 mr-2" />
+                访问项目
+              </a>
+            )}
+          </div>
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
 </WidgetWrapper>
 
@@ -96,21 +131,49 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
-    filterButtons.forEach(button => {
+    filterButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const category = button.getAttribute('data-category');
-        
+
         // 更新按钮状态
-        filterButtons.forEach(btn => {
-          btn.classList.remove('active', 'bg-primary', 'text-white');
-          btn.classList.add('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
+        filterButtons.forEach((btn) => {
+          btn.classList.remove(
+            'active',
+            'bg-slate-900',
+            'text-white',
+            'dark:bg-slate-100',
+            'dark:text-slate-900',
+            'font-bold',
+            'shadow-sm'
+          );
+          btn.classList.add(
+            'border-slate-200',
+            'dark:border-slate-700',
+            'text-slate-600',
+            'dark:text-slate-400',
+            'font-medium'
+          );
         });
-        
-        button.classList.add('active', 'bg-primary', 'text-white');
-        button.classList.remove('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
-        
+
+        button.classList.add(
+          'active',
+          'bg-slate-900',
+          'text-white',
+          'dark:bg-slate-100',
+          'dark:text-slate-900',
+          'font-bold',
+          'shadow-sm'
+        );
+        button.classList.remove(
+          'border-slate-200',
+          'dark:border-slate-700',
+          'text-slate-600',
+          'dark:text-slate-400',
+          'font-medium'
+        );
+
         // 筛选项目卡片
-        projectCards.forEach(card => {
+        projectCards.forEach((card) => {
           const cardCategory = card.getAttribute('data-category');
           // 修复 TS2339: 类型"Element"上不存在属性"style"
           // 通过类型断言告诉 TypeScript 这是一个 HTMLElement
@@ -127,21 +190,21 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
     });
 
     // 项目卡片点击事件
-    projectCards.forEach(card => {
+    projectCards.forEach((card) => {
       card.addEventListener('click', () => {
         const title = card.querySelector('h3')?.textContent || '';
         const description = card.querySelector('p')?.textContent || '';
         const imageUrl = card.querySelector('img')?.src || '';
         const links = card.querySelectorAll('a');
 
-        const actions = Array.from(links).map(link => {
+        const actions = Array.from(links).map((link) => {
           // 修复 TS18047: "link.textContent"可能为"null"
           const text = link.textContent?.trim() || '';
           return {
             text: text,
             href: link.href,
             target: link.target,
-            icon: link.querySelector('i')?.className || 'fas fa-external-link-alt'
+            icon: link.querySelector('i')?.className || 'fas fa-external-link-alt',
           };
         });
 
@@ -158,9 +221,28 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
   .animate-fade-in {
     animation: fadeIn 0.5s ease-in-out;
   }
-  
+
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .mask-fade-right {
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
+    mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
   }
 </style>

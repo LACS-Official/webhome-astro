@@ -5,26 +5,37 @@ export const headerData = {
     {
       text: '首页',
       href: getPermalink('/'),
+      icon: 'tabler:home',
     },
     {
       text: '项目展示',
       href: getPermalink('/#projects'),
+      icon: 'tabler:apps',
+    },
+    {
+      text: '外包服务',
+      href: getPermalink('/services'),
+      icon: 'tabler:tools',
     },
     {
       text: '关于我们',
       href: getPermalink('/#about'),
+      icon: 'tabler:info-circle',
     },
     {
       text: '联系我们',
       href: getPermalink('/contact'),
+      icon: 'tabler:mail',
     },
     {
       text: '远程刷机',
       href: getPermalink('/ycsj'),
+      icon: 'tabler:device-mobile',
     },
     {
       text: '捐赠我们',
       href: getPermalink('/donate'),
+      icon: 'tabler:heart',
     },
   ],
   actions: [],
@@ -40,7 +51,7 @@ export const footerData = {
       <div class="text-center lg:text-left">
         <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
           © 2020-2026
-          <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-semibold">
+          <span class="text-sm font-medium text-blue-600 dark:text-blue-400">
             领创工作室
           </span>
           (Lead And Create Studio)

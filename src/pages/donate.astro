@@ -8,7 +8,7 @@ import Content from '~/components/widgets/Content.astro';
 import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
-import heroImage from '~/assets/images/donate.webp';
+import donateHero from '~/assets/images/heroes/donate-hero.jpg';
 
 const metadata = {
   title: '支持我们 - 领创工作室',
@@ -58,7 +58,6 @@ if (apiError || donationData.length === 0) {
   console.log('api获取失败');
 }
 
-
 // 捐赠用途
 const donationUsage = [
   {
@@ -104,55 +103,117 @@ const supporterBenefits = [
 
 <Layout metadata={metadata}>
   <CustomStyles />
-  
+
   <!-- Hero Section -->
   <Hero
     tagline="支持我们"
     title="您的支持是我们前进的动力"
     subtitle="领创工作室致力于为用户提供优质的技术服务和开源项目。您的每一份支持都将帮助我们做得更好，为技术社区贡献更多价值。"
-    actions={[
-      {
-        variant: 'primary',
-        text: '立即支持',
-        href: '#donation-methods',
-        icon: 'tabler:heart',
-      },
-      {
-        variant: 'secondary',
-        text: '了解用途',
-        href: '#usage',
-        icon: 'tabler:arrow-down',
-      },
-    ]}
-    image={{ src: heroImage, alt: '展示' }}
-  />
-
+    image={{
+      src: donateHero,
+      alt: 'Donate Support',
+    }}
+  >
+    <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
+      <a
+        href="#donation-methods"
+        data-magnetic
+        class="bg-red-600 hover:bg-red-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+      >
+        立即支持
+      </a>
+      <a
+        href="#usage"
+        data-magnetic
+        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+      >
+        了解用途
+      </a>
+    </div>
+  </Hero>
 
   <!-- 二维码展示 -->
-  <section class="py-16 md:py-20">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="py-16 md:py-24 relative overflow-hidden" id="donation-methods">
+    <!-- 背景饰点 -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+      <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-red-500/10 rounded-full blur-[100px]"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-[100px]"></div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">扫码支持</h2>
-        <p class="text-xl text-muted mb-12">使用手机扫描下方二维码即可快速支持</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div id="wechat-qr" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-            <h3 class="text-2xl font-bold mb-4 text-green-600">微信支付</h3>
-            <div class="w-48 h-48 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-              <img src="/images/qrcodes/wechatpay.webp" alt="微信二维码" class="w-full h-full object-cover" />
+        <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 dark:text-white">扫码支持</h2>
+        <p class="text-xl text-slate-500 dark:text-slate-400 mb-16 max-w-2xl mx-auto">
+          您的每一份心意，都是我们继续前行的燃料
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <!-- 微信卡片 -->
+          <div
+            class="group relative bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl border border-white/50 dark:border-slate-800/50 rounded-[2.5rem] p-10 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_20px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-green-500/0 to-green-500/5 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+            >
             </div>
-            <p class="text-sm text-muted">微信扫码支付</p>
+
+            <div
+              class="w-16 h-16 bg-green-500 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-lg shadow-green-500/30 overflow-hidden relative"
+            >
+              <i class="fab fa-weixin text-white text-3xl"></i>
+            </div>
+
+            <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">微信支付</h3>
+
+            <div
+              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent rounded-3xl pointer-events-none"
+              >
+              </div>
+              <img
+                src="/images/qrcodes/wechatpay.webp"
+                alt="微信二维码"
+                class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest">Scan with WeChat</p>
           </div>
-          
-          <div id="alipay-qr" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-            <h3 class="text-2xl font-bold mb-4 text-blue-600">支付宝</h3>
-            <div class="w-48 h-48 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-              <img src="/images/qrcodes/alipay.webp" alt="支付宝二维码" class="w-full h-full object-cover" />
+
+          <!-- 支付宝卡片 -->
+          <div
+            class="group relative bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl border border-white/50 dark:border-slate-800/50 rounded-[2.5rem] p-10 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_20px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-500/5 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+            >
             </div>
-            <p class="text-sm text-muted">支付宝扫码支付</p>
+
+            <div
+              class="w-16 h-16 bg-blue-500 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-lg shadow-blue-500/30 overflow-hidden relative"
+            >
+              <i class="fab fa-alipay text-white text-3xl"></i>
+            </div>
+
+            <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">支付宝</h3>
+
+            <div
+              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-3xl pointer-events-none"
+              >
+              </div>
+              <img
+                src="/images/qrcodes/alipay.webp"
+                alt="支付宝二维码"
+                class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest">Scan with Alipay</p>
           </div>
         </div>
-        
       </div>
     </div>
   </section>
@@ -165,28 +226,30 @@ const supporterBenefits = [
         <p class="text-xl text-muted mb-12">感谢以下朋友对领创工作室的支持</p>
 
         <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-          {donationData.length > 0 ? (
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {donationData.map((supporter) => (
-                <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-                  <div class="flex items-center justify-between mb-2">
-                    <p class="font-semibold text-lg">{supporter.name}</p>
-                    <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
-                      支持者
-                    </span>
+          {
+            donationData.length > 0 ? (
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {donationData.map((supporter) => (
+                  <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <div class="flex items-center justify-between mb-2">
+                      <p class="font-semibold text-lg">{supporter.name}</p>
+                      <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+                        支持者
+                      </span>
+                    </div>
+                    <p class="text-sm text-muted">
+                      <i class="fas fa-calendar mr-1" />
+                      捐赠日期: {supporter.donationDate}
+                    </p>
                   </div>
-                  <p class="text-sm text-muted">
-                    <i class="fas fa-calendar mr-1"></i>
-                    捐赠日期: {supporter.donationDate}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div class="text-center py-8">
-              <p class="text-muted">暂无支持者数据</p>
-            </div>
-          )}
+                ))}
+              </div>
+            ) : (
+              <div class="text-center py-8">
+                <p class="text-muted">暂无支持者数据</p>
+              </div>
+            )
+          }
 
           <div class="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
             <p class="text-sm text-muted">
@@ -205,7 +268,7 @@ const supporterBenefits = [
     title="资金使用透明化"
     subtitle="您的每一分支持都将用于以下方面"
     tagline="资金用途"
-    items={donationUsage.map(usage => ({
+    items={donationUsage.map((usage) => ({
       title: usage.title,
       description: `${usage.description}<br><span class="text-primary font-bold">${usage.percentage}</span>`,
       icon: usage.icon,
@@ -214,15 +277,9 @@ const supporterBenefits = [
   />
 
   <!-- 支持者权益 -->
-  <Content
-    title="支持者专属权益"
-    subtitle="感谢您的支持，我们为支持者准备了专属权益"
-    items={supporterBenefits}
-  >
+  <Content title="支持者专属权益" subtitle="感谢您的支持，我们为支持者准备了专属权益" items={supporterBenefits}>
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        成为我们的支持者
-      </h3>
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">成为我们的支持者</h3>
       支持金额不限，每一份心意都是对我们最大的鼓励。我们会定期公布资金使用情况，确保透明公开。
     </Fragment>
 
@@ -230,9 +287,6 @@ const supporterBenefits = [
       <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
     </Fragment>
   </Content>
-
-
-
 
   <!-- Call to Action -->
   <CallToAction
@@ -251,9 +305,7 @@ const supporterBenefits = [
       },
     ]}
   >
-    <Fragment slot="title">
-      感谢您的支持！
-    </Fragment>
+    <Fragment slot="title"> 感谢您的支持！ </Fragment>
 
     <Fragment slot="subtitle">
       您的每一份支持都将帮助我们做得更好，<br class="hidden md:inline" />

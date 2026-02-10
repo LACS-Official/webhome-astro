@@ -6,10 +6,12 @@ import Features from '~/components/widgets/Features.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import ContactMethods from '~/components/widgets/ContactMethods.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
-import heroImage from '~/assets/images/ycsj.webp';
+import Modal from '~/components/Modal.astro';
+import ycsjHero from '~/assets/images/heroes/ycsj-hero.jpg';
 const metadata = {
   title: '远程刷机服务 - 领创工作室',
-  description: '领创工作室提供专业的远程刷机服务，支持各种Android设备，安全可靠，价格合理。专业技术团队为您提供一对一服务。',
+  description:
+    '领创工作室提供专业的远程刷机服务，支持各种Android设备，安全可靠，价格合理。专业技术团队为您提供一对一服务。',
   keywords: '远程刷机,Android刷机,手机刷机,ROM刷入,系统刷机,领创工作室',
 };
 
@@ -71,7 +73,6 @@ const flashingSteps = [
   },
 ];
 
-
 // 联系方式数据
 const contactMethods = [
   {
@@ -105,37 +106,60 @@ const contactMethods = [
     bgColor: 'bg-blue-50',
   },
 ];
-
 ---
 
 <Layout metadata={metadata}>
+  <script type="application/ld+json" is:inline slot="head">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Remote Android Flashing",
+      "provider": {
+        "@type": "Organization",
+        "name": "领创工作室",
+        "url": "https://lacs.cc"
+      },
+      "description": "专业安全的远程安卓刷机服务，支持小米、华为、OPPO、vivo等主流品牌，解决各种系统疑难杂症。",
+      "offers": {
+        "@type": "Offer",
+        "price": "50.00",
+        "priceCurrency": "CNY",
+        "url": "https://lacs.cc/ycsj"
+      }
+    }
+  </script>
   <CustomStyles />
-  
+
   <!-- Hero Section -->
   <Hero
     tagline="远程刷机服务"
     title="专业安全的Android设备刷机服务"
     subtitle="领创工作室提供专业的远程刷机服务，支持各种Android设备。我们拥有丰富的刷机经验和专业的技术团队，为您提供安全、可靠的刷机解决方案。"
-    actions={[
-      {
-        variant: 'primary',
-        text: '立即咨询',
-        href: '#contact',
-        target: '_blank',
-        icon: 'tabler:message-circle',
-      },
-      {
-        variant: 'secondary',
-        text: '了解流程',
-        href: '#process',
-        icon: 'tabler:arrow-down',
-      },
-    ]}
-        image={{ src: heroImage, alt: '展示' }}
-  />
+    image={{
+      src: ycsjHero,
+      alt: 'Remote Flashing Service',
+    }}
+  >
+    <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
+      <a
+        href="#contact"
+        data-magnetic
+        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+      >
+        立即咨询
+      </a>
+      <a
+        href="#process"
+        data-magnetic
+        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+      >
+        了解流程
+      </a>
+    </div>
+  </Hero>
   <!-- 联系方式-->
   <ContactMethods
-    id='contact'
+    id="contact"
     title="联系我们"
     subtitle="多种联系方式，选择最适合您的沟通方式，我们的团队将尽快与您联系。"
     tagline="联系方式"
@@ -145,7 +169,6 @@ const contactMethods = [
       <div class="absolute inset-0 bg-gray-50 dark:bg-slate-800"></div>
     </Fragment>
   </ContactMethods>
-  
 
   <!-- 服务特色 -->
   <Features
@@ -197,9 +220,7 @@ const contactMethods = [
     ]}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        刷机须知
-      </h3>
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">刷机须知</h3>
       刷机是一项技术性操作，虽然我们拥有丰富的经验，但仍需要您的配合和理解。
     </Fragment>
 
@@ -208,9 +229,8 @@ const contactMethods = [
     </Fragment>
   </Content>
 
-
-
-
+  <!-- Modal Component -->
+  <Modal />
 </Layout>
 
 <style>

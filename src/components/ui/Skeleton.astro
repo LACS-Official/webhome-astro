@@ -1,0 +1,54 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'skeleton-wrapper relative overflow-hidden bg-slate-200/20 dark:bg-slate-700/20 backdrop-blur-sm rounded-2xl animate-pulse-slow',
+    className,
+  ]}
+>
+  <div
+    class="skeleton-sweep absolute inset-0 bg-gradient-to-r from-transparent via-white/10 dark:via-white/5 to-transparent skew-x-[-20deg]"
+  >
+  </div>
+</div>
+
+<style>
+  .skeleton-wrapper {
+    min-height: 1rem;
+  }
+
+  .skeleton-sweep {
+    animation: sweep 2s infinite ease-in-out;
+    width: 200%;
+    left: -100%;
+  }
+
+  @keyframes sweep {
+    0% {
+      transform: translateX(-100%) skewX(-20deg);
+    }
+    100% {
+      transform: translateX(200%) skewX(-20deg);
+    }
+  }
+
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 3s infinite ease-in-out;
+  }
+</style>

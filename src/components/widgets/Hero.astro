@@ -18,7 +18,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative h-screen w-full not-prose" {...id ? { id } : {}}>
+<section class="relative min-h-[70vh] lg:h-screen w-full not-prose" {...id ? { id } : {}}>
   <!-- 背景图片层 -->
   {image && (
     <div class="absolute inset-0 z-0">
@@ -26,9 +26,9 @@ const {
         <Fragment set:html={image} />
       ) : (
         <Image
-          class="w-full h-full object-cover"
+          class="min-w-full h-full object-cover"
           widths={[400, 768, 1024, 2040]}
-          sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+          sizes="100vw"
           loading="eager"
           width={2040}
           height={1080}
