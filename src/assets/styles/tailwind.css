@@ -56,7 +56,7 @@
   height: 2px;
   border-radius: 50%;
   background: rgba(59, 130, 246, 0.8);
-  box-shadow: 
+  box-shadow:
     0 0 10px 2px rgba(59, 130, 246, 0.5),
     20px 30px 0 0 rgba(59, 130, 246, 0.7),
     40px 70px 0 0 rgba(59, 130, 246, 0.6),
@@ -90,7 +90,7 @@
   width: 1px;
   height: 1px;
   background: rgba(59, 130, 246, 0.6);
-  box-shadow: 
+  box-shadow:
     10px 10px 0 0 rgba(59, 130, 246, 0.4),
     50px 40px 0 0 rgba(59, 130, 246, 0.5),
     100px 10px 0 0 rgba(59, 130, 246, 0.6),
@@ -150,7 +150,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
   }
   50% {
@@ -201,11 +202,11 @@
     font-size: 2.5rem;
     line-height: 1.1;
   }
-  
+
   .hero-section p {
     font-size: 1rem;
   }
-  
+
   .hero-section a {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
@@ -217,16 +218,16 @@
     font-size: 2rem;
     line-height: 1.1;
   }
-  
+
   .hero-section p {
     font-size: 0.875rem;
   }
-  
+
   .hero-section a {
     padding: 0.75rem 1.25rem;
     font-size: 0.875rem;
   }
-  
+
   .particles-container::before,
   .particles-container::after {
     display: none;
@@ -238,11 +239,11 @@
   .hero-section h1 {
     font-size: 5rem;
   }
-  
+
   .hero-section p {
     font-size: 1.5rem;
   }
-  
+
   .hero-section a {
     padding: 1.25rem 2.5rem;
     font-size: 1.25rem;
@@ -302,160 +303,19 @@ img.lazyloaded {
   @apply py-3;
 } */
 
-/* 移动端菜单样式优化 */
-#header.expanded nav {
-  position: fixed;
-  top: 70px;
-  left: 8px;
-  right: 8px;
-  max-height: 60vh;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.12),
-    0 2px 8px rgba(0, 0, 0, 0.08);
-  padding: 20px;
-  z-index: 50;
-  overflow-y: auto;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: slideDown 0.3s ease-out;
-}
-
-.dark #header.expanded nav {
-  background: rgba(15, 23, 42, 0.95);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* 移动端菜单动画 */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 移动端菜单项样式 */
-#header.expanded nav ul {
-  gap: 8px;
-}
-
-#header.expanded nav ul li {
-  margin: 0;
-}
-
-#header.expanded nav ul li a {
-  display: block;
-  padding: 12px 16px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  font-weight: 500;
-}
-
-#header.expanded nav ul li a:hover {
-  background: rgba(59, 130, 246, 0.1);
-  color: rgb(59, 130, 246);
-}
-
-.dark #header.expanded nav ul li a:hover {
-  background: rgba(59, 130, 246, 0.2);
-  color: rgb(147, 197, 253);
-}
-
-/* 响应式优化 */
-@media (max-width: 640px) {
-  #header.expanded nav {
-    left: 4px;
-    right: 4px;
-    max-height: 70vh;
-    padding: 16px;
-  }
-}
-
-@media (orientation: landscape) and (max-height: 600px) {
-  #header.expanded nav {
-    max-height: 80vh;
-  }
-}
-
-/* 移动端按钮触摸优化 */
-@media (max-width: 768px) {
-  /* 确保移动端按钮有足够的触摸目标 */
-  button[id*="mobile-"] {
-    min-width: 44px;
-    min-height: 44px;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* 移动端按钮悬停效果 */
-  button[id*="mobile-"]:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
-  }
-
-  /* 移动端头部间距优化 */
-  #header .flex.items-center.space-x-2 {
-    gap: 8px;
-  }
-}
-
-/* 确保桌面端按钮在移动端隐藏 */
-@media (max-width: 767px) {
-  button[id*="desktop-"] {
-    display: none !important;
-  }
-}
-
-/* 移动端头部布局优化 */
-@media (max-width: 480px) {
-  /* 小屏幕设备上的头部间距调整 */
-  #header .flex.items-center.gap-1 {
-    gap: 4px;
-  }
-
-  /* 小屏幕上的按钮尺寸微调 */
-  button[id*="mobile-"] {
-    min-width: 40px;
-    min-height: 40px;
-    padding: 8px;
-  }
-
-  button[id*="mobile-"] svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* 移动端菜单在小屏幕上的调整 */
-  #header.expanded nav {
-    left: 2px;
-    right: 2px;
-    padding: 12px;
-    max-height: 75vh;
-  }
-}
-
 /* 超小屏幕优化 */
 @media (max-width: 360px) {
   #header .flex.items-center.gap-1 {
     gap: 2px;
   }
 
-  button[id*="mobile-"] {
+  button[id*='mobile-'] {
     min-width: 36px;
     min-height: 36px;
     padding: 6px;
   }
 
-  button[id*="mobile-"] svg {
+  button[id*='mobile-'] svg {
     width: 16px;
     height: 16px;
   }
@@ -471,11 +331,11 @@ img.lazyloaded {
 
 /* 高分辨率移动设备优化 */
 @media (-webkit-min-device-pixel-ratio: 2) and (max-width: 768px) {
-  button[id*="mobile-"] {
+  button[id*='mobile-'] {
     border: 0.5px solid rgba(0, 0, 0, 0.1);
   }
 
-  .dark button[id*="mobile-"] {
+  .dark button[id*='mobile-'] {
     border: 0.5px solid rgba(255, 255, 255, 0.1);
   }
 }

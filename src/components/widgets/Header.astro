@@ -119,7 +119,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </div>
     </div>
     <div
-      class="nav-menu-container flex md:flex items-center w-full md:w-auto md:mx-5 text-default md:justify-self-center fixed md:static right-0 top-0 h-screen md:h-auto w-72 md:w-auto bg-white/95 dark:bg-slate-900/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none border-l border-white/20 dark:border-slate-800/20 translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-[100] md:z-auto shadow-2xl md:shadow-none shadow-black/10 invisible md:visible"
+      class="nav-menu-container flex md:flex md:w-auto md:mx-5 text-default md:justify-self-center fixed md:static right-0 top-0 h-screen md:h-auto w-[70vw] md:w-auto bg-white dark:bg-slate-900 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none border-l border-gray-200 dark:border-slate-800 translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-[100] md:z-auto shadow-2xl md:shadow-none invisible md:visible"
       id="nav-menu"
     >
       <nav class="w-full h-full md:w-auto px-4 py-8 md:p-0 flex flex-col md:block" aria-label="Main navigation">
@@ -181,7 +181,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           }
         </ul>
         <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-800 md:hidden">
-          <ToggleTheme iconClass="w-6 h-6 mb-2" showLabel={true} />
+          <ToggleTheme iconClass="w-6 h-6 mb-2" />
         </div>
       </nav>
     </div>

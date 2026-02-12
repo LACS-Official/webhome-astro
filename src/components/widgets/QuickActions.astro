@@ -1,0 +1,163 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getPermalink } from '~/utils/permalinks';
+
+const actions = [
+  {
+    label: '商务合作',
+    icon: 'tabler:briefcase',
+    href: getPermalink('/contact'),
+    color: 'blue',
+  },
+  {
+    label: '软件定制',
+    icon: 'tabler:code',
+    href: getPermalink('/services'),
+    color: 'purple',
+  },
+  {
+    label: '远程刷机',
+    icon: 'tabler:device-mobile',
+    href: getPermalink('/ycsj'),
+    color: 'orange',
+  }
+];
+---
+
+<div class="fixed bottom-6 right-6 z-[99] flex flex-col gap-3 items-end pointer-events-none" id="quick-actions-container">
+  <!-- 功能按钮组 -->
+  <div id="quick-actions-list" class="flex flex-col gap-3 transition-all duration-500 origin-bottom">
+    {actions.map((action) => (
+      <a
+        href={action.href}
+        class="quick-action-btn group pointer-events-auto flex items-center gap-3 bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white/30 dark:border-slate-800/50 pl-4 pr-3 py-2 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+        aria-label={action.label}
+      >
+        <span class="text-sm font-black text-slate-800 dark:text-slate-100 whitespace-nowrap">
+          {action.label}
+        </span>
+        <div class={`w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform duration-300 group-hover:scale-110 ${
+          action.color === 'blue' ? 'bg-blue-600 shadow-blue-500/20' : 
+          action.color === 'purple' ? 'bg-purple-600 shadow-purple-500/20' : 
+          'bg-orange-600 shadow-orange-500/20'
+        }`}>
+          <Icon name={action.icon} class="w-5 h-5 font-bold" />
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- 控制按钮 (显示/隐藏) -->
+  <button
+    id="toggle-quick-actions"
+    class="pointer-events-auto w-12 h-12 rounded-2xl relative overflow-hidden bg-white/20 dark:bg-slate-900/40 backdrop-blur-2xl border border-white/40 dark:border-slate-700/50 text-slate-800 dark:text-white flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_32px_rgba(59,130,246,0.2)] transition-all duration-300 group active:scale-95"
+    title="显示/隐藏快捷按钮"
+  >
+    <!-- 内部液态光感渐变 -->
+    <div class="absolute inset-0 bg-gradient-to-tr from-blue-400/20 via-transparent to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+    <div class="absolute inset-0 bg-white/10 dark:bg-white/5 opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
+    
+    <div id="toggle-icon-close" class="relative z-10 transition-all duration-300 transform rotate-0 block">
+      <Icon name="tabler:x" class="w-6 h-6" />
+    </div>
+    <div id="toggle-icon-open" class="relative z-10 transition-all duration-300 transform rotate-180 hidden">
+      <Icon name="tabler:plus" class="w-6 h-6" />
+    </div>
+  </button>
+</div>
+
+<style>
+  .quick-action-btn {
+    min-height: 52px;
+  }
+
+  /* 基础动画优化 */
+  #quick-actions-list {
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* 级联延迟效果 */
+  #quick-actions-list a:nth-child(1) { transition-delay: 0.15s; }
+  #quick-actions-list a:nth-child(2) { transition-delay: 0.1s; }
+  #quick-actions-list a:nth-child(3) { transition-delay: 0.05s; }
+
+  /* 隐藏状态 */
+  .actions-hidden #quick-actions-list {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8) rotate(5deg);
+    pointer-events: none;
+    height: 0;
+    margin-bottom: -10px;
+    visibility: hidden;
+  }
+
+  /* 收回时取消延迟 */
+  .actions-hidden #quick-actions-list a {
+    transition-delay: 0s !important;
+  }
+
+  .quick-action-btn:hover {
+    background-color: rgba(255, 255, 255, 1);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateX(-5px) translateY(-2px) !important;
+  }
+
+  :global(.dark) .quick-action-btn:hover {
+    background-color: rgba(15, 23, 42, 1);
+    border-color: rgba(59, 130, 246, 0.5);
+  }
+
+  #toggle-quick-actions {
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  #toggle-quick-actions:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+</style>
+
+<script>
+  function initQuickActions() {
+    const container = document.getElementById('quick-actions-container');
+    const toggleBtn = document.getElementById('toggle-quick-actions');
+    const iconClose = document.getElementById('toggle-icon-close');
+    const iconOpen = document.getElementById('toggle-icon-open');
+
+    if (!toggleBtn || !container || !iconClose || !iconOpen) return;
+
+    // 从 sessionStorage 读取状态
+    const isHidden = sessionStorage.getItem('quick-actions-hidden') === 'true';
+    if (isHidden) {
+      container.classList.add('actions-hidden');
+      iconClose.classList.add('hidden');
+      iconClose.classList.remove('block');
+      iconOpen.classList.remove('hidden');
+      iconOpen.classList.add('block');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const currentlyHidden = container.classList.contains('actions-hidden');
+      
+      if (currentlyHidden) {
+        container.classList.remove('actions-hidden');
+        sessionStorage.setItem('quick-actions-hidden', 'false');
+        
+        iconClose.classList.remove('hidden');
+        iconClose.classList.add('block');
+        iconOpen.classList.remove('block');
+        iconOpen.classList.add('hidden');
+      } else {
+        container.classList.add('actions-hidden');
+        sessionStorage.setItem('quick-actions-hidden', 'true');
+        
+        iconClose.classList.remove('block');
+        iconClose.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconOpen.classList.add('block');
+      }
+    });
+  }
+
+  initQuickActions();
+  document.addEventListener('astro:after-swap', initQuickActions);
+</script>
