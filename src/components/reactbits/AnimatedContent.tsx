@@ -1,7 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ST from 'gsap/ScrollTrigger';
 
+const ScrollTrigger = (ST as any).ScrollTrigger || ST;
+
+// 为解决某些环境下的 SSR 导入问题，确保 ScrollTrigger 正确注册
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }

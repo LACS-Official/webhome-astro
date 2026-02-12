@@ -1,10 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText as GSAPSplitText } from 'gsap/SplitText';
+import ST from 'gsap/ScrollTrigger';
+import STPlugin from 'gsap/SplitText';
+import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger';
+import type { SplitText as SplitTextType } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
 
-gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+const ScrollTrigger = (ST as any).ScrollTrigger || ST;
+const GSAPSplitText = (STPlugin as any).SplitText || STPlugin;
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+}
 
 export interface SplitTextProps {
   text: string;
@@ -56,7 +63,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       if (!ref.current || !text || !fontsLoaded) return;
 
       const el = ref.current as HTMLElement & {
-        _rbsplitInstance?: GSAPSplitText;
+        _rbsplitInstance?: SplitTextType;
       };
 
       if (el._rbsplitInstance) {
@@ -78,7 +85,7 @@ const SplitText: React.FC<SplitTextProps> = ({
             : `+=${marginValue}${marginUnit}`;
       const start = `top ${startPct}%${sign}`;
       let targets: Element[] = [];
-      const assignTargets = (self: GSAPSplitText) => {
+      const assignTargets = (self: SplitTextType) => {
         if (splitType.includes('chars') && self.chars.length) targets = self.chars;
         if (!targets.length && splitType.includes('words') && self.words.length) targets = self.words;
         if (!targets.length && splitType.includes('lines') && self.lines.length) targets = self.lines;
@@ -92,7 +99,7 @@ const SplitText: React.FC<SplitTextProps> = ({
         wordsClass: 'split-word',
         charsClass: 'split-char',
         reduceWhiteSpace: false,
-        onSplit: (self: GSAPSplitText) => {
+        onSplit: (self: SplitTextType) => {
           assignTargets(self);
           return gsap.fromTo(
             targets,
