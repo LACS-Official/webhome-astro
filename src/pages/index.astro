@@ -13,33 +13,31 @@ import type { Project, Site, ApiSiteResponse } from '~/types';
 
 // 导入图片
 
+import { fetchWithRetry } from '~/utils/utils';
+
 // API 配置
 const API_BASE_URL = 'https://api-g.lacs.cc/api';
 
 // 获取项目数据
 let projectsData: Project[] = [];
 try {
-  const projectsResponse = await fetch(`${API_BASE_URL}/info-management/projects`);
-  if (projectsResponse.ok) {
+  const projectsResponse = await fetchWithRetry(`${API_BASE_URL}/info-management/projects`);
+  if (projectsResponse && projectsResponse.ok) {
     const projectsResult = await projectsResponse.json();
     if (projectsResult.success && projectsResult.data) {
       projectsData = projectsResult.data;
       console.log('成功获取项目数据，共', projectsData.length, '条记录');
-    } else {
-      console.warn('项目 API 返回数据格式异常:', projectsResult);
     }
-  } else {
-    console.error('项目 API 响应错误:', projectsResponse.status, projectsResponse.statusText);
   }
 } catch (error) {
-  console.error('获取项目数据失败:', error);
+  console.error('获取项目数据失败:', error instanceof Error ? error.message : error);
 }
 
 // 获取站点数据
 let sitesData: Site[] = [];
 try {
-  const sitesResponse = await fetch(`${API_BASE_URL}/websites`);
-  if (sitesResponse.ok) {
+  const sitesResponse = await fetchWithRetry(`${API_BASE_URL}/websites`);
+  if (sitesResponse && sitesResponse.ok) {
     const sitesResult = await sitesResponse.json();
     if (sitesResult.success && sitesResult.data && sitesResult.data.websites) {
       // 新的 API 结构：data.websites 包含站点数组
@@ -55,15 +53,10 @@ try {
         category: site.category || '网站',
       }));
       console.log('成功获取站点数据，共', sitesData.length, '条记录');
-      console.log('分页信息:', sitesResult.data.pagination);
-    } else {
-      console.warn('站点 API 返回数据格式异常:', sitesResult);
     }
-  } else {
-    console.error('站点 API 响应错误:', sitesResponse.status, sitesResponse.statusText);
   }
 } catch (error) {
-  console.error('获取站点数据失败:', error);
+  console.error('获取站点数据失败:', error instanceof Error ? error.message : error);
 }
 
 const metadata = {

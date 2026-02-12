@@ -39,38 +39,35 @@ interface Donation {
   message?: string;
 }
 
+import { fetchWithRetry } from '~/utils/utils';
+
 // 获取捐赠者数据
 let donationData: Donation[] = [];
 let apiError = false;
 
 try {
   // 直接从外部 API 获取捐赠数据
-  const response = await fetch('https://api-g.lacs.cc/api/donors');
+  const response = await fetchWithRetry('https://api-g.lacs.cc/api/donors');
 
-  if (response.ok) {
+  if (response && response.ok) {
     const result = await response.json();
     if (result.success && result.data) {
       donationData = result.data;
       console.log('成功获取捐赠数据，共', donationData.length, '条记录');
     } else {
-      console.warn('API 返回数据格式异常:', result);
       apiError = true;
     }
   } else {
-    console.error('API 响应错误:', response.status, response.statusText);
-    if (response.status === 401) {
-      console.error('API 需要身份验证，请检查 API 密钥或认证配置');
-    }
     apiError = true;
   }
 } catch (error) {
-  console.error('获取捐赠数据失败:', error);
+  console.error('获取捐赠数据失败:', error instanceof Error ? error.message : error);
   apiError = true;
 }
 
 // 如果 API 请求失败
 if (apiError || donationData.length === 0) {
-  console.log('api获取失败');
+  console.warn('捐赠 API 获取失败或无数据');
 }
 
 // 捐赠用途

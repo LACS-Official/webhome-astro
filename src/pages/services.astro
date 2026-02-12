@@ -39,7 +39,10 @@ const metadata = {
     tagline="专业软件外包服务"
     title="专业、高效的软件开发定制服务"
     subtitle="领创工作室为您提供从桌面端到移动端，从Web开发到自动化脚本的全方位技术解决方案。质量第一，按需交付。"
-    actions={[]}
+    image={{
+      src: servicesHero,
+      alt: 'Software Development',
+    }}
   >
     <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
       <a
@@ -57,13 +60,6 @@ const metadata = {
         探索范围
       </a>
     </div>
-    image={
-      {
-        src: servicesHero,
-        alt: 'Software Development',
-      }
-    }
-    >
     <Fragment slot="bg">
       <ParticleBackground />
     </Fragment>

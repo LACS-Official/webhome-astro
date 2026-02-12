@@ -41,64 +41,54 @@ interface GroupChat {
   joinLink: string;
 }
 
+import { fetchWithRetry } from '~/utils/utils';
+
 // API 配置
 const API_BASE_URL = 'https://api-g.lacs.cc/api/info-management';
 
 // 获取联系方式数据
 let contactInfoData: ContactInfo[] = [];
 try {
-  const contactResponse = await fetch(`${API_BASE_URL}/contact-info`);
-  if (contactResponse.ok) {
+  const contactResponse = await fetchWithRetry(`${API_BASE_URL}/contact-info`);
+  if (contactResponse && contactResponse.ok) {
     const contactResult = await contactResponse.json();
     if (contactResult.success && contactResult.data) {
       contactInfoData = contactResult.data;
       console.log('成功获取联系方式数据，共', contactInfoData.length, '条记录');
-    } else {
-      console.warn('联系方式 API 返回数据格式异常:', contactResult);
     }
-  } else {
-    console.error('联系方式 API 响应错误:', contactResponse.status, contactResponse.statusText);
   }
 } catch (error) {
-  console.error('获取联系方式数据失败:', error);
+  console.error('获取联系方式数据失败:', error instanceof Error ? error.message : error);
 }
 
 // 获取媒体平台数据
 let mediaPlatformsData: MediaPlatform[] = [];
 try {
-  const mediaResponse = await fetch(`${API_BASE_URL}/media-platforms`);
-  if (mediaResponse.ok) {
+  const mediaResponse = await fetchWithRetry(`${API_BASE_URL}/media-platforms`);
+  if (mediaResponse && mediaResponse.ok) {
     const mediaResult = await mediaResponse.json();
     if (mediaResult.success && mediaResult.data) {
       mediaPlatformsData = mediaResult.data;
       console.log('成功获取媒体平台数据，共', mediaPlatformsData.length, '条记录');
-    } else {
-      console.warn('媒体平台 API 返回数据格式异常:', mediaResult);
     }
-  } else {
-    console.error('媒体平台 API 响应错误:', mediaResponse.status, mediaResponse.statusText);
   }
 } catch (error) {
-  console.error('获取媒体平台数据失败:', error);
+  console.error('获取媒体平台数据失败:', error instanceof Error ? error.message : error);
 }
 
 // 获取群聊数据
 let groupChatsData: GroupChat[] = [];
 try {
-  const groupResponse = await fetch(`${API_BASE_URL}/group-chats`);
-  if (groupResponse.ok) {
+  const groupResponse = await fetchWithRetry(`${API_BASE_URL}/group-chats`);
+  if (groupResponse && groupResponse.ok) {
     const groupResult = await groupResponse.json();
     if (groupResult.success && groupResult.data) {
       groupChatsData = groupResult.data;
       console.log('成功获取群聊数据，共', groupChatsData.length, '条记录');
-    } else {
-      console.warn('群聊 API 返回数据格式异常:', groupResult);
     }
-  } else {
-    console.error('群聊 API 响应错误:', groupResponse.status, groupResponse.statusText);
   }
 } catch (error) {
-  console.error('获取群聊数据失败:', error);
+  console.error('获取群聊数据失败:', error instanceof Error ? error.message : error);
 }
 
 // 转换联系方式数据格式

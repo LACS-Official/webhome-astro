@@ -50,3 +50,34 @@ export const toUiAmount = (amount: number) => {
 
   return value;
 };
+
+/**
+ * 带超时控制的 fetch
+ */
+export async function fetchWithTimeout(url: string, options: RequestInit = {}, timeout = 8000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return response;
+  } catch (e) {
+    clearTimeout(id);
+    throw e;
+  }
+}
+
+/**
+ * 带重试机制的 fetch
+ */
+export async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 2, delay = 1000) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      return await fetchWithTimeout(url, options);
+    } catch (err) {
+      if (i === retries) throw err;
+      console.warn(`Fetch failed for ${url}, retrying (${i + 1}/${retries})...`, err instanceof Error ? err.message : '');
+      await new Promise((res) => setTimeout(res, delay));
+    }
+  }
+}
