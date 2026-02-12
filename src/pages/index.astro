@@ -1,6 +1,6 @@
 ---
 // 启用 SSR - 每次请求时动态渲染此页面
-export const prerender = false;
+export const prerender = true;
 
 import Layout from '~/layouts/PageLayout.astro';
 
@@ -97,7 +97,14 @@ const metadata = {
     class="hero-section relative min-h-[70vh] lg:h-screen w-full not-prose overflow-hidden flex items-center justify-center"
   >
     <!-- 视频背景（大屏幕） -->
-    <video autoplay muted playsinline loop class="hidden lg:block absolute inset-0 w-full h-full object-cover">
+    <video
+      autoplay
+      muted
+      playsinline
+      loop
+      poster="https://img-g.lacs.cc/file/lacswebsite/1770644464021_工作室背景_baizi.webp"
+      class="hidden lg:block absolute inset-0 w-full h-full object-cover"
+    >
       <source src="/videos/lacs_mg_noend.webm" type="video/webm" />
     </video>
 
