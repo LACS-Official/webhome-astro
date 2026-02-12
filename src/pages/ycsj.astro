@@ -8,6 +8,8 @@ import ContactMethods from '~/components/widgets/ContactMethods.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
 import ycsjHero from '~/assets/images/heroes/ycsj-hero.jpg';
+import AnimatedContent from '~/components/reactbits/AnimatedContent';
+import ShinyText from '~/components/reactbits/ShinyText';
 const metadata = {
   title: '远程刷机服务 - 领创工作室',
   description:
@@ -143,45 +145,52 @@ const contactMethods = [
     <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
       <a
         href="#contact"
-        data-magnetic
-        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         立即咨询
       </a>
       <a
         href="#process"
-        data-magnetic
-        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         了解流程
       </a>
     </div>
   </Hero>
   <!-- 联系方式-->
-  <ContactMethods
-    id="contact"
-    title="联系我们"
-    subtitle="多种联系方式，选择最适合您的沟通方式，我们的团队将尽快与您联系。"
-    tagline="联系方式"
-    contactMethods={contactMethods}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-gray-50 dark:bg-slate-800"></div>
-    </Fragment>
-  </ContactMethods>
+  <AnimatedContent client:visible distance={40}>
+    <ContactMethods
+      id="contact"
+      title="联系我们"
+      subtitle="多种联系方式，选择最适合您的沟通方式，我们的团队将尽快与您联系。"
+      tagline="联系方式"
+      contactMethods={contactMethods}
+    >
+      <Fragment slot="tagline">
+        <ShinyText client:load text="联系方式" speed={3} color="#3b82f6" />
+      </Fragment>
+      <Fragment slot="bg">
+        <div class="absolute inset-0 bg-gray-50 dark:bg-slate-800"></div>
+      </Fragment>
+    </ContactMethods>
+  </AnimatedContent>
 
-  <!-- 服务特色 -->
-  <Features
-    title="为什么选择我们的远程刷机服务"
-    subtitle="专业、安全、可靠的刷机服务，让您的设备焕然一新"
-    tagline="服务特色"
-    items={serviceFeatures}
-    columns={4}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
-    </Fragment>
-  </Features>
+  <AnimatedContent client:visible distance={40} delay={0.1}>
+    <Features
+      title="为什么选择我们的远程刷机服务"
+      subtitle="专业、安全、可靠的刷机服务，让您的设备焕然一新"
+      tagline="服务特色"
+      items={serviceFeatures}
+      columns={4}
+    >
+      <Fragment slot="tagline">
+        <ShinyText client:load text="服务特色" speed={3} color="#3b82f6" />
+      </Fragment>
+      <Fragment slot="bg">
+        <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+      </Fragment>
+    </Features>
+  </AnimatedContent>
 
   <!-- 刷机流程 -->
   <Steps

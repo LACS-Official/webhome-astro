@@ -3,6 +3,8 @@ import type { Sites as Props } from '~/types';
 import Headline from '~/components/ui/Headline.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import { Icon } from 'astro-icon/components';
+import AnimatedContent from '~/components/reactbits/AnimatedContent';
+import SpotlightCard from '~/components/reactbits/SpotlightCard';
 
 const {
   title = await Astro.slots.render('title'),
@@ -29,51 +31,57 @@ const getBgColorClass = (bgColor: string) => {
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} />
 
-  <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
+  <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8">
     {
-      sites.map((site) => (
-        <a href={site.link} target="_blank" rel="noopener noreferrer" class="group flex h-full">
-          <div class="relative flex flex-col w-full p-5 md:p-8 bg-[var(--glass-bg)] backdrop-blur-[var(--glass-blur)] rounded-[2rem] border border-[var(--glass-border)] shadow-[var(--shadow-boutique-lg)] hover:shadow-[var(--shadow-boutique-xl)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
-            <!-- 饰点 -->
-            <div class="absolute -right-4 -top-4 w-16 h-16 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
-            
-            <div class="flex items-center justify-between mb-5 relative z-10">
-              <div
-                class={`flex items-center justify-center w-10 h-10 md:w-16 md:h-16 rounded-2xl text-white shadow-[0_5px_15px_-5px_rgba(0,0,0,0.1)] relative overflow-hidden group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shrink-0 before:absolute before:inset-0 before:bg-gradient-to-br before:${getBgColorClass(site.bgColor)} before:opacity-100 after:absolute after:inset-0 after:bg-white/20 after:opacity-0 group-hover:after:opacity-100 after:transition-opacity`}
-              >
-                <div class="relative z-10 p-1 md:p-2">
-                  {site.logo ? (
-                    <img src={site.logo} alt={site.name} class="w-full h-full rounded-xl object-contain filter drop-shadow-md" />
-                  ) : (
-                    <Icon
-                      name={
-                        site.iconContent && /^[a-zA-Z0-9-]+$/.test(site.iconContent.replace('fa-', ''))
-                          ? `tabler:${site.iconContent.replace('fa-', '')}`
-                          : 'tabler:world'
-                      }
-                      class="w-6 h-6 md:w-9 md:h-9 text-white drop-shadow-md"
-                    />
-                  )}
+      sites.map((site, index) => (
+        <AnimatedContent client:visible delay={index * 0.05} distance={30}>
+          <a href={site.link} target="_blank" rel="noopener noreferrer" class="group flex h-full">
+            <SpotlightCard 
+              client:visible 
+              className="relative flex flex-col w-full p-4 md:p-8 hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+              spotlightColor="rgba(59, 130, 246, 0.15)"
+            >
+              <!-- 饰点 -->
+              <div class="absolute -right-4 -top-4 w-16 h-16 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
+              
+              <div class="flex items-center justify-between mb-5 relative z-10">
+                <div
+                  class={`flex items-center justify-center w-10 h-10 md:w-16 md:h-16 rounded-2xl text-white shadow-[0_5px_15px_-5px_rgba(0,0,0,0.1)] relative overflow-hidden group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shrink-0 before:absolute before:inset-0 before:bg-gradient-to-br before:${getBgColorClass(site.bgColor)} before:opacity-100 after:absolute after:inset-0 after:bg-white/20 after:opacity-0 group-hover:after:opacity-100 after:transition-opacity`}
+                >
+                  <div class="relative z-10 p-1 md:p-2">
+                    {site.logo ? (
+                      <img src={site.logo} alt={site.name} class="w-full h-full rounded-xl object-contain filter drop-shadow-md" />
+                    ) : (
+                      <Icon
+                        name={
+                          site.iconContent && /^[a-zA-Z0-9-]+$/.test(site.iconContent.replace('fa-', ''))
+                            ? `tabler:${site.iconContent.replace('fa-', '')}`
+                            : 'tabler:world'
+                        }
+                        class="w-6 h-6 md:w-9 md:h-9 text-white drop-shadow-md"
+                      />
+                    )}
+                  </div>
+                </div>
+                <div class="text-slate-300 dark:text-slate-600 group-hover:text-primary transition-colors transform group-hover:translate-x-1 duration-300">
+                  <Icon name="tabler:arrow-up-right" class="w-5 h-5 md:w-7 md:h-7" />
                 </div>
               </div>
-              <div class="text-slate-300 dark:text-slate-600 group-hover:text-primary transition-colors transform group-hover:translate-x-1 duration-300">
-                <Icon name="tabler:arrow-up-right" class="w-5 h-5 md:w-7 md:h-7" />
-              </div>
-            </div>
 
-            <div class="relative z-10 flex-grow">
-              <div class="overflow-x-auto no-scrollbar whitespace-nowrap md:whitespace-normal mask-fade-right">
-                <h3 class="text-base md:text-xl font-black text-slate-800 dark:text-white mb-2 group-hover:text-primary transition-colors tracking-tight">
-                  {site.name}
-                </h3>
-              </div>
+              <div class="relative z-10 flex-grow">
+                <div class="overflow-x-auto no-scrollbar whitespace-nowrap md:whitespace-normal mask-fade-right">
+                  <h3 class="text-base md:text-xl font-black text-slate-800 dark:text-white mb-2 group-hover:text-primary transition-colors tracking-tight">
+                    {site.name}
+                  </h3>
+                </div>
 
-              <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm leading-relaxed line-clamp-2 md:line-clamp-3 font-medium">
-                {site.description}
-              </p>
-            </div>
-          </div>
-        </a>
+                <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm leading-relaxed line-clamp-2 md:line-clamp-3 font-medium">
+                  {site.description}
+                </p>
+              </div>
+            </SpotlightCard>
+          </a>
+        </AnimatedContent>
       ))
     }
   </div>

@@ -139,10 +139,46 @@ const {
 </WidgetWrapper>
 
 <script>
+  function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-2xl shadow-2xl z-[10000] transition-all duration-300 transform translate-y-[-20px] opacity-0 font-bold';
+    toast.textContent = message;
+    document.body.appendChild(toast);
 
-  // 复制到剪贴板
+    // 动画入场
+    setTimeout(() => {
+      toast.classList.remove('translate-y-[-20px]', 'opacity-0');
+    }, 10);
+
+    // 3秒后自动移除
+    setTimeout(() => {
+      toast.classList.add('translate-y-[-20px]', 'opacity-0');
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 300);
+    }, 3000);
+  }
+
+  function fallbackCopyTextToClipboard(text, title) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      showToast(`${title}链接已复制到剪贴板`);
+    } catch (err) {
+      showToast('复制失败，请手动复制链接');
+    }
+    document.body.removeChild(textArea);
+  }
+
   function copyToClipboard(text, title) {
-    if (navigator.clipboard) {
+    if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(text).then(() => {
         showToast(`${title}链接已复制到剪贴板`);
       }).catch(() => {
@@ -153,44 +189,15 @@ const {
     }
   }
 
-  // 备用复制方法
-  function fallbackCopyTextToClipboard(text, title) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.top = "0";
-    textArea.style.left = "0";
-    textArea.style.position = "fixed";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-
-    try {
-      document.execCommand('copy');
-      showToast(`${title}链接已复制到剪贴板`);
-    } catch (err) {
-      showToast('复制失败，请手动复制链接');
-    }
-
-    document.body.removeChild(textArea);
+  // 绑定到 window 对象以便 onclick 调用
+  function initContactMethods() {
+    (window as any).copyToClipboard = copyToClipboard;
+    (window as any).showToast = showToast;
   }
 
-  // 显示提示消息
-  function showToast(message) {
-    // 创建提示元素
-    const toast = document.createElement('div');
-    toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-
-    // 3秒后自动移除
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      setTimeout(() => {
-        document.body.removeChild(toast);
-      }, 300);
-    }, 3000);
-  }
-
+  initContactMethods();
+  document.addEventListener('astro:page-load', initContactMethods);
+  document.addEventListener('astro:after-swap', initContactMethods);
 </script>
 
 <style>

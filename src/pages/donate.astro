@@ -9,6 +9,9 @@ import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
+import SpotlightCard from '~/components/reactbits/SpotlightCard';
+import AnimatedContent from '~/components/reactbits/AnimatedContent';
+import ShinyText from '~/components/reactbits/ShinyText';
 import donateHero from '~/assets/images/heroes/donate-hero.jpg';
 
 // 定义 ModalAction 接口
@@ -129,15 +132,13 @@ const supporterBenefits = [
     <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
       <a
         href="#donation-methods"
-        data-magnetic
-        class="bg-red-600 hover:bg-red-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-red-600 hover:bg-red-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         立即支持
       </a>
       <a
         href="#usage"
-        data-magnetic
-        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         了解用途
       </a>
@@ -155,82 +156,80 @@ const supporterBenefits = [
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 dark:text-white">扫码支持</h2>
-        <p class="text-xl text-slate-500 dark:text-slate-400 mb-16 max-w-2xl mx-auto">
+        <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-8 md:mb-16 max-w-2xl mx-auto">
           您的每一份心意，都是我们继续前行的燃料
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
           <!-- 微信卡片 -->
-          <div
-            class="group relative bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl border border-white/50 dark:border-slate-800/50 rounded-[2.5rem] p-10 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_20px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-          >
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-green-500/0 to-green-500/5 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-            >
-            </div>
-
-            <div
-              class="w-16 h-16 bg-green-500 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-lg shadow-green-500/30 overflow-hidden relative"
-            >
-              <i class="fab fa-weixin text-white text-3xl"></i>
-            </div>
-
-            <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">微信支付</h3>
-
-            <div
-              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500 cursor-pointer qr-code"
-              data-image="/images/qrcodes/wx.webp"
-              data-title="微信支付"
-              data-description="扫码向我付款"
+          <AnimatedContent client:visible distance={40} delay={0.1}>
+            <SpotlightCard
+              client:visible
+              spotlightColor="rgba(34, 197, 94, 0.1)"
+              className="relative flex flex-col w-full p-6 md:p-10 hover:-translate-y-2 transition-all duration-500 overflow-hidden text-center h-full"
             >
               <div
-                class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent rounded-3xl pointer-events-none"
+                class="w-16 h-16 bg-green-500 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-lg shadow-green-500/30 overflow-hidden relative"
               >
+                <i class="fab fa-weixin text-white text-3xl"></i>
               </div>
-              <img
-                src="/images/qrcodes/wx.webp"
-                alt="微信二维码"
-                class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
-            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest">Scan with WeChat</p>
-          </div>
+
+              <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">微信支付</h3>
+
+              <div
+                class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500 cursor-pointer qr-code"
+                data-image="/images/qrcodes/wx.webp"
+                data-title="微信支付"
+                data-description="扫码向我付款"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent rounded-3xl pointer-events-none"
+                >
+                </div>
+                <img
+                  src="/images/qrcodes/wx.webp"
+                  alt="微信二维码"
+                  class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
+                />
+              </div>
+              <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-auto">Scan with WeChat</p>
+            </SpotlightCard>
+          </AnimatedContent>
 
           <!-- 支付宝卡片 -->
-          <div
-            class="group relative bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl border border-white/50 dark:border-slate-800/50 rounded-[2.5rem] p-10 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_20px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-          >
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-500/5 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-            >
-            </div>
-
-            <div
-              class="w-16 h-16 bg-blue-500 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-lg shadow-blue-500/30 overflow-hidden relative"
-            >
-              <i class="fab fa-alipay text-white text-3xl"></i>
-            </div>
-
-            <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">支付宝</h3>
-
-            <div
-              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500 cursor-pointer qr-code"
-              data-image="/images/qrcodes/zfb.webp"
-              data-title="支付宝"
-              data-description="扫码向我付款"
+          <AnimatedContent client:visible distance={40} delay={0.2}>
+            <SpotlightCard
+              client:visible
+              spotlightColor="rgba(59, 130, 246, 0.1)"
+              className="relative flex flex-col w-full p-10 hover:-translate-y-2 transition-all duration-500 overflow-hidden text-center h-full"
             >
               <div
-                class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-3xl pointer-events-none"
+                class="w-16 h-16 bg-blue-500 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-lg shadow-blue-500/30 overflow-hidden relative"
               >
+                <i class="fab fa-alipay text-white text-3xl"></i>
               </div>
-              <img
-                src="/images/qrcodes/zfb.webp"
-                alt="支付宝二维码"
-                class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
-            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest">Scan with Alipay</p>
-          </div>
+
+              <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">支付宝</h3>
+
+              <div
+                class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500 cursor-pointer qr-code"
+                data-image="/images/qrcodes/zfb.webp"
+                data-title="支付宝"
+                data-description="扫码向我付款"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-3xl pointer-events-none"
+                >
+                </div>
+                <img
+                  src="/images/qrcodes/zfb.webp"
+                  alt="支付宝二维码"
+                  class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
+                />
+              </div>
+              <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-auto">Scan with Alipay</p>
+            </SpotlightCard>
+          </AnimatedContent>
         </div>
       </div>
     </div>
@@ -280,19 +279,24 @@ const supporterBenefits = [
     </div>
   </section>
 
-  <!-- 资金用途 -->
-  <Features
-    id="usage"
-    title="资金使用透明化"
-    subtitle="您的每一分支持都将用于以下方面"
-    tagline="资金用途"
-    items={donationUsage.map((usage) => ({
-      title: usage.title,
-      description: `${usage.description}<br><span class="text-primary font-bold">${usage.percentage}</span>`,
-      icon: usage.icon,
-    }))}
-    columns={4}
-  />
+  <AnimatedContent client:visible distance={40}>
+    <Features
+      id="usage"
+      title="资金使用透明化"
+      subtitle="您的每一分支持都将用于以下方面"
+      tagline="资金用途"
+      items={donationUsage.map((usage) => ({
+        title: usage.title,
+        description: `${usage.description}<br><span class="text-primary font-bold">${usage.percentage}</span>`,
+        icon: usage.icon,
+      }))}
+      columns={4}
+    >
+      <Fragment slot="tagline">
+        <ShinyText client:load text="资金用途" speed={3} color="#ef4444" />
+      </Fragment>
+    </Features>
+  </AnimatedContent>
 
   <!-- 支持者权益 -->
   <Content title="支持者专属权益" subtitle="感谢您的支持，我们为支持者准备了专属权益" items={supporterBenefits}>
@@ -334,36 +338,40 @@ const supporterBenefits = [
   <!-- 模态框 -->
   <Modal />
 
-  <!-- 二维码点击处理 -->
   <script>
-    function initDonationQR() {
-      // 绑定二维码点击事件
-      const qrCodes = document.querySelectorAll('.qr-code');
-      qrCodes.forEach((code) => {
-        code.addEventListener('click', function () {
-          const image = this.dataset.image;
-          const title = this.dataset.title;
-          const description = this.dataset.description;
+    // 使用委托处理二维码点击
+    function handleDonationQRClick(e) {
+      const qrTarget = e.target.closest('.qr-code');
+      if (!qrTarget) return;
 
-          // 调用 showModal
-          if (window.showModal) {
-            window.showModal(image, title, description, [
-              {
-                href: image,
-                target: '_blank',
-                text: '下载二维码',
-                icon: 'fas fa-download',
-              },
-            ]);
-          }
-        });
-      });
+      const image = qrTarget.dataset.image;
+      const title = qrTarget.dataset.title;
+      const description = qrTarget.dataset.description;
+
+      console.log('Donation QR clicked (delegated):', { image, title, description });
+
+      if (window.showModal) {
+        window.showModal(image, title, description, [
+          {
+            href: image,
+            target: '_blank',
+            text: '下载二维码',
+            icon: 'fas fa-download',
+          },
+        ]);
+      }
+    }
+
+    function setupDonationQRDelegation() {
+      document.removeEventListener('click', handleDonationQRClick);
+      document.addEventListener('click', handleDonationQRClick);
+      console.log('Donation QR delegation setup completed');
     }
 
     // 页面加载或切换后初始化
-    initDonationQR();
-    document.addEventListener('astro:page-load', initDonationQR);
-    document.addEventListener('astro:after-swap', initDonationQR);
+    setupDonationQRDelegation();
+    document.addEventListener('astro:page-load', setupDonationQRDelegation);
+    document.addEventListener('astro:after-swap', setupDonationQRDelegation);
   </script>
 </Layout>
 

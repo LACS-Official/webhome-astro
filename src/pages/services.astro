@@ -8,6 +8,8 @@ import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import ParticleBackground from '~/components/ParticleBackground.astro';
 import servicesHero from '~/assets/images/heroes/services-hero.jpg';
+import AnimatedContent from '~/components/reactbits/AnimatedContent';
+import ShinyText from '~/components/reactbits/ShinyText';
 
 const metadata = {
   title: '软件外包服务',
@@ -47,15 +49,13 @@ const metadata = {
     <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
       <a
         href="/contact"
-        data-magnetic
-        class="bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[0_0_20px_rgba(79,70,229,0.3)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[0_0_20px_rgba(79,70,229,0.3)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         在线咨询 / 获取报价
       </a>
       <a
         href="#services"
-        data-magnetic
-        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         探索范围
       </a>
@@ -67,96 +67,108 @@ const metadata = {
 
   <!-- Features2 Widget ************** -->
 
-  <Features2
-    id="services"
-    title="我们的服务范围"
-    subtitle="我们要做的不仅仅是代码，更是为您创造价值"
-    items={[
-      {
-        title: '桌面端开发',
-        description:
-          'Windows桌面应用（Python/PySide6、Electron、Tauri）、系统工具、自动化脚本、桌面管理应用。拥丰富的CSMT、ADMT等工具开发经验。',
-        icon: 'tabler:device-desktop',
-      },
-      {
-        title: '移动端开发',
-        description: 'Android原生应用开发、Magisk模块开发、系统美化工具等。我们在安卓玩机领域拥有深厚的积累。',
-        icon: 'tabler:device-mobile',
-      },
-      {
-        title: 'Web 开发',
-        description: '企业官网建设、个人博客搭建、后台管理系统开发以及响应式网站设计。',
-        icon: 'tabler:world',
-      },
-      {
-        title: '定制脚本',
-        description: '自动化办公脚本、数据处理工具、批量操作工具，助您提升工作效率，解放双手。',
-        icon: 'tabler:script',
-      },
-      {
-        title: '后端/API 开发',
-        description: '高性能后端服务、RESTful API 接口开发、服务器部署与运维。',
-        icon: 'tabler:server',
-      },
-      {
-        title: '数据采集与分析',
-        description: '网络爬虫、数据清洗、数据可视化报表生成，助您挖掘数据价值。',
-        icon: 'tabler:chart-dots',
-      },
-    ]}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Features2>
+  <AnimatedContent client:visible distance={40}>
+    <Features2
+      id="services"
+      title="我们的服务范围"
+      subtitle="我们要做的不仅仅是代码，更是为您创造价值"
+      tagline="服务范围"
+      items={[
+        {
+          title: '桌面端开发',
+          description:
+            'Windows桌面应用（Python/PySide6、Electron、Tauri）、系统工具、自动化脚本、桌面管理应用。拥丰富的CSMT、ADMT等工具开发经验。',
+          icon: 'tabler:device-desktop',
+        },
+        {
+          title: '移动端开发',
+          description: 'Android原生应用开发、Magisk模块开发、系统美美化工具等。我们在安卓玩机领域拥有深厚的积累。',
+          icon: 'tabler:device-mobile',
+        },
+        {
+          title: 'Web 开发',
+          description: '企业官网建设、个人博客搭建、后台管理系统开发以及响应式网站设计。',
+          icon: 'tabler:world',
+        },
+        {
+          title: '定制脚本',
+          description: '自动化办公脚本、数据处理工具、批量操作工具，助您提升工作效率，解放双手。',
+          icon: 'tabler:script',
+        },
+        {
+          title: '后端/API 开发',
+          description: '高性能后端服务、RESTful API 接口开发、服务器部署与运维。',
+          icon: 'tabler:server',
+        },
+        {
+          title: '数据采集与分析',
+          description: '网络爬虫、数据清洗、数据可视化报表生成，助您挖掘数据价值。',
+          icon: 'tabler:chart-dots',
+        },
+      ]}
+    >
+      <Fragment slot="tagline">
+        <ShinyText client:load text="服务范围" speed={3} color="#6366f1" />
+      </Fragment>
+      <Fragment slot="bg">
+        <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+      </Fragment>
+    </Features2>
+  </AnimatedContent>
 
-  <Features2
-    title="我们的技术栈"
-    subtitle="使用主流且稳定的技术，确保项目的可维护性与高性能"
-    columns={4}
-    items={[
-      {
-        title: 'Python',
-        description: 'PySide6, Tkinter, 自动化脚本, Flask/Django',
-        icon: 'tabler:brand-python',
-      },
-      {
-        title: 'JavaScript / TypeScript',
-        description: 'Electron, Tauri, React, Node.js',
-        icon: 'tabler:brand-javascript',
-      },
-      {
-        title: 'Java',
-        description: 'Android 原生开发, Spring Boot 后端',
-        icon: 'tabler:coffee',
-      },
-      {
-        title: 'Rust',
-        description: '高性能系统工具, Tauri 后端',
-        icon: 'tabler:brand-rust',
-      },
-      {
-        title: 'Android',
-        description: 'Java / Kotlin, Magisk模块, Xposed',
-        icon: 'tabler:brand-android',
-      },
-      {
-        title: '前端技术',
-        description: 'Astro, TailwindCSS, HTML/CSS/JS',
-        icon: 'tabler:brand-html5',
-      },
-      {
-        title: '系统自动化',
-        description: '批处理 (Batch), PowerShell, Shell',
-        icon: 'tabler:terminal',
-      },
-      {
-        title: '设计与体验',
-        description: 'UI/UX 设计, 响应式布局, Figma',
-        icon: 'tabler:palette',
-      },
-    ]}
-  />
+  <AnimatedContent client:visible distance={40} delay={0.2}>
+    <Features2
+      title="我们的技术栈"
+      subtitle="使用主流且稳定的技术，确保项目的可维护性与高性能"
+      columns={4}
+      items={[
+        {
+          title: 'Python',
+          description: 'PySide6, Tkinter, 自动化脚本, Flask/Django',
+          icon: 'tabler:brand-python',
+        },
+        {
+          title: 'JavaScript / TypeScript',
+          description: 'Electron, Tauri, React, Node.js',
+          icon: 'tabler:brand-javascript',
+        },
+        {
+          title: 'Java',
+          description: 'Android 原生开发, Spring Boot 后端',
+          icon: 'tabler:coffee',
+        },
+        {
+          title: 'Rust',
+          description: '高性能系统工具, Tauri 后端',
+          icon: 'tabler:brand-rust',
+        },
+        {
+          title: 'Android',
+          description: 'Java / Kotlin, Magisk模块, Xposed',
+          icon: 'tabler:brand-android',
+        },
+        {
+          title: '前端技术',
+          description: 'Astro, TailwindCSS, HTML/CSS/JS',
+          icon: 'tabler:brand-html5',
+        },
+        {
+          title: '系统自动化',
+          description: '批处理 (Batch), PowerShell, Shell',
+          icon: 'tabler:terminal',
+        },
+        {
+          title: '设计与体验',
+          description: 'UI/UX 设计, 响应式布局, Figma',
+          icon: 'tabler:palette',
+        },
+      ]}
+    >
+      <Fragment slot="tagline">
+        <ShinyText client:load text="技术实力" speed={4} color="#6366f1" />
+      </Fragment>
+    </Features2>
+  </AnimatedContent>
 
   <!-- Steps Widget ****************** -->
 

@@ -11,6 +11,9 @@ import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
 import Skeleton from '~/components/ui/Skeleton.astro';
 import { Icon } from 'astro-icon/components';
+import SpotlightCard from '~/components/reactbits/SpotlightCard';
+import AnimatedContent from '~/components/reactbits/AnimatedContent';
+import ShinyText from '~/components/reactbits/ShinyText';
 import contactHero from '~/assets/images/heroes/contact-hero.jpg';
 
 // 定义类型接口
@@ -133,15 +136,13 @@ const metadata = {
     <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
       <a
         href="#contact-methods"
-        data-magnetic
-        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         立即联系
       </a>
       <a
         href="#media-platforms"
-        data-magnetic
-        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
       >
         关注我们
       </a>
@@ -151,33 +152,36 @@ const metadata = {
   <!-- Modal Component -->
   <Modal />
 
-  <!-- 联系方式 -->
-  <Features
-    id="contact-methods"
-    title="联系我们"
-    subtitle="选择您喜欢的方式与我们取得联系"
-    tagline="沟通渠道"
-    items={contactMethods.map((method) => ({
-      title: method.title,
-      description: `${method.description}<br><strong class="text-primary dark:text-blue-400">${method.info}</strong>`,
-      icon: method.icon,
-      class: 'hover:shadow-lg hover:-translate-y-1 transition-all duration-300',
-      callToAction: {
-        text: '立即联系',
-        href: method.action,
-        target: method.action.startsWith('http') ? '_blank' : '_self',
-        variant: 'primary',
-        class: 'group',
-      },
-    }))}
-    columns={3}
-    mobileColumns={2}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900">
-      </div>
-    </Fragment>
-  </Features>
+  <AnimatedContent client:visible distance={40}>
+    <Features
+      id="contact-methods"
+      title="联系我们"
+      subtitle="选择您喜欢的方式与我们取得联系"
+      tagline="沟通渠道"
+      items={contactMethods.map((method) => ({
+        title: method.title,
+        description: `${method.description}<br><strong class="text-primary dark:text-blue-400">${method.info}</strong>`,
+        icon: method.icon,
+        class: 'hover:shadow-lg hover:-translate-y-1 transition-all duration-300',
+        callToAction: {
+          text: '立即联系',
+          href: method.action,
+          target: method.action.startsWith('http') ? '_blank' : '_self',
+          variant: 'primary',
+          class: 'group',
+        },
+      }))}
+      columns={3}
+    >
+      <Fragment slot="tagline">
+        <ShinyText client:load text="沟通渠道" speed={3} color="#3b82f6" />
+      </Fragment>
+      <Fragment slot="bg">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900">
+        </div>
+      </Fragment>
+    </Features>
+  </AnimatedContent>
 
   <!-- 媒体平台 -->
   <section id="media-platforms" class="py-16 md:py-20 relative">
@@ -192,59 +196,64 @@ const metadata = {
         <p class="text-xl text-muted max-w-2xl mx-auto">获取最新资讯、技术分享和项目动态</p>
       </div>
 
-      <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
         {
           mediaPlatformsData.length > 0 ? (
-            mediaPlatformsData.map((platform) => (
-              <div class="group relative bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden">
-                {/* ... existing card content ... */}
-                <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>
-                
-                <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-4 md:mb-6 relative z-10">
-                  <div class="relative mb-3 md:mb-0">
-                    <div class="absolute inset-0 bg-blue-500/20 blur-lg rounded-full scale-0 group-hover:scale-110 transition-transform duration-500"></div>
-                    <img
-                      src={platform.logo}
-                      alt={platform.name}
-                      class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl relative z-10 object-cover shadow-sm border border-white/50 dark:border-slate-700/50"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div class="md:ml-4 flex-grow min-w-0 w-full">
-                    <h3 class="text-sm md:text-xl font-black text-slate-800 dark:text-white mb-0.5 md:mb-1 truncate">
-                      {platform.name}
-                    </h3>
-                    <div class="flex items-center justify-center md:justify-start text-[10px] md:text-sm font-medium text-blue-600 dark:text-blue-400">
-                      <span class="truncate">@{platform.account}</span>
+            mediaPlatformsData.map((platform, index) => (
+              <AnimatedContent client:visible delay={index * 0.05} distance={30}>
+                <SpotlightCard 
+                  client:visible 
+                  className="group relative backdrop-blur-md rounded-2xl md:rounded-3xl p-3 sm:p-6 hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full"
+                  spotlightColor="rgba(59, 130, 246, 0.1)"
+                >
+                  <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>
+                  
+                  <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-4 md:mb-6 relative z-10">
+                    <div class="relative mb-3 md:mb-0">
+                      <div class="absolute inset-0 bg-blue-500/20 blur-lg rounded-full scale-0 group-hover:scale-110 transition-transform duration-500"></div>
+                      <img
+                        src={platform.logo}
+                        alt={platform.name}
+                        class="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl relative z-10 object-cover shadow-sm border border-white/50 dark:border-slate-700/50"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="md:ml-4 flex-grow min-w-0 w-full">
+                      <h3 class="text-sm md:text-xl font-black text-slate-800 dark:text-white mb-0.5 md:mb-1 truncate">
+                        {platform.name}
+                      </h3>
+                      <div class="flex items-center justify-center md:justify-start text-[10px] md:text-sm font-medium text-blue-600 dark:text-blue-400">
+                        <span class="truncate">@{platform.account}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="flex flex-col md:flex-row gap-2 relative z-10 mt-auto">
-                  <button
-                    class="qr-button flex-1 group/btn relative overflow-hidden bg-slate-800 dark:bg-slate-700 text-white px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 shadow-lg shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
-                    data-qrcode={platform.qrcode}
-                    data-title={platform.qrcodeTitle || platform.name}
-                    data-description={platform.qrcodeDesc || '扫码关注平台'}
-                    data-link={platform.link}
-                    type="button"
-                  >
-                    <span class="relative z-10 flex items-center">
-                      <Icon name="tabler:qrcode" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
-                      <span>查看码</span>
-                    </span>
-                  </button>
-                  <a
-                    href={platform.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="flex-1 bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
-                  >
-                    <Icon name="tabler:external-link" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
-                    访问
-                  </a>
-                </div>
-              </div>
+                  <div class="flex flex-col md:flex-row gap-2 relative z-10 mt-auto">
+                    <button
+                      class="qr-button flex-1 group/btn relative overflow-hidden bg-slate-800 dark:bg-slate-700 text-white px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 shadow-lg shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
+                      data-qrcode={platform.qrcode}
+                      data-title={platform.qrcodeTitle || platform.name}
+                      data-description={platform.qrcodeDesc || '扫码关注平台'}
+                      data-link={platform.link}
+                      type="button"
+                    >
+                      <span class="relative z-10 flex items-center">
+                        <Icon name="tabler:qrcode" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
+                        <span>查看码</span>
+                      </span>
+                    </button>
+                    <a
+                      href={platform.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex-1 bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
+                    >
+                      <Icon name="tabler:external-link" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
+                      访问
+                    </a>
+                  </div>
+                </SpotlightCard>
+              </AnimatedContent>
             ))
           ) : (
             Array.from({ length: 6 }).map(() => (
@@ -288,44 +297,50 @@ const metadata = {
 
       <div class="grid grid-cols-2 gap-4 md:gap-8 max-w-5xl mx-auto">
         {
-          groupChatsData.map((group) => (
-            <div class="group relative bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl rounded-[2rem] p-4 md:p-8 border border-white dark:border-slate-800 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_10px_30px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-500 flex flex-col overflow-hidden">
-              <!-- 背景抽象饰纹 -->
-              <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors"></div>
-              
-              <div class="flex flex-col md:flex-row items-center md:items-start mb-6 relative z-10">
-                <!-- 非对称图标容器 -->
-                <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-[1.5rem] mr-0 md:mr-6 bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-4 md:mb-0 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-xl shadow-blue-500/20">
-                  <Icon name="tabler:brand-qq" class="w-8 h-8 md:w-12 md:h-12 text-white" />
-                </div>
-                <div class="flex-grow text-center md:text-left overflow-hidden">
-                  <h3 class="text-base md:text-2xl font-black text-slate-800 dark:text-white mb-1 truncate">{group.name}</h3>
-                  <div class="flex flex-col gap-1">
-                    {group.limit && <p class="text-[10px] md:text-sm font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-tighter">{group.limit}</p>}
-                    <p class="text-[10px] md:text-xs text-slate-400 font-medium">官方合规交流群</p>
+          groupChatsData.map((group, index) => (
+            <AnimatedContent client:visible delay={index * 0.1} distance={30}>
+              <SpotlightCard 
+                client:visible 
+                className="group relative backdrop-blur-xl rounded-[2rem] p-3 sm:p-6 hover:-translate-y-2 transition-all duration-500 flex flex-col overflow-hidden h-full"
+                spotlightColor="rgba(59, 130, 246, 0.1)"
+              >
+                <!-- 背景抽象饰纹 -->
+                <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors"></div>
+                
+                <div class="flex flex-col md:flex-row items-center md:items-start mb-6 relative z-10">
+                  <!-- 非对称图标容器 -->
+                  <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-[1.5rem] mr-0 md:mr-6 bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-4 md:mb-0 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-xl shadow-blue-500/20">
+                    <Icon name="tabler:brand-qq" class="w-8 h-8 md:w-12 md:h-12 text-white" />
+                  </div>
+                  <div class="flex-grow text-center md:text-left overflow-hidden">
+                    <h3 class="text-base md:text-2xl font-black text-slate-800 dark:text-white mb-1 truncate">{group.name}</h3>
+                    <div class="flex flex-col gap-1">
+                      {group.limit && <p class="text-[10px] md:text-sm font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-tighter">{group.limit}</p>}
+                      <p class="text-[10px] md:text-xs text-slate-400 font-medium">官方合规交流群</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="flex flex-col md:flex-row gap-3 w-full mt-auto relative z-10">
-                <button
-                  class="flex-1 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-800 dark:border-white shadow-lg hover:shadow-xl active:scale-95"
-                  onclick={`showModal('${group.qrcode}', '${group.name}', '扫码加入群聊', [{text: '直接加入', href: '${group.joinLink}', target: '_blank', icon: 'fas fa-user-plus'}])`}
-                >
-                  <Icon name="tabler:qrcode" class="w-5 h-5 mr-2" />
-                  查看码
-                </button>
-                <a
-                  href={group.joinLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex-1 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm active:scale-95"
-                >
-                  <Icon name="tabler:user-plus" class="w-5 h-5 mr-2" />
-                  加入群
-                </a>
-              </div>
-            </div>
+                <div class="flex flex-col md:flex-row gap-3 w-full mt-auto relative z-10">
+                  <button
+                    class="flex-1 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-800 dark:border-white shadow-lg hover:shadow-xl active:scale-95"
+                    onclick={`showModal('${group.qrcode}', '${group.name}', '扫码加入群聊', [{text: '直接加入', href: '${group.joinLink}', target: '_blank', icon: 'fas fa-user-plus'}])`}
+                  >
+                    <Icon name="tabler:qrcode" class="w-5 h-5 mr-2" />
+                    查看码
+                  </button>
+                  <a
+                    href={group.joinLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex-1 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm active:scale-95"
+                  >
+                    <Icon name="tabler:user-plus" class="w-5 h-5 mr-2" />
+                    加入群
+                  </a>
+                </div>
+              </SpotlightCard>
+            </AnimatedContent>
           ))
         }
       </div>
@@ -388,39 +403,43 @@ const metadata = {
 
   <!-- 二维码按钮事件处理 -->
   <script>
-    // 初始化二维码按钮
-    function initQRButtons() {
-      const qrButtons = document.querySelectorAll('.qr-button');
-      console.log('Found QR buttons:', qrButtons.length);
+    // 初始化二维码按钮处理 (使用委托)
+    function handleQRClick(e) {
+      const button = e.target.closest('.qr-button');
+      if (!button) return;
 
-      qrButtons.forEach((button) => {
-        button.addEventListener('click', function (e) {
-          e.preventDefault();
-          const qrcode = this.dataset.qrcode;
-          const title = this.dataset.title;
-          const description = this.dataset.description;
-          const link = this.dataset.link;
+      e.preventDefault();
+      const qrcode = button.dataset.qrcode;
+      const title = button.dataset.title;
+      const description = button.dataset.description;
+      const link = button.dataset.link;
 
-          console.log('QR button clicked:', { qrcode, title, description, link });
-          // 使用全局showModal函数显示二维码弹窗
-          if (window.showModal) {
-            window.showModal(qrcode, title, description, [
-              {
-                text: '访问链接',
-                href: link,
-                target: '_blank',
-                icon: 'fas fa-external-link-alt',
-              },
-            ]);
-          }
-        });
-      });
+      console.log('QR button clicked (delegated):', { qrcode, title, description, link });
+      
+      // 使用增强版弹窗显示二维码
+      if (window.showModal) {
+        window.showModal(qrcode, title, description, [
+          {
+            text: '访问链接',
+            href: link,
+            target: '_blank',
+            icon: 'fas fa-external-link-alt',
+          },
+        ]);
+      }
     }
 
-    // 页面加载完成后执行
-    initQRButtons();
+    function setupQRDelegation() {
+      // 移除旧的监听器并添加新的
+      document.removeEventListener('click', handleQRClick);
+      document.addEventListener('click', handleQRClick);
+      console.log('QR event delegation setup completed');
+    }
+
+    // 页面加载或切换后初始化
+    setupQRDelegation();
     
-    document.addEventListener('astro:page-load', initQRButtons);
-    document.addEventListener('astro:after-swap', initQRButtons);
+    document.addEventListener('astro:page-load', setupQRDelegation);
+    document.addEventListener('astro:after-swap', setupQRDelegation);
   </script>
 </Layout>

@@ -9,6 +9,10 @@ import Projects from '~/components/widgets/Projects.astro';
 import Sites from '~/components/widgets/Sites.astro';
 import Modal from '~/components/Modal.astro';
 import HonorCarousel from '~/components/widgets/HonorCarousel.astro';
+import Waves from '~/components/reactbits/Waves';
+import TrueFocus from '~/components/reactbits/TrueFocus';
+import SpotlightCard from '~/components/reactbits/SpotlightCard';
+import ShinyText from '~/components/reactbits/ShinyText';
 import type { Project, Site, ApiSiteResponse } from '~/types';
 
 // 导入图片
@@ -101,14 +105,14 @@ const metadata = {
       <source src="/videos/lacs_mg_noend.webm" type="video/webm" />
     </video>
 
-    <!-- 渐变背景（小屏幕和中屏幕） -->
-    <div class="absolute inset-0 bg-slate-950 lg:hidden">
-      <!-- 动态网格纹理 -->
-      <div
-        class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"
-      >
-      </div>
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-slate-950 to-slate-950"></div>
+    <!-- 动态波纹背景 (ReactBits) -->
+    <div class="absolute inset-0 pointer-events-none">
+      <Waves client:load lineColor="rgba(59, 130, 246, 0.2)" backgroundColor="transparent" />
+    </div>
+
+    <!-- 渐变背景（小屏幕和中屏幕 - 修改为白色主题以匹配全局） -->
+    <div class="absolute inset-0 bg-white dark:bg-slate-950 lg:hidden -z-10">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-white dark:from-blue-900/10 dark:via-slate-950 dark:to-slate-950"></div>
     </div>
 
     <!-- 背景装饰光斑 -->
@@ -128,9 +132,9 @@ const metadata = {
     <div class="hidden lg:block absolute inset-0 bg-slate-900/50"></div>
 
     <!-- 主要内容 -->
-    <div class="relative w-full px-4 sm:px-6 lg:px-8 z-10 py-20 lg:py-0">
+    <div class="relative w-full px-4 sm:px-6 lg:px-8 z-10 py-12 lg:py-0">
       <div
-        class="text-center max-w-4xl mx-auto bg-white/5 dark:bg-slate-900/40 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform transition-all duration-700"
+        class="text-center max-w-4xl mx-auto bg-white/70 dark:bg-slate-900/40 lg:bg-white/5 backdrop-blur-xl p-6 md:p-12 rounded-[2rem] md:rounded-[3.5rem] border border-slate-200/50 dark:border-white/10 lg:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.05)] lg:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform transition-all duration-700"
       >
         <!-- 标语图片 (带浮动动画) -->
         <div class="mb-8 md:mb-12">
@@ -143,38 +147,39 @@ const metadata = {
           />
         </div>
 
-        <!-- 主标题 -->
+        <!-- 主标题 (ReactBits TrueFocus) -->
         <h1
-          class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tighter mb-6 text-white"
+          class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tighter mb-6 text-slate-900 dark:text-white lg:text-white"
         >
-          专注于数码科技与<br class="hidden sm:block" />
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400">
-            创意内容
-          </span>
-          领域
+          <TrueFocus
+            client:load
+            sentence="专注于数码科技与创意内容领域"
+            borderColor="rgba(59, 130, 246, 1)"
+            glowColor="rgba(59, 130, 246, 0.4)"
+            blurAmount={4}
+            pauseBetweenAnimations={2}
+          />
         </h1>
 
         <!-- 副标题 -->
         <p
-          class="text-base sm:text-lg md:text-xl text-slate-300/90 mb-10 max-w-2xl mx-auto font-medium leading-relaxed"
+          class="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 lg:text-slate-300/90 mb-10 max-w-2xl mx-auto font-medium leading-relaxed"
         >
           致力于移动设备工具开发与数字内容创作的创新团队<br class="hidden md:block" />
           为您提供高质量的软件工具与技术解决方案
         </p>
 
-        <!-- 行动召唤按钮 -->
+        <!-- 行动召唤按钮 (ReactBits Magnet) -->
         <div class="flex flex-col sm:flex-row gap-5 justify-center">
           <a
             href="#projects"
-            data-magnetic
-            class="bg-blue-600 hover:bg-blue-500 text-white px-12 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+            class="bg-blue-600 hover:bg-blue-500 text-white px-12 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
           >
             查看项目
           </a>
           <a
             href="#sites"
-            data-magnetic
-            class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-12 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center"
+            class="bg-white/5 lg:bg-white/5 backdrop-blur-[var(--glass-blur)] text-slate-800 dark:text-white lg:text-white border border-slate-200 dark:border-[var(--glass-border)] lg:border-[var(--glass-border)] hover:bg-slate-100 dark:hover:bg-white/10 hover:border-slate-300 px-12 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
           >
             探索分站
           </a>
@@ -202,6 +207,9 @@ const metadata = {
     tagline="项目展示"
     projects={projectsData}
   >
+    <Fragment slot="tagline">
+      <ShinyText client:load text="项目展示" speed={3} color="#60a5fa" />
+    </Fragment>
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
     </Fragment>
@@ -215,11 +223,18 @@ const metadata = {
     subtitle="探索领创工作室旗下的各个专业平台"
     tagline="分站导航"
     sites={sitesData}
-  />
+  >
+    <Fragment slot="tagline">
+      <ShinyText client:load text="分站导航" speed={3} color="#60a5fa" />
+    </Fragment>
+  </Sites>
 
   <!-- About Widget ******************* -->
 
   <Content id="about" title="关于领创工作室" subtitle="我们是一个专注于数码科技领域的创新团队" tagline="关于我们">
+    <Fragment slot="tagline">
+      <ShinyText client:load text="关于我们" speed={3} color="#60a5fa" />
+    </Fragment>
     <Fragment slot="content">
       <div class="mb-6 md:mb-12">
         <p class="text-base md:text-lg dark:text-slate-400 mb-6 md:mb-8">
@@ -234,10 +249,8 @@ const metadata = {
           </div>
 
           <!-- 2020-2021 -->
-          <div
-            class="group/bento bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 p-6 rounded-3xl shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
-          >
-            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute -top-2 right-4 select-none">
+          <SpotlightCard client:visible className="p-6">
+            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-4 right-4 select-none">
               2020/21
             </div>
             <h4 class="font-bold text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -246,13 +259,11 @@ const metadata = {
             <p class="text-sm dark:text-slate-400 leading-relaxed">
               工作室正式成立。在这两年间，我们从安卓开发起步，并为仙龙阁、智简云等多个品牌提供专业的 Logo 与视觉设计。
             </p>
-          </div>
+          </SpotlightCard>
 
           <!-- 2022-2023 -->
-          <div
-            class="group/bento bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 p-6 rounded-3xl shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 md:translate-y-8"
-          >
-            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute -top-2 right-4 select-none">
+          <SpotlightCard client:visible className="p-6 md:translate-y-8">
+            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-4 right-4 select-none">
               2022/23
             </div>
             <h4 class="font-bold text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -261,13 +272,11 @@ const metadata = {
             <p class="text-sm dark:text-slate-400 leading-relaxed">
               深耕安卓玩机领域，发布多款面具模块与一键 Root 工具箱（用户破千），开启远程刷机服务，服务客户上百位。
             </p>
-          </div>
+          </SpotlightCard>
 
           <!-- 2024-2025 -->
-          <div
-            class="group/bento bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 p-6 rounded-3xl shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
-          >
-            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute -top-2 right-4 select-none">
+          <SpotlightCard client:visible className="p-6">
+            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-4 right-4 select-none">
               2024/25
             </div>
             <h4 class="font-bold text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -277,13 +286,14 @@ const metadata = {
               **关键年**。澎湃解锁工具箱用户破万，玩机管家发布（22000+设备管理）。B站粉丝突破 1.5W，Csdn
               粉丝破千，哈基创小程序用户突破 2000。
             </p>
-          </div>
+          </SpotlightCard>
 
           <!-- 未来展望 -->
-          <div
-            class="group/bento bg-gradient-to-br from-blue-600/5 to-cyan-500/5 dark:from-blue-600/10 dark:to-cyan-500/10 backdrop-blur-sm border border-blue-200/30 dark:border-blue-700/30 p-6 rounded-3xl shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 md:translate-y-8"
+          <SpotlightCard
+            client:visible
+            className="p-6 md:translate-y-8 bg-gradient-to-br from-blue-600/5 to-cyan-500/5 dark:from-blue-600/10 dark:to-cyan-500/10 border-blue-200/30 dark:border-blue-700/30"
           >
-            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute -top-2 right-4 select-none">
+            <div class="text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-4 right-4 select-none">
               2026+
             </div>
             <h4 class="font-bold text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -292,7 +302,7 @@ const metadata = {
             <p class="text-sm dark:text-slate-400 leading-relaxed italic">
               持续创新，探索更多可能性。我们将继续深耕玩机领域与内容创作，为用户带来更多极致的工具与体验。
             </p>
-          </div>
+          </SpotlightCard>
         </div>
       </div>
     </Fragment>
@@ -303,192 +313,217 @@ const metadata = {
       <div class="space-y-6 p-6">
         <HonorCarousel />
 
-        <h3 class="text-2xl font-bold text-slate-800 dark:text-white text-center">功能跳转</h3>
+        <h3 class="text-xl md:text-2xl font-bold text-slate-800 dark:text-white text-center">功能跳转</h3>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-          <a
-            href="/contact"
-            class="flex items-center gap-4 p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+        <div class="grid grid-cols-2 lg:grid-cols-1 gap-2 md:gap-4">
+          <SpotlightCard
+            client:visible
+            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <div
-              class="w-14 h-14 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors shadow-inner"
+            <a
+              href="/contact"
+              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
             >
-              <svg
-                class="w-7 h-7 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <div
+                class="w-12 h-12 md:w-14 md:h-14 bg-blue-50 dark:bg-blue-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors shadow-inner"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                ></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h4 class="font-bold text-slate-800 dark:text-white">联系我们</h4>
-              <p class="text-xs text-slate-500 dark:text-slate-400">商务合作与咨询</p>
-            </div>
-            <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-blue-600 transition-colors">
-              <svg
-                class="w-4 h-4 text-slate-400 group-hover:text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </div>
-          </a>
+                <svg
+                  class="w-6 h-6 md:w-7 md:h-7 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-bold text-slate-800 dark:text-white">联系我们</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">商务合作与咨询</p>
+              </div>
+              <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-blue-600 transition-colors">
+                <svg
+                  class="w-4 h-4 text-slate-400 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </a>
+          </SpotlightCard>
 
-          <a
-            href="/contact#media-platforms"
-            class="flex items-center gap-4 p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          <SpotlightCard
+            client:visible
+            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <div
-              class="w-14 h-14 bg-purple-50 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center group-hover:bg-purple-600 transition-colors shadow-inner"
+            <a
+              href="/contact#media-platforms"
+              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
             >
-              <svg
-                class="w-7 h-7 text-purple-600 dark:text-purple-400 group-hover:text-white transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <div
+                class="w-12 h-12 md:w-14 md:h-14 bg-purple-50 dark:bg-purple-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-purple-600 transition-colors shadow-inner"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                ></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h4 class="font-bold text-slate-800 dark:text-white">媒体平台</h4>
-              <p class="text-xs text-slate-500 dark:text-slate-400">B站、CSDN等平台</p>
-            </div>
-            <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-purple-600 transition-colors">
-              <svg
-                class="w-4 h-4 text-slate-400 group-hover:text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </div>
-          </a>
+                <svg
+                  class="w-6 h-6 md:w-7 md:h-7 text-purple-600 dark:text-purple-400 group-hover:text-white transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-bold text-slate-800 dark:text-white">媒体平台</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">B站、CSDN等平台</p>
+              </div>
+              <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-purple-600 transition-colors">
+                <svg
+                  class="w-4 h-4 text-slate-400 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </a>
+          </SpotlightCard>
 
-          <a
-            href="/contact#qun-group"
-            class="flex items-center gap-4 p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          <SpotlightCard
+            client:visible
+            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <div
-              class="w-14 h-14 bg-green-50 dark:bg-green-900/30 rounded-2xl flex items-center justify-center group-hover:bg-green-600 transition-colors shadow-inner"
+            <a
+              href="/contact#qun-group"
+              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
             >
-              <svg
-                class="w-7 h-7 text-green-600 dark:text-green-400 group-hover:text-white transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <div
+                class="w-12 h-12 md:w-14 md:h-14 bg-green-50 dark:bg-green-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-green-600 transition-colors shadow-inner"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                ></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h4 class="font-bold text-slate-800 dark:text-white">社区群聊</h4>
-              <p class="text-xs text-slate-500 dark:text-slate-400">加入我们的社区</p>
-            </div>
-            <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-green-600 transition-colors">
-              <svg
-                class="w-4 h-4 text-slate-400 group-hover:text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </div>
-          </a>
+                <svg
+                  class="w-6 h-6 md:w-7 md:h-7 text-green-600 dark:text-green-400 group-hover:text-white transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-bold text-slate-800 dark:text-white">社区群聊</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">加入我们的社区</p>
+              </div>
+              <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-green-600 transition-colors">
+                <svg
+                  class="w-4 h-4 text-slate-400 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </a>
+          </SpotlightCard>
 
-          <a
-            href="/ycsj"
-            class="flex items-center gap-4 p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          <SpotlightCard
+            client:visible
+            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <div
-              class="w-14 h-14 bg-orange-50 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center group-hover:bg-orange-600 transition-colors shadow-inner"
+            <a
+              href="/ycsj"
+              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
             >
-              <svg
-                class="w-7 h-7 text-orange-600 dark:text-orange-400 group-hover:text-white transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <div
+                class="w-12 h-12 md:w-14 md:h-14 bg-orange-50 dark:bg-orange-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-orange-600 transition-colors shadow-inner"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h4 class="font-bold text-slate-800 dark:text-white">远程刷机</h4>
-              <p class="text-xs text-slate-500 dark:text-slate-400">专业刷机服务</p>
-            </div>
-            <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-orange-600 transition-colors">
-              <svg
-                class="w-4 h-4 text-slate-400 group-hover:text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </div>
-          </a>
+                <svg
+                  class="w-6 h-6 md:w-7 md:h-7 text-orange-600 dark:text-orange-400 group-hover:text-white transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-bold text-slate-800 dark:text-white">远程刷机</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">专业刷机服务</p>
+              </div>
+              <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-orange-600 transition-colors">
+                <svg
+                  class="w-4 h-4 text-slate-400 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </a>
+          </SpotlightCard>
 
-          <a
-            href="/donate"
-            class="flex items-center gap-4 p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          <SpotlightCard
+            client:visible
+            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <div
-              class="w-14 h-14 bg-red-50 dark:bg-red-900/30 rounded-2xl flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-inner"
+            <a
+              href="/donate"
+              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
             >
-              <svg
-                class="w-7 h-7 text-red-600 dark:text-red-400 group-hover:text-white transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <div
+                class="w-12 h-12 md:w-14 md:h-14 bg-red-50 dark:bg-red-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-inner"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                ></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h4 class="font-bold text-slate-800 dark:text-white">捐赠我们</h4>
-              <p class="text-xs text-slate-500 dark:text-slate-400">支持我们发展</p>
-            </div>
-            <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-red-600 transition-colors">
-              <svg
-                class="w-4 h-4 text-slate-400 group-hover:text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </div>
-          </a>
+                <svg
+                  class="w-6 h-6 md:w-7 md:h-7 text-red-600 dark:text-red-400 group-hover:text-white transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-bold text-slate-800 dark:text-white">捐赠我们</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">支持我们发展</p>
+              </div>
+              <div class="p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-red-600 transition-colors">
+                <svg
+                  class="w-4 h-4 text-slate-400 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </a>
+          </SpotlightCard>
         </div>
       </div>
     </Fragment>
