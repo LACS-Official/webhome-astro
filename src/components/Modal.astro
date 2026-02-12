@@ -85,107 +85,101 @@
 </style>
 
 <script>
-  // 模态框功能 - 立即执行，不等待DOMContentLoaded
-  function initModal() {
-    const modal = document.getElementById('modal');
-    const modalContent = document.getElementById('modal-content');
-    const modalImage = document.getElementById('modal-image');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalActions = document.getElementById('modal-actions');
-    const closeModal = document.getElementById('close-modal');
+  interface ModalAction {
+    href?: string;
+    target?: string;
+    text: string;
+    icon?: string;
+    className?: string;
+  }
 
-    // 显示模态框 - 定义为全局函数
-    (window as any).showModal = function (imageUrl: string, title = '', description = '', actions: any[] = []) {
-      console.log('showModal called with:', { imageUrl, title, description, actions });
-
-      if (modalImage) (modalImage as HTMLImageElement).src = imageUrl;
-      if (modalTitle) modalTitle.textContent = title;
-      if (modalDescription) modalDescription.textContent = description;
-
-      // 清空并添加动作按钮
-      if (modalActions) {
-        modalActions.innerHTML = '';
-        actions.forEach((action) => {
-          const button = document.createElement('a');
-          button.href = action.href || '#';
-          button.target = action.target || '_self';
-          button.className = `bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto ${action.className || ''}`;
-          button.innerHTML = `<i class="${action.icon || 'fas fa-external-link-alt'} mr-1"></i> ${action.text}`;
-          modalActions.appendChild(button);
-        });
-
-        // 添加底部关闭按钮
-        const closeBtn = document.createElement('button');
-        closeBtn.className =
-          'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2.5 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium w-full sm:w-auto hover:shadow-md';
-        closeBtn.innerHTML = '<i class="fas fa-times mr-1"></i> 关闭';
-        closeBtn.onclick = function () {
-          const win = window as any;
-          if (win.hideModal) win.hideModal();
-        };
-        modalActions.appendChild(closeBtn);
-      }
-
-      if (modal && modalContent) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        setTimeout(() => {
-          modalContent.classList.remove('scale-95', 'opacity-0');
-          modalContent.classList.add('scale-100', 'opacity-100');
-        }, 10);
-
-        // 禁止背景滚动
-        document.body.style.overflow = 'hidden';
-      }
+  function getModalElements() {
+    return {
+      modal: document.getElementById('modal'),
+      modalContent: document.getElementById('modal-content'),
+      modalImage: document.getElementById('modal-image') as HTMLImageElement,
+      modalTitle: document.getElementById('modal-title'),
+      modalDescription: document.getElementById('modal-description'),
+      modalActions: document.getElementById('modal-actions'),
+      closeModal: document.getElementById('close-modal'),
     };
+  }
 
-    // 隐藏模态框
-    (window as any).hideModal = function () {
-      if (modal && modalContent) {
-        modalContent.classList.remove('scale-100', 'opacity-100');
-        modalContent.classList.add('scale-95', 'opacity-0');
-        setTimeout(() => {
-          modal.classList.add('hidden');
-          modal.classList.remove('flex');
-        }, 300);
+  function showModal(imageUrl: string, title = '', description = '', actions: ModalAction[] = []) {
+    const { modal, modalContent, modalImage, modalTitle, modalDescription, modalActions } = getModalElements();
 
-        // 恢复背景滚动
-        document.body.style.overflow = '';
-      }
-    };
+    if (modalImage) modalImage.src = imageUrl;
+    if (modalTitle) modalTitle.textContent = title;
+    if (modalDescription) modalDescription.textContent = description;
 
-    // 关闭按钮事件
-    if (closeModal) {
-      closeModal.addEventListener('click', () => {
-        const win = window as any;
-        if (win.hideModal) win.hideModal();
+    if (modalActions) {
+      modalActions.innerHTML = '';
+      actions.forEach((action) => {
+        const button = document.createElement('a');
+        button.href = action.href || '#';
+        button.target = action.target || '_self';
+        button.className = `bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto ${action.className || ''}`;
+        button.innerHTML = `<i class="${action.icon || 'fas fa-external-link-alt'} mr-1"></i> ${action.text}`;
+        modalActions.appendChild(button);
       });
+
+      const closeBtn = document.createElement('button');
+      closeBtn.className =
+        'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2.5 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium w-full sm:w-auto hover:shadow-md';
+      closeBtn.innerHTML = '<i class="fas fa-times mr-1"></i> 关闭';
+      closeBtn.onclick = hideModal;
+      modalActions.appendChild(closeBtn);
     }
 
-    // 点击背景关闭
+    if (modal && modalContent) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        modalContent.classList.remove('scale-95', 'opacity-0');
+        modalContent.classList.add('scale-100', 'opacity-100');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function hideModal() {
+    const { modal, modalContent } = getModalElements();
+    if (modal && modalContent) {
+      modalContent.classList.remove('scale-100', 'opacity-100');
+      modalContent.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 300);
+      document.body.style.overflow = '';
+    }
+  }
+
+  function initModal() {
+    const { modal, closeModal } = getModalElements();
+    if (closeModal) {
+      closeModal.removeEventListener('click', hideModal);
+      closeModal.addEventListener('click', hideModal);
+    }
+
     if (modal) {
       modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          const win = window as any;
-          if (win.hideModal) win.hideModal();
-        }
+        if (e.target === modal) hideModal();
       });
     }
 
-    // ESC键关闭
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-        const win = window as any;
-        if (win.hideModal) win.hideModal();
+        hideModal();
       }
     });
+
+    (window as WindowWithModal).showModal = showModal;
+    (window as WindowWithModal).hideModal = hideModal;
   }
 
-  // 立即初始化或在DOM加载后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initModal);
-  } else {
-    initModal();
-  }
+  initModal();
+
+  document.addEventListener('astro:after-swap', initModal);
+  document.addEventListener('astro:page-load', initModal);
 </script>

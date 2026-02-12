@@ -428,12 +428,9 @@ const metadata = {
     }
 
     // 页面加载完成后执行
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(initQRButtons, 300);
-      });
-    } else {
-      setTimeout(initQRButtons, 300);
-    }
+    initQRButtons();
+    
+    document.addEventListener('astro:page-load', initQRButtons);
+    document.addEventListener('astro:after-swap', initQRButtons);
   </script>
 </Layout>

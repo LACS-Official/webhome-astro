@@ -8,7 +8,22 @@ import Content from '~/components/widgets/Content.astro';
 import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
+import Modal from '~/components/Modal.astro';
 import donateHero from '~/assets/images/heroes/donate-hero.jpg';
+
+// 定义 ModalAction 接口
+interface ModalAction {
+  href?: string;
+  target?: string;
+  text: string;
+  icon?: string;
+  className?: string;
+}
+
+// 定义带模态框功能的 Window 接口
+interface WindowWithModal extends Window {
+  showModal?: (imageUrl: string, title?: string, description?: string, actions?: ModalAction[]) => void;
+}
 
 const metadata = {
   title: '支持我们 - 领创工作室',
@@ -166,14 +181,17 @@ const supporterBenefits = [
             <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">微信支付</h3>
 
             <div
-              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500"
+              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500 cursor-pointer qr-code"
+              data-image="/images/qrcodes/wx.webp"
+              data-title="微信支付"
+              data-description="扫码向我付款"
             >
               <div
                 class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent rounded-3xl pointer-events-none"
               >
               </div>
               <img
-                src="/images/qrcodes/wechatpay.webp"
+                src="/images/qrcodes/wx.webp"
                 alt="微信二维码"
                 class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
               />
@@ -199,14 +217,17 @@ const supporterBenefits = [
             <h3 class="text-2xl font-black mb-8 text-slate-800 dark:text-white">支付宝</h3>
 
             <div
-              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500"
+              class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl shadow-inner border border-slate-100 group-hover:shadow-2xl transition-all duration-500 cursor-pointer qr-code"
+              data-image="/images/qrcodes/zfb.webp"
+              data-title="支付宝"
+              data-description="扫码向我付款"
             >
               <div
                 class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-3xl pointer-events-none"
               >
               </div>
               <img
-                src="/images/qrcodes/alipay.webp"
+                src="/images/qrcodes/zfb.webp"
                 alt="支付宝二维码"
                 class="w-full h-full object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
               />
@@ -312,6 +333,41 @@ const supporterBenefits = [
       为技术社区贡献更多价值。
     </Fragment>
   </CallToAction>
+
+  <!-- 模态框 -->
+  <Modal />
+
+  <!-- 二维码点击处理 -->
+  <script>
+    function initDonationQR() {
+      // 绑定二维码点击事件
+      const qrCodes = document.querySelectorAll('.qr-code');
+      qrCodes.forEach((code) => {
+        code.addEventListener('click', function () {
+          const image = this.dataset.image;
+          const title = this.dataset.title;
+          const description = this.dataset.description;
+
+          // 调用 showModal
+          if (window.showModal) {
+            window.showModal(image, title, description, [
+              {
+                href: image,
+                target: '_blank',
+                text: '下载二维码',
+                icon: 'fas fa-download',
+              },
+            ]);
+          }
+        });
+      });
+    }
+
+    // 页面加载或切换后初始化
+    initDonationQR();
+    document.addEventListener('astro:page-load', initDonationQR);
+    document.addEventListener('astro:after-swap', initDonationQR);
+  </script>
 </Layout>
 
 <style>
