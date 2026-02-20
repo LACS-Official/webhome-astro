@@ -1,6 +1,6 @@
 ---
 // 启用 SSR - 每次请求时动态渲染此页面
-export const prerender = true;
+export const prerender = false;
 
 import Layout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
@@ -13,20 +13,6 @@ import SpotlightCard from '~/components/reactbits/SpotlightCard';
 import AnimatedContent from '~/components/reactbits/AnimatedContent';
 import ShinyText from '~/components/reactbits/ShinyText';
 import donateHero from '~/assets/images/heroes/donate-hero.jpg';
-
-// 定义 ModalAction 接口
-interface ModalAction {
-  href?: string;
-  target?: string;
-  text: string;
-  icon?: string;
-  className?: string;
-}
-
-// 定义带模态框功能的 Window 接口
-interface WindowWithModal extends Window {
-  showModal?: (imageUrl: string, title?: string, description?: string, actions?: ModalAction[]) => void;
-}
 
 const metadata = {
   title: '支持我们 - 领创工作室',
@@ -340,8 +326,8 @@ const supporterBenefits = [
 
   <script>
     // 使用委托处理二维码点击
-    function handleDonationQRClick(e) {
-      const qrTarget = e.target.closest('.qr-code');
+    function handleDonationQRClick(e: MouseEvent) {
+      const qrTarget = (e.target as HTMLElement).closest('.qr-code') as HTMLElement | null;
       if (!qrTarget) return;
 
       const image = qrTarget.dataset.image;
@@ -350,8 +336,10 @@ const supporterBenefits = [
 
       console.log('Donation QR clicked (delegated):', { image, title, description });
 
-      if (window.showModal) {
-        window.showModal(image, title, description, [
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const showModal = (window as any).showModal;
+      if (showModal) {
+        showModal(image, title, description, [
           {
             href: image,
             target: '_blank',
