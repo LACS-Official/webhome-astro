@@ -30,10 +30,10 @@ import '@fontsource-variable/inter';
     --aw-color-secondary: rgb(6 148 162); /* #0694A2 */
     --aw-color-accent: rgb(243 192 0); /* #F3C000 */
 
-    --aw-color-text-heading: rgb(10 31 68);
-    --aw-color-text-default: rgb(55 65 81);
-    --aw-color-text-muted: rgb(107 114 128);
-    --aw-color-bg-page: rgb(249 250 251);
+    --aw-color-text-heading: rgb(15 23 42); /* slate-900 */
+    --aw-color-text-default: rgb(71 85 105); /* slate-600 */
+    --aw-color-text-muted: rgb(100 116 139); /* slate-500 */
+    --aw-color-bg-page: rgb(248 250 252); /* slate-50 */
 
     /* --- 领创精品设计令牌 (Boutique Design Tokens) --- */
     --shadow-boutique-sm: 0 2px 4px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -41,12 +41,13 @@ import '@fontsource-variable/inter';
     --shadow-boutique-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
     --shadow-boutique-xl: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
 
-    --glass-blur: 16px;
+    --glass-blur: 12px;
     --glass-border: rgba(255, 255, 255, 0.5);
-    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
 
-    --glow-primary: 0 0 20px rgba(28, 100, 242, 0.3);
-    --glow-secondary: 0 0 20px rgba(6, 148, 162, 0.3);
+    --glow-primary: 0 0 24px rgba(28, 100, 242, 0.25);
+    --glow-secondary: 0 0 24px rgba(6, 148, 162, 0.25);
 
     ::selection {
       background-color: rgb(28 100 242 / 20%);
@@ -161,30 +162,33 @@ import '@fontsource-variable/inter';
     --aw-color-secondary: rgb(1 84 207);
     --aw-color-accent: rgb(109 40 217);
 
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(3 6 32);
+    --aw-color-text-heading: rgb(248 250 252); /* slate-50 */
+    --aw-color-text-default: rgb(203 213 225); /* slate-300 */
+    --aw-color-text-muted: rgb(148 163 184); /* slate-400 */
+    --aw-color-bg-page: rgb(11 15 25); /* Deep dark slate */
 
     /* --- 暗色模式精品令牌 --- */
-    --shadow-boutique-sm: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-boutique-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --shadow-boutique-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-    --shadow-boutique-xl: 0 20px 50px -12px rgba(0, 0, 0, 0.6);
+    --shadow-boutique-sm: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-boutique-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    --shadow-boutique-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    --shadow-boutique-xl: 0 20px 50px -12px rgba(0, 0, 0, 0.8);
 
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08); /* Very subtle border */
+    --glass-bg: rgba(15, 23, 42, 0.4); /* slate-900 with transparency */
+    --glass-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: rgba(1, 97, 239, 0.4);
+      color: white;
     }
   }
 
   /* 实用类：精品玻璃态 */
-  .boutique-glass {
+  .boutique-glass, .glass-panel {
     backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-boutique-md), var(--glass-shadow);
   }
 </style>

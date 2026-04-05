@@ -3,7 +3,7 @@ import type { Sites as Props } from '~/types';
 import Headline from '~/components/ui/Headline.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import { Icon } from 'astro-icon/components';
-import AnimatedContent from '~/components/reactbits/AnimatedContent';
+
 import SpotlightCard from '~/components/reactbits/SpotlightCard';
 
 const {
@@ -33,12 +33,12 @@ const getBgColorClass = (bgColor: string) => {
 
   <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8">
     {
-      sites.map((site, index) => (
-        <AnimatedContent client:visible delay={index * 0.05} distance={30} className="h-full">
+      sites.map((site) => (
+
           <a href={site.link} target="_blank" rel="noopener noreferrer" class="group flex h-full">
             <SpotlightCard 
               client:visible 
-              className="relative flex flex-col w-full h-full p-4 md:p-8 hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+              className="relative flex flex-col w-full h-full p-4 md:p-8 hover:-translate-y-1 transition-all duration-500 overflow-hidden glass-panel"
               spotlightColor="rgba(59, 130, 246, 0.15)"
             >
               <!-- 饰点 -->
@@ -83,7 +83,7 @@ const getBgColorClass = (bgColor: string) => {
               </div>
             </SpotlightCard>
           </a>
-        </AnimatedContent>
+
       ))
     }
   </div>

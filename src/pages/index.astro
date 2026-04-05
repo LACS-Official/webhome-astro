@@ -9,10 +9,7 @@ import Projects from '~/components/widgets/Projects.astro';
 import Sites from '~/components/widgets/Sites.astro';
 import Modal from '~/components/Modal.astro';
 import HonorCarousel from '~/components/widgets/HonorCarousel.astro';
-import Waves from '~/components/reactbits/Waves';
-import TrueFocus from '~/components/reactbits/TrueFocus';
 import SpotlightCard from '~/components/reactbits/SpotlightCard';
-import ShinyText from '~/components/reactbits/ShinyText';
 import type { Project, Site, ApiSiteResponse } from '~/types';
 
 // 导入图片
@@ -105,14 +102,12 @@ const metadata = {
       <source src="/videos/lacs_mg_noend.webm" type="video/webm" />
     </video>
 
-    <!-- 动态波纹背景 (ReactBits) -->
-    <div class="absolute inset-0 pointer-events-none">
-      <Waves client:load lineColor="rgba(59, 130, 246, 0.2)" backgroundColor="transparent" />
-    </div>
-
     <!-- 渐变背景（小屏幕和中屏幕 - 修改为白色主题以匹配全局） -->
     <div class="absolute inset-0 bg-white dark:bg-slate-950 lg:hidden -z-10">
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-white dark:from-blue-900/10 dark:via-slate-950 dark:to-slate-950"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-white dark:from-blue-900/10 dark:via-slate-950 dark:to-slate-950"
+      >
+      </div>
     </div>
 
     <!-- 背景装饰光斑 -->
@@ -147,18 +142,11 @@ const metadata = {
           />
         </div>
 
-        <!-- 主标题 (ReactBits TrueFocus) -->
+        <!-- 主标题 (替换TrueFocus为CSS渐变字) -->
         <h1
-          class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tighter mb-6 text-slate-900 dark:text-white lg:text-white"
+          class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 lg:from-white lg:to-blue-200"
         >
-          <TrueFocus
-            client:load
-            sentence="专注于数码科技与创意内容领域"
-            borderColor="rgba(59, 130, 246, 1)"
-            glowColor="rgba(59, 130, 246, 0.4)"
-            blurAmount={4}
-            pauseBetweenAnimations={2}
-          />
+          专注于数码科技与创意内容领域
         </h1>
 
         <!-- 副标题 -->
@@ -173,13 +161,13 @@ const metadata = {
         <div class="flex flex-col sm:flex-row gap-5 justify-center">
           <a
             href="#projects"
-            class="bg-blue-600 hover:bg-blue-500 text-white px-12 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
+            class="bg-primary hover:bg-blue-500 text-white px-12 py-4 text-lg font-bold rounded-full shadow-neon-primary transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
           >
             查看项目
           </a>
           <a
             href="#sites"
-            class="bg-white/5 lg:bg-white/5 backdrop-blur-[var(--glass-blur)] text-slate-800 dark:text-white lg:text-white border border-slate-200 dark:border-[var(--glass-border)] lg:border-[var(--glass-border)] hover:bg-slate-100 dark:hover:bg-white/10 hover:border-slate-300 px-12 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
+            class="glass-panel text-slate-800 dark:text-gray-200 hover:text-primary dark:hover:text-white hover:bg-white/10 dark:hover:bg-slate-800/50 px-12 py-4 text-lg font-bold rounded-full transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
           >
             探索分站
           </a>
@@ -208,7 +196,7 @@ const metadata = {
     projects={projectsData}
   >
     <Fragment slot="tagline">
-      <ShinyText client:load text="项目展示" speed={3} color="#60a5fa" />
+      <span class="text-blue-500 font-bold tracking-widest uppercase">项目展示</span>
     </Fragment>
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
@@ -225,7 +213,7 @@ const metadata = {
     sites={sitesData}
   >
     <Fragment slot="tagline">
-      <ShinyText client:load text="分站导航" speed={3} color="#60a5fa" />
+      <span class="text-blue-500 font-bold tracking-widest uppercase">分站导航</span>
     </Fragment>
   </Sites>
 
@@ -233,7 +221,7 @@ const metadata = {
 
   <Content id="about" title="关于领创工作室" subtitle="我们是一个专注于数码科技领域的创新团队" tagline="关于我们">
     <Fragment slot="tagline">
-      <ShinyText client:load text="关于我们" speed={3} color="#60a5fa" />
+      <span class="text-blue-500 font-bold tracking-widest uppercase">关于我们</span>
     </Fragment>
     <Fragment slot="content">
       <div class="mb-6 md:mb-12">
@@ -244,13 +232,15 @@ const metadata = {
         <!-- Bento 历程展示 (替代旧时间线) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 relative z-10">
           <div
-            class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-blue-200/50 dark:via-blue-800/50 to-transparent hidden md:block select-none pointer-events-none"
+            class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-blue-200/50 dark:via-blue-800/20 to-transparent hidden md:block select-none pointer-events-none"
           >
           </div>
 
           <!-- 2020-2021 -->
-          <SpotlightCard client:visible className="p-4 md:p-6">
-            <div class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-2 right-2 md:top-4 md:right-4 select-none">
+          <SpotlightCard client:visible className="p-4 md:p-6 glass-panel">
+            <div
+              class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-slate-700/30 absolute top-2 right-2 md:top-4 md:right-4 select-none"
+            >
               2020/21
             </div>
             <h4 class="font-bold text-lg md:text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -262,8 +252,10 @@ const metadata = {
           </SpotlightCard>
 
           <!-- 2022-2023 -->
-          <SpotlightCard client:visible className="p-4 md:p-6 md:translate-y-8">
-            <div class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-2 right-2 md:top-4 md:right-4 select-none">
+          <SpotlightCard client:visible className="p-4 md:p-6 md:translate-y-8 glass-panel">
+            <div
+              class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-slate-700/30 absolute top-2 right-2 md:top-4 md:right-4 select-none"
+            >
               2022/23
             </div>
             <h4 class="font-bold text-lg md:text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -275,8 +267,10 @@ const metadata = {
           </SpotlightCard>
 
           <!-- 2024-2025 -->
-          <SpotlightCard client:visible className="p-4 md:p-6">
-            <div class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-2 right-2 md:top-4 md:right-4 select-none">
+          <SpotlightCard client:visible className="p-4 md:p-6 glass-panel">
+            <div
+              class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-slate-700/30 absolute top-2 right-2 md:top-4 md:right-4 select-none"
+            >
               2024/25
             </div>
             <h4 class="font-bold text-lg md:text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -291,9 +285,11 @@ const metadata = {
           <!-- 未来展望 -->
           <SpotlightCard
             client:visible
-            className="p-4 md:p-6 md:translate-y-8 bg-gradient-to-br from-blue-600/5 to-cyan-500/5 dark:from-blue-600/10 dark:to-cyan-500/10 border-blue-200/30 dark:border-blue-700/30"
+            className="p-4 md:p-6 md:translate-y-8 glass-panel border-blue-200/30 dark:border-blue-700/20"
           >
-            <div class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-blue-400/10 absolute top-2 right-2 md:top-4 md:right-4 select-none">
+            <div
+              class="text-2xl md:text-4xl font-black text-blue-600/10 dark:text-blue-500/10 absolute top-2 right-2 md:top-4 md:right-4 select-none"
+            >
               2026+
             </div>
             <h4 class="font-bold text-lg md:text-xl text-blue-600 dark:text-blue-400 mb-2 flex items-center">
@@ -318,17 +314,14 @@ const metadata = {
         <div class="grid grid-cols-2 lg:grid-cols-1 gap-2 md:gap-4">
           <SpotlightCard
             client:visible
-            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            className="p-0 rounded-2xl overflow-hidden glass-panel shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <a
-              href="/contact"
-              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
-            >
+            <a href="/contact" class="flex items-center gap-3 p-3 md:p-5 bg-white/40 dark:bg-transparent group h-full">
               <div
-                class="w-12 h-12 md:w-14 md:h-14 bg-blue-50 dark:bg-blue-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors shadow-inner"
+                class="w-12 h-12 md:w-14 md:h-14 bg-blue-50 dark:bg-blue-900/10 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-primary transition-colors shadow-inner"
               >
                 <svg
-                  class="w-6 h-6 md:w-7 md:h-7 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors"
+                  class="w-6 h-6 md:w-7 md:h-7 text-primary dark:text-blue-400 group-hover:text-white transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -342,10 +335,12 @@ const metadata = {
                 </svg>
               </div>
               <div class="flex-1">
-                <h4 class="font-bold text-slate-800 dark:text-white text-xs md:text-base">联系我们</h4>
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-base">联系我们</h4>
                 <p class="hidden md:block text-xs text-slate-500 dark:text-slate-400">商务合作与咨询</p>
               </div>
-              <div class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-blue-600 transition-colors">
+              <div
+                class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800/50 group-hover:bg-primary transition-colors"
+              >
                 <svg
                   class="w-4 h-4 text-slate-400 group-hover:text-white"
                   fill="none"
@@ -360,14 +355,14 @@ const metadata = {
 
           <SpotlightCard
             client:visible
-            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            className="p-0 rounded-2xl overflow-hidden glass-panel shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
             <a
               href="/contact#media-platforms"
-              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
+              class="flex items-center gap-3 p-3 md:p-5 bg-white/40 dark:bg-transparent group h-full"
             >
               <div
-                class="w-12 h-12 md:w-14 md:h-14 bg-purple-50 dark:bg-purple-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-purple-600 transition-colors shadow-inner"
+                class="w-12 h-12 md:w-14 md:h-14 bg-purple-50 dark:bg-purple-900/10 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-purple-600 transition-colors shadow-inner"
               >
                 <svg
                   class="w-6 h-6 md:w-7 md:h-7 text-purple-600 dark:text-purple-400 group-hover:text-white transition-colors"
@@ -384,10 +379,12 @@ const metadata = {
                 </svg>
               </div>
               <div class="flex-1">
-                <h4 class="font-bold text-slate-800 dark:text-white text-xs md:text-base">媒体平台</h4>
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-base">媒体平台</h4>
                 <p class="hidden md:block text-xs text-slate-500 dark:text-slate-400">B站、CSDN等平台</p>
               </div>
-              <div class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-purple-600 transition-colors">
+              <div
+                class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800/50 group-hover:bg-purple-600 transition-colors"
+              >
                 <svg
                   class="w-4 h-4 text-slate-400 group-hover:text-white"
                   fill="none"
@@ -402,14 +399,14 @@ const metadata = {
 
           <SpotlightCard
             client:visible
-            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            className="p-0 rounded-2xl overflow-hidden glass-panel shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
             <a
               href="/contact#qun-group"
-              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
+              class="flex items-center gap-3 p-3 md:p-5 bg-white/40 dark:bg-transparent group h-full"
             >
               <div
-                class="w-12 h-12 md:w-14 md:h-14 bg-green-50 dark:bg-green-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-green-600 transition-colors shadow-inner"
+                class="w-12 h-12 md:w-14 md:h-14 bg-green-50 dark:bg-green-900/10 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-green-600 transition-colors shadow-inner"
               >
                 <svg
                   class="w-6 h-6 md:w-7 md:h-7 text-green-600 dark:text-green-400 group-hover:text-white transition-colors"
@@ -426,10 +423,12 @@ const metadata = {
                 </svg>
               </div>
               <div class="flex-1">
-                <h4 class="font-bold text-slate-800 dark:text-white text-xs md:text-base">社区群聊</h4>
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-base">社区群聊</h4>
                 <p class="hidden md:block text-xs text-slate-500 dark:text-slate-400">加入我们的社区</p>
               </div>
-              <div class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-green-600 transition-colors">
+              <div
+                class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800/50 group-hover:bg-green-600 transition-colors"
+              >
                 <svg
                   class="w-4 h-4 text-slate-400 group-hover:text-white"
                   fill="none"
@@ -444,14 +443,11 @@ const metadata = {
 
           <SpotlightCard
             client:visible
-            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            className="p-0 rounded-2xl overflow-hidden glass-panel shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <a
-              href="/ycsj"
-              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
-            >
+            <a href="/ycsj" class="flex items-center gap-3 p-3 md:p-5 bg-white/40 dark:bg-transparent group h-full">
               <div
-                class="w-12 h-12 md:w-14 md:h-14 bg-orange-50 dark:bg-orange-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-orange-600 transition-colors shadow-inner"
+                class="w-12 h-12 md:w-14 md:h-14 bg-orange-50 dark:bg-orange-900/10 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-orange-600 transition-colors shadow-inner"
               >
                 <svg
                   class="w-6 h-6 md:w-7 md:h-7 text-orange-600 dark:text-orange-400 group-hover:text-white transition-colors"
@@ -467,10 +463,12 @@ const metadata = {
                 </svg>
               </div>
               <div class="flex-1">
-                <h4 class="font-bold text-slate-800 dark:text-white text-xs md:text-base">远程刷机</h4>
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-base">远程刷机</h4>
                 <p class="hidden md:block text-xs text-slate-500 dark:text-slate-400">专业刷机服务</p>
               </div>
-              <div class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-orange-600 transition-colors">
+              <div
+                class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800/50 group-hover:bg-orange-600 transition-colors"
+              >
                 <svg
                   class="w-4 h-4 text-slate-400 group-hover:text-white"
                   fill="none"
@@ -485,14 +483,11 @@ const metadata = {
 
           <SpotlightCard
             client:visible
-            className="p-0 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            className="p-0 rounded-2xl overflow-hidden glass-panel shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_16px_-4px_rgba(0,0,0,0.01)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            <a
-              href="/donate"
-              class="flex items-center gap-3 p-3 md:p-5 bg-white/70 dark:bg-slate-900/40 backdrop-blur-sm group h-full"
-            >
+            <a href="/donate" class="flex items-center gap-3 p-3 md:p-5 bg-white/40 dark:bg-transparent group h-full">
               <div
-                class="w-12 h-12 md:w-14 md:h-14 bg-red-50 dark:bg-red-900/30 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-inner"
+                class="w-12 h-12 md:w-14 md:h-14 bg-red-50 dark:bg-red-900/10 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-inner"
               >
                 <svg
                   class="w-6 h-6 md:w-7 md:h-7 text-red-600 dark:text-red-400 group-hover:text-white transition-colors"
@@ -509,10 +504,12 @@ const metadata = {
                 </svg>
               </div>
               <div class="flex-1">
-                <h4 class="font-bold text-slate-800 dark:text-white text-xs md:text-base">我要打赏</h4>
+                <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-base">我要打赏</h4>
                 <p class="hidden md:block text-xs text-slate-500 dark:text-slate-400">支持我们的持续创作</p>
               </div>
-              <div class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800 group-hover:bg-red-600 transition-colors">
+              <div
+                class="hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800/50 group-hover:bg-red-600 transition-colors"
+              >
                 <svg
                   class="w-4 h-4 text-slate-400 group-hover:text-white"
                   fill="none"

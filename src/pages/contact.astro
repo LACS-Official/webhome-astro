@@ -12,8 +12,6 @@ import Modal from '~/components/Modal.astro';
 import Skeleton from '~/components/ui/Skeleton.astro';
 import { Icon } from 'astro-icon/components';
 import SpotlightCard from '~/components/reactbits/SpotlightCard';
-import AnimatedContent from '~/components/reactbits/AnimatedContent';
-import ShinyText from '~/components/reactbits/ShinyText';
 import contactHero from '~/assets/images/heroes/contact-hero.jpg';
 
 // 定义类型接口
@@ -111,7 +109,6 @@ const contactMethods = contactInfoData.map((contact) => ({
   color: contact.title === '电子邮件' ? 'primary' : contact.title === 'QQ' ? 'secondary' : 'accent',
 }));
 
-import heroImage from '~/assets/images/contact.webp';
 const metadata = {
   title: '联系我们 - 领创工作室',
   description:
@@ -152,7 +149,7 @@ const metadata = {
   <!-- Modal Component -->
   <Modal />
 
-  <AnimatedContent client:visible distance={40}>
+
     <Features
       id="contact-methods"
       title="联系我们"
@@ -174,14 +171,14 @@ const metadata = {
       columns={3}
     >
       <Fragment slot="tagline">
-        <ShinyText client:load text="沟通渠道" speed={3} color="#3b82f6" />
+        <span class="text-blue-500 font-bold tracking-widest uppercase">沟通渠道</span>
       </Fragment>
       <Fragment slot="bg">
         <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900">
         </div>
       </Fragment>
     </Features>
-  </AnimatedContent>
+
 
   <!-- 媒体平台 -->
   <section id="media-platforms" class="py-16 md:py-20 relative">
@@ -199,8 +196,7 @@ const metadata = {
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
         {
           mediaPlatformsData.length > 0 ? (
-            mediaPlatformsData.map((platform, index) => (
-              <AnimatedContent client:visible delay={index * 0.05} distance={30}>
+            mediaPlatformsData.map((platform) => (
                 <SpotlightCard 
                   client:visible 
                   className="group relative backdrop-blur-md rounded-2xl md:rounded-3xl p-3 sm:p-6 hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full"
@@ -253,7 +249,7 @@ const metadata = {
                     </a>
                   </div>
                 </SpotlightCard>
-              </AnimatedContent>
+
             ))
           ) : (
             Array.from({ length: 6 }).map(() => (
@@ -297,8 +293,7 @@ const metadata = {
 
       <div class="grid grid-cols-2 gap-4 md:gap-8 max-w-5xl mx-auto">
         {
-          groupChatsData.map((group, index) => (
-            <AnimatedContent client:visible delay={index * 0.1} distance={30}>
+          groupChatsData.map((group) => (
               <SpotlightCard 
                 client:visible 
                 className="group relative backdrop-blur-xl rounded-[2rem] p-3 sm:p-6 hover:-translate-y-2 transition-all duration-500 flex flex-col overflow-hidden h-full"
@@ -340,7 +335,7 @@ const metadata = {
                   </a>
                 </div>
               </SpotlightCard>
-            </AnimatedContent>
+
           ))
         }
       </div>

@@ -10,8 +10,7 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
 import SpotlightCard from '~/components/reactbits/SpotlightCard';
-import AnimatedContent from '~/components/reactbits/AnimatedContent';
-import ShinyText from '~/components/reactbits/ShinyText';
+
 import donateHero from '~/assets/images/heroes/donate-hero.jpg';
 
 const metadata = {
@@ -148,7 +147,7 @@ const supporterBenefits = [
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
           <!-- 微信卡片 -->
-          <AnimatedContent client:visible distance={40} delay={0.1}>
+
             <SpotlightCard
               client:visible
               spotlightColor="rgba(34, 197, 94, 0.1)"
@@ -180,10 +179,10 @@ const supporterBenefits = [
               </div>
               <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-auto">Scan with WeChat</p>
             </SpotlightCard>
-          </AnimatedContent>
+
 
           <!-- 支付宝卡片 -->
-          <AnimatedContent client:visible distance={40} delay={0.2}>
+
             <SpotlightCard
               client:visible
               spotlightColor="rgba(59, 130, 246, 0.1)"
@@ -215,7 +214,7 @@ const supporterBenefits = [
               </div>
               <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-auto">Scan with Alipay</p>
             </SpotlightCard>
-          </AnimatedContent>
+
         </div>
       </div>
     </div>
@@ -265,7 +264,7 @@ const supporterBenefits = [
     </div>
   </section>
 
-  <AnimatedContent client:visible distance={40}>
+
     <Features
       id="usage"
       title="资金使用透明化"
@@ -279,10 +278,10 @@ const supporterBenefits = [
       columns={4}
     >
       <Fragment slot="tagline">
-        <ShinyText client:load text="资金用途" speed={3} color="#ef4444" />
+        <span class="text-red-500 font-bold tracking-widest uppercase">资金用途</span>
       </Fragment>
     </Features>
-  </AnimatedContent>
+
 
   <!-- 支持者权益 -->
   <Content title="支持者专属权益" subtitle="感谢您的支持，我们为支持者准备了专属权益" items={supporterBenefits}>

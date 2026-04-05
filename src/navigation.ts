@@ -77,13 +77,13 @@ export const footerData = {
             </svg>
           </div>
           <span class="text-xs font-medium text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-            辽ICP备2025056705号
+            辽ICP备2025056705号-1
           </span>
         </a>
 
         <!-- 公安网备 -->
         <a
-          href="https://beian.mps.gov.cn/#/query/webSearch?code=21122402000208"
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=21122402000219"
           target="_blank"
           rel="noopener noreferrer"
           class="group flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900/30 transition-all duration-300 hover:shadow-md"
@@ -95,7 +95,7 @@ export const footerData = {
             </svg>
           </div>
           <span class="text-xs font-medium text-gray-600 dark:text-gray-300 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
-            辽公网安备21122402000208号
+            辽公网安备21122402000219号
           </span>
         </a>
         <!-- 网站地图 -->
@@ -106,7 +106,7 @@ export const footerData = {
           class="group flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 transition-all duration-300 hover:shadow-md"
         >
           <span class="text-xs font-medium text-gray-600 dark:text-gray-300 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
-            sitemap
+            网站地图
           </span>
         </a>
       </div>

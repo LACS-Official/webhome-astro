@@ -8,8 +8,7 @@ import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import ParticleBackground from '~/components/ParticleBackground.astro';
 import servicesHero from '~/assets/images/heroes/services-hero.jpg';
-import AnimatedContent from '~/components/reactbits/AnimatedContent';
-import ShinyText from '~/components/reactbits/ShinyText';
+
 
 const metadata = {
   title: '软件外包服务',
@@ -67,7 +66,7 @@ const metadata = {
 
   <!-- Features2 Widget ************** -->
 
-  <AnimatedContent client:visible distance={40}>
+
     <Features2
       id="services"
       title="我们的服务范围"
@@ -108,15 +107,15 @@ const metadata = {
       ]}
     >
       <Fragment slot="tagline">
-        <ShinyText client:load text="服务范围" speed={3} color="#6366f1" />
+        <span class="text-indigo-500 font-bold tracking-widest uppercase">服务范围</span>
       </Fragment>
       <Fragment slot="bg">
         <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
       </Fragment>
     </Features2>
-  </AnimatedContent>
 
-  <AnimatedContent client:visible distance={40} delay={0.2}>
+
+
     <Features2
       title="我们的技术栈"
       subtitle="使用主流且稳定的技术，确保项目的可维护性与高性能"
@@ -165,10 +164,10 @@ const metadata = {
       ]}
     >
       <Fragment slot="tagline">
-        <ShinyText client:load text="技术实力" speed={4} color="#6366f1" />
+        <span class="text-indigo-500 font-bold tracking-widest uppercase">技术实力</span>
       </Fragment>
     </Features2>
-  </AnimatedContent>
+
 
   <!-- Steps Widget ****************** -->
 

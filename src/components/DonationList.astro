@@ -35,6 +35,8 @@
     const errorEl = document.getElementById('donation-error');
     const gridEl = document.getElementById('donation-grid');
 
+    if (!loadingEl || !contentEl || !errorEl || !gridEl) return;
+
     try {
       // 尝试从本地API获取数据
       let response = await fetch('/api/donations');
@@ -46,7 +48,12 @@
 
       if (response.ok) {
         const result = await response.json();
-        let donationData = [];
+        
+        interface Supporter {
+          name: string;
+          donationDate: string;
+        }
+        let donationData: Supporter[] = [];
 
         // 处理不同的响应格式
         if (result.success && result.data) {
@@ -57,7 +64,7 @@
 
         if (donationData.length > 0) {
           // 渲染数据
-          gridEl.innerHTML = donationData.map(supporter => `
+          gridEl.innerHTML = donationData.map((supporter: Supporter) => `
             <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
               <div class="flex items-center justify-between mb-2">
                 <p class="font-semibold text-lg">${supporter.name}</p>

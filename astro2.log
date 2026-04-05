@@ -1,0 +1,160 @@
+﻿16:09:45 [astrowind] Astrowind `./src/config.yaml` has been loaded.
+16:09:45 [content] Syncing content
+16:09:45 [WARN] [glob-loader] The base directory "E:\Website\lacs-astrowind\src\data\post\" does not exist.
+16:09:45 [content] Synced content
+16:09:45 [types] Generated 597ms
+16:09:45 [check] Getting diagnostics for Astro files in E:\Website\lacs-astrowind...
+[96msrc/components/DonationList.astro[0m:[93m86[0m:[93m7[0m - [91merror[0m[90m ts(18047): [0m'errorEl' is possibly 'null'.
+
+[7m86[0m       errorEl.classList.remove('hidden');
+[7m  [0m [91m      ~~~~~~~[0m
+[96msrc/components/DonationList.astro[0m:[93m85[0m:[93m7[0m - [91merror[0m[90m ts(18047): [0m'loadingEl' is possibly 'null'.
+
+[7m85[0m       loadingEl.classList.add('hidden');
+[7m  [0m [91m      ~~~~~~~~~[0m
+[96msrc/components/DonationList.astro[0m:[93m76[0m:[93m11[0m - [91merror[0m[90m ts(18047): [0m'contentEl' is possibly 'null'.
+
+[7m76[0m           contentEl.classList.remove('hidden');
+[7m  [0m [91m          ~~~~~~~~~[0m
+[96msrc/components/DonationList.astro[0m:[93m75[0m:[93m11[0m - [91merror[0m[90m ts(18047): [0m'loadingEl' is possibly 'null'.
+
+[7m75[0m           loadingEl.classList.add('hidden');
+[7m  [0m [91m          ~~~~~~~~~[0m
+[96msrc/components/DonationList.astro[0m:[93m70[0m:[93m35[0m - [91merror[0m[90m ts(2339): [0mProperty 'donationDate' does not exist on type 'never'.
+
+[7m70[0m                 鎹愯禒鏃ユ湡: ${supporter.donationDate}
+[7m  [0m [91m                                  ~~~~~~~~~~~~[0m
+[96msrc/components/DonationList.astro[0m:[93m63[0m:[93m62[0m - [91merror[0m[90m ts(2339): [0mProperty 'name' does not exist on type 'never'.
+
+[7m63[0m                 <p class="font-semibold text-lg">${supporter.name}</p>
+[7m  [0m [91m                                                             ~~~~[0m
+[96msrc/components/DonationList.astro[0m:[93m60[0m:[93m11[0m - [91merror[0m[90m ts(18047): [0m'gridEl' is possibly 'null'.
+
+[7m60[0m           gridEl.innerHTML = donationData.map(supporter => `
+[7m  [0m [91m          ~~~~~~[0m
+[96msrc/components/DonationList.astro[0m:[93m55[0m:[93m11[0m - [91merror[0m[90m ts(2322): [0mType 'any[]' is not assignable to type 'never[]'.
+  Type 'any' is not assignable to type 'never'.
+
+[7m55[0m           donationData = result;
+[7m  [0m [91m          ~~~~~~~~~~~~[0m
+
+[96msrc/components/Logo.astro[0m:[93m2[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'SITE' is declared but its value is never read.
+
+[7m2[0m import { SITE } from 'astrowind:config';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/ParticleBackground.astro[0m:[93m9[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'particlesConfig' is declared but its value is never read.
+
+[7m9[0m   const particlesConfig = {
+[7m [0m [93m        ~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/SplitText.tsx[0m:[93m131[0m:[93m40[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'st' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m131[0m         ScrollTrigger.getAll().forEach(st => {
+[7m   [0m [93m                                       ~~[0m
+[96msrc/components/SplitText.tsx[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'ScrollTriggerType' is declared but its value is never read.
+
+[7m5[0m import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/common/BasicScripts.astro[0m:[93m59[0m:[93m47[0m - [93mwarning[0m[90m ts(6133): [0m'e' is declared but its value is never read.
+
+[7m59[0m     attachEvent('#nav-menu button', 'click', (e, elem) => {
+[7m  [0m [93m                                              ~[0m
+
+[96msrc/components/reactbits/Waves.tsx[0m:[93m153[0m:[93m28[0m - [93mwarning[0m[90m ts(6133): [0m'i' is declared but its value is never read.
+
+[7m153[0m       lines.forEach((line, i) => {
+[7m   [0m [93m                           ~[0m
+[96msrc/components/reactbits/Waves.tsx[0m:[93m22[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'seed' is declared but its value is never read.
+
+[7m22[0m   constructor(seed = 0) {
+[7m  [0m [93m              ~~~~[0m
+
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m61[0m:[93m50[0m - [93mwarning[0m[90m ts(6385): [0m'event' is deprecated.
+
+[7m61[0m               onkeydown="if(event.key==='Enter'||event.key===' '){this.click()}"
+[7m  [0m [93m                                                 ~~~~~[0m
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m61[0m:[93m29[0m - [93mwarning[0m[90m ts(6385): [0m'event' is deprecated.
+
+[7m61[0m               onkeydown="if(event.key==='Enter'||event.key===' '){this.click()}"
+[7m  [0m [93m                            ~~~~~[0m
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m180[0m:[93m34[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'title' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m180[0m   function copyToClipboard(text, title) {
+[7m   [0m [93m                                 ~~~~~[0m
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m180[0m:[93m28[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'text' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m180[0m   function copyToClipboard(text, title) {
+[7m   [0m [93m                           ~~~~[0m
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m172[0m:[93m16[0m - [93mwarning[0m[90m ts(6387): [0mThe signature '(commandId: string, showUI?: boolean | undefined, value?: string | undefined): boolean' of 'document.execCommand' is deprecated.
+
+[7m172[0m       document.execCommand('copy');
+[7m   [0m [93m               ~~~~~~~~~~~[0m
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m162[0m:[93m46[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'title' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m162[0m   function fallbackCopyTextToClipboard(text, title) {
+[7m   [0m [93m                                             ~~~~~[0m
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m162[0m:[93m40[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'text' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m162[0m   function fallbackCopyTextToClipboard(text, title) {
+[7m   [0m [93m                                       ~~~~[0m
+[96msrc/components/widgets/ContactMethods.astro[0m:[93m142[0m:[93m22[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'message' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m142[0m   function showToast(message) {
+[7m   [0m [93m                     ~~~~~~~[0m
+
+[96msrc/components/widgets/Footer.astro[0m:[93m26[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'socialLinks' is declared but its value is never read.
+
+[7m26[0m const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme = 'light' } = Astro.props;
+[7m  [0m [93m        ~~~~~~~~~~~[0m
+[96msrc/components/widgets/Footer.astro[0m:[93m2[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'Icon' is declared but its value is never read.
+
+[7m2[0m import { Icon } from 'astro-icon/components';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/widgets/Header.astro[0m:[93m43[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'showRssFeed' is declared but its value is never read.
+
+[7m43[0m   showRssFeed = false,
+[7m  [0m [93m  ~~~~~~~~~~~[0m
+
+[96msrc/components/widgets/Projects.astro[0m:[93m66[0m:[93m36[0m - [93mwarning[0m[90m ts(6133): [0m'index' is declared but its value is never read.
+
+[7m66[0m       sortedProjects.map((project, index) => (
+[7m  [0m [93m                                   ~~~~~[0m
+[96msrc/components/widgets/Projects.astro[0m:[93m216[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'win' is declared but its value is never read.
+
+[7m216[0m         const win = window as any;
+[7m   [0m [93m              ~~~[0m
+[96msrc/components/widgets/Projects.astro[0m:[93m203[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'actions' is declared but its value is never read.
+
+[7m203[0m         const actions = Array.from(links).map((link) => {
+[7m   [0m [93m              ~~~~~~~[0m
+[96msrc/components/widgets/Projects.astro[0m:[93m200[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'imageUrl' is declared but its value is never read.
+
+[7m200[0m         const imageUrl = card.querySelector('img')?.src || '';
+[7m   [0m [93m              ~~~~~~~~[0m
+[96msrc/components/widgets/Projects.astro[0m:[93m199[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'description' is declared but its value is never read.
+
+[7m199[0m         const description = card.querySelector('p')?.textContent || '';
+[7m   [0m [93m              ~~~~~~~~~~~[0m
+[96msrc/components/widgets/Projects.astro[0m:[93m198[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'title' is declared but its value is never read.
+
+[7m198[0m         const title = card.querySelector('h3')?.textContent || '';
+[7m   [0m [93m              ~~~~~[0m
+
+[96msrc/pages/contact.astro[0m:[93m402[0m:[93m28[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'e' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m402[0m     function handleQRClick(e) {
+[7m   [0m [93m                           ~[0m
+
+[96msrc/utils/images.ts[0m:[93m74[0m:[93m13[0m - [93mwarning[0m[90m ts(7043): [0mVariable '_image' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m74[0m         let _image;
+[7m  [0m [93m            ~~~~~~[0m
+
+Result (104 files): 
+- 8 errors
+- 0 warnings
+- 26 hints
+
