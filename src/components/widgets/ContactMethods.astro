@@ -44,26 +44,26 @@ const {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-12">
     {contactMethods.length > 0 ? (
       contactMethods.map((method) => (
-        <div class="contact-method-card bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 text-center hover:shadow-xl transition-all duration-300">
+        <div class="contact-method-card bg-white dark:bg-[#0a0a0a] rounded-[2rem] border border-slate-200 dark:border-slate-800 p-6 sm:p-8 text-center hover:shadow-sm transition-transform duration-300 hover:-translate-y-1">
           <!-- 图标和标题 -->
-          <div class={`inline-flex items-center justify-center w-16 h-16 ${method.bgColor} dark:bg-gray-700 rounded-full mb-4`}>
-            <Icon name={method.icon} class={`w-8 h-8 ${method.color} dark:text-white`} />
+          <div class={`inline-flex items-center justify-center w-14 h-14 bg-slate-100 dark:bg-slate-800/80 rounded-2xl mb-5 border border-slate-200/50 dark:border-slate-700/50`}>
+            <Icon name={method.icon} class={`w-6 h-6 text-slate-800 dark:text-gray-200`} />
           </div>
           
-          <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{method.title}</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-6 text-sm leading-relaxed">{method.description}</p>
+          <h3 class="text-xl font-bold mb-2 tracking-tight text-slate-900 dark:text-white">{method.title}</h3>
+          <p class="text-slate-500 dark:text-slate-400 mb-6 text-sm leading-relaxed">{method.description}</p>
           
           <!-- 二维码区域 -->
           <div class="mb-6">
             <div
-              class="qr-area bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="qr-area bg-slate-50 dark:bg-slate-900 rounded-xl p-4 mb-4 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-400 border border-slate-100 dark:border-slate-800"
               onclick={`window.showModal && window.showModal('${method.qrCode}', '${method.title}', '${method.description}', [{text: '${method.linkText}', href: '${method.link}', target: '_blank', icon: 'fas fa-external-link-alt'}])`}
               onkeydown="if(event.key==='Enter'||event.key===' '){this.click()}"
               tabindex="0"
               role="button"
               aria-label={`查看${method.title}二维码`}
             >
-              <div class="w-32 h-32 mx-auto bg-white rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-500 overflow-hidden">
+              <div class="w-32 h-32 mx-auto bg-white rounded-lg flex items-center justify-center border border-slate-200 dark:border-slate-600 overflow-hidden shadow-sm">
                 {method.qrCode ? (
                   <img
                     src={method.qrCode}
@@ -79,16 +79,15 @@ const {
                 )}
               </div>
             </div>
-            <p class="text-xs text-gray-500 dark:text-gray-400">扫码快速联系 • 点击放大查看</p>
+            <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">扫码快速联系 • 点击放大查看</p>
           </div>
           
-          <!-- 链接按钮 -->
           <div class="space-y-3">
             <a
               href={method.link}
               target="_blank"
               rel="noopener noreferrer"
-              class={`contact-button inline-flex items-center justify-center w-full px-4 py-2.5 ${method.color.replace('text-', 'bg-').replace('-600', '-500')} text-white font-medium rounded-full hover:${method.color.replace('text-', 'bg-').replace('-600', '-600')} transition-all duration-200 shadow-lg`}
+              class={`contact-button inline-flex items-center justify-center w-full px-4 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:opacity-90 transition-opacity duration-200`}
             >
               <Icon name={method.icon} class="w-4 h-4 mr-2" />
               {method.linkText}
@@ -97,7 +96,7 @@ const {
             <!-- 复制链接按钮 -->
             <button
               onclick={`copyToClipboard('${method.link}', '${method.title}')`}
-              class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200"
+              class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
             >
               <Icon name="tabler:copy" class="w-4 h-4 mr-2" />
               复制链接
@@ -121,15 +120,15 @@ const {
   
   <!-- 额外说明 -->
   <div class="mt-12 text-center">
-    <div class="bg-blue-50 dark:bg-gray-800 rounded-lg p-6 max-w-4xl mx-auto">
-      <div class="flex items-center justify-center mb-4">
-        <Icon name="tabler:info-circle" class="w-6 h-6 text-blue-600 dark:text-blue-400 mr-2" />
-        <h4 class="text-lg font-semibold text-blue-900 dark:text-blue-300">联系说明</h4>
+    <div class="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 md:p-8 max-w-4xl mx-auto border border-slate-100 dark:border-slate-800">
+      <div class="flex items-center justify-center mb-4 text-slate-800 dark:text-slate-200">
+        <Icon name="tabler:info-circle" class="w-5 h-5 mr-2" />
+        <h4 class="text-lg font-bold">联系说明</h4>
       </div>
-      <div class="text-sm text-blue-800 dark:text-blue-200 space-y-2">
+      <div class="text-sm text-slate-600 dark:text-slate-400 space-y-2.5 font-medium">
         <p>• 工作时间：周一至周日 9:00-22:00</p>
         <p>• 咨询前请准备好设备型号、当前系统版本等信息</p>
-        <p>• 我们承诺24小时内回复您的咨询</p>
+        <p>• 我们承诺 24 小时内回复您的咨询</p>
         <p>• 支持远程协助，无需到店即可完成服务</p>
         <p>• 具体价格根据设备型号和刷机难度而定，最终价格以客服报价为准</p>
       </div>
@@ -171,7 +170,8 @@ const {
     try {
       document.execCommand('copy');
       showToast(`${title}链接已复制到剪贴板`);
-    } catch (err) {
+    } catch (_err) {
+      console.warn('Fallback copy failed', _err);
       showToast('复制失败，请手动复制链接');
     }
     document.body.removeChild(textArea);
@@ -191,7 +191,9 @@ const {
 
   // 绑定到 window 对象以便 onclick 调用
   function initContactMethods() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).copyToClipboard = copyToClipboard;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).showToast = showToast;
   }
 

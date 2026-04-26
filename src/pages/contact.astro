@@ -3,7 +3,6 @@
 export const prerender = true;
 
 import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
@@ -11,8 +10,6 @@ import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
 import Skeleton from '~/components/ui/Skeleton.astro';
 import { Icon } from 'astro-icon/components';
-import SpotlightCard from '~/components/reactbits/SpotlightCard';
-import contactHero from '~/assets/images/heroes/contact-hero.jpg';
 
 // 定义类型接口
 interface ContactInfo {
@@ -120,31 +117,7 @@ const metadata = {
 <Layout metadata={metadata}>
   <CustomStyles />
 
-  <!-- Hero Section -->
-  <Hero
-    tagline="联系我们"
-    title="随时为您提供专业服务"
-    subtitle="领创工作室致力于为用户提供优质的技术支持和服务。关注我们的媒体平台，获取最新资讯和技术分享。"
-    image={{
-      src: contactHero,
-      alt: 'Contact Us background',
-    }}
-  >
-    <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
-      <a
-        href="#contact-methods"
-        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
-      >
-        立即联系
-      </a>
-      <a
-        href="#media-platforms"
-        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
-      >
-        关注我们
-      </a>
-    </div>
-  </Hero>
+
 
   <!-- Modal Component -->
   <Modal />
@@ -174,39 +147,33 @@ const metadata = {
         <span class="text-blue-500 font-bold tracking-widest uppercase">沟通渠道</span>
       </Fragment>
       <Fragment slot="bg">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900">
+        <div class="absolute inset-0 bg-slate-50 dark:bg-[#0a0a0a]">
         </div>
       </Fragment>
     </Features>
 
 
   <!-- 媒体平台 -->
-  <section id="media-platforms" class="py-16 md:py-20 relative">
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900">
-    </div>
+  <section id="media-platforms" class="py-16 md:py-20 relative bg-white dark:bg-slate-900/50 border-y border-slate-100 dark:border-slate-800/50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center mb-12">
-        <div class="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-4">
+        <div class="inline-block px-3 py-1 text-xs font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-full mb-4">
           媒体平台
         </div>
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">关注我们的媒体平台</h2>
-        <p class="text-xl text-muted max-w-2xl mx-auto">获取最新资讯、技术分享和项目动态</p>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">关注我们的媒体平台</h2>
+        <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">获取最新资讯、技术分享和项目动态</p>
       </div>
 
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
         {
           mediaPlatformsData.length > 0 ? (
             mediaPlatformsData.map((platform) => (
-                <SpotlightCard 
-                  client:visible 
-                  className="group relative backdrop-blur-md rounded-2xl md:rounded-3xl p-3 sm:p-6 hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full"
-                  spotlightColor="rgba(59, 130, 246, 0.1)"
+                <div 
+                  class="group relative bg-white dark:bg-[#0a0a0a] rounded-2xl md:rounded-3xl p-4 sm:p-6 hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col h-full border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-sm"
                 >
-                  <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>
-                  
                   <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left mb-4 md:mb-6 relative z-10">
                     <div class="relative mb-3 md:mb-0">
-                      <div class="absolute inset-0 bg-blue-500/20 blur-lg rounded-full scale-0 group-hover:scale-110 transition-transform duration-500"></div>
+
                       <img
                         src={platform.logo}
                         alt={platform.name}
@@ -215,10 +182,10 @@ const metadata = {
                       />
                     </div>
                     <div class="md:ml-4 flex-grow min-w-0 w-full">
-                      <h3 class="text-sm md:text-xl font-black text-slate-800 dark:text-white mb-0.5 md:mb-1 truncate">
+                      <h3 class="text-sm md:text-lg font-bold text-slate-900 dark:text-white mb-0.5 md:mb-1 truncate">
                         {platform.name}
                       </h3>
-                      <div class="flex items-center justify-center md:justify-start text-[10px] md:text-sm font-medium text-blue-600 dark:text-blue-400">
+                      <div class="flex items-center justify-center md:justify-start text-[10px] md:text-xs font-medium text-slate-500 dark:text-slate-400">
                         <span class="truncate">@{platform.account}</span>
                       </div>
                     </div>
@@ -226,7 +193,7 @@ const metadata = {
 
                   <div class="flex flex-col md:flex-row gap-2 relative z-10 mt-auto">
                     <button
-                      class="qr-button flex-1 group/btn relative overflow-hidden bg-slate-800 dark:bg-slate-700 text-white px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 shadow-lg shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
+                      class="qr-button flex-1 group/btn relative overflow-hidden bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-2 md:px-4 py-2 md:py-3 rounded-xl transition-transform duration-200 active:scale-[0.98] flex items-center justify-center font-medium text-xs md:text-sm border border-slate-200/50 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700"
                       data-qrcode={platform.qrcode}
                       data-title={platform.qrcodeTitle || platform.name}
                       data-description={platform.qrcodeDesc || '扫码关注平台'}
@@ -234,7 +201,7 @@ const metadata = {
                       type="button"
                     >
                       <span class="relative z-10 flex items-center">
-                        <Icon name="tabler:qrcode" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
+                        <Icon name="tabler:qrcode" class="w-4 h-4 md:w-5 md:h-5 mr-1" />
                         <span>查看码</span>
                       </span>
                     </button>
@@ -242,13 +209,13 @@ const metadata = {
                       href={platform.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="flex-1 bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 px-2 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-95 flex items-center justify-center font-bold text-xs md:text-base"
+                      class="flex-1 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-2 md:px-4 py-2 md:py-3 rounded-xl transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center font-medium text-xs md:text-sm border-none shadow-sm"
                     >
-                      <Icon name="tabler:external-link" class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" />
+                      <Icon name="tabler:external-link" class="w-4 h-4 md:w-5 md:h-5 mr-1" />
                       访问
                     </a>
                   </div>
-                </SpotlightCard>
+                </div>
 
             ))
           ) : (
@@ -274,67 +241,61 @@ const metadata = {
   </section>
 
   <!-- QQ群聊 -->
-  <section class="py-16 md:py-24 relative overflow-hidden" id="qun-group">
-    <!-- 装饰性背景：数码网格与光斑 -->
+  <section class="py-16 md:py-24 relative overflow-hidden bg-slate-50 dark:bg-[#0a0a0a]" id="qun-group">
+    <!-- 装饰性背景：极简数字网格 -->
     <div class="absolute inset-0 pointer-events-none">
-       <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.4] dark:opacity-[0.2]"></div>
-       <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-blue-50/50 to-transparent dark:via-blue-900/10"></div>
-       <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px] animate-pulse"></div>
+       <div class="absolute inset-0 bg-[linear-gradient(to_right,#slate-200_1px,transparent_1px),linear-gradient(to_bottom,#slate-200_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.4] dark:opacity-[0.2]"></div>
+       <div class="absolute inset-0 bg-gradient-to-b from-slate-50 via-transparent to-slate-50 dark:from-[#0a0a0a] dark:via-transparent dark:to-[#0a0a0a]"></div>
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center mb-16">
-        <div class="inline-flex items-center px-4 py-1.5 text-xs font-bold text-blue-600 bg-blue-100/50 dark:bg-blue-900/30 rounded-full mb-6 border border-blue-200 dark:border-blue-800 tracking-widest uppercase">
+        <div class="inline-flex items-center px-4 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800/50 rounded-full mb-6 border border-slate-200 dark:border-slate-700 tracking-widest uppercase">
           COMMUNITY <span class="mx-2 opacity-30">|</span> 官方群聊
         </div>
-        <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 dark:text-white">加入我们的社区</h2>
-        <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">与其他用户交流，获取最新资讯和技术支持</p>
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-slate-900 dark:text-white">加入我们的社区</h2>
+        <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-normal">与其他用户交流，获取最新资讯和技术支持</p>
       </div>
 
       <div class="grid grid-cols-2 gap-4 md:gap-8 max-w-5xl mx-auto">
         {
           groupChatsData.map((group) => (
-              <SpotlightCard 
-                client:visible 
-                className="group relative backdrop-blur-xl rounded-[2rem] p-3 sm:p-6 hover:-translate-y-2 transition-all duration-500 flex flex-col overflow-hidden h-full"
-                spotlightColor="rgba(59, 130, 246, 0.1)"
+              <div 
+                class="group relative bg-white dark:bg-slate-900/40 rounded-[2rem] p-5 sm:p-8 transition-all duration-300 hover:-translate-y-1 flex flex-col overflow-hidden h-full border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-sm"
               >
-                <!-- 背景抽象饰纹 -->
-                <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/10 transition-colors"></div>
-                
-                <div class="flex flex-col md:flex-row items-center md:items-start mb-6 relative z-10">
+                <div class="flex flex-col md:flex-row items-center md:items-start mb-8 relative z-10">
                   <!-- 非对称图标容器 -->
-                  <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-[1.5rem] mr-0 md:mr-6 bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-4 md:mb-0 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-xl shadow-blue-500/20">
-                    <Icon name="tabler:brand-qq" class="w-8 h-8 md:w-12 md:h-12 text-white" />
+                  <div class="w-14 h-14 md:w-16 md:h-16 rounded-[1rem] mr-0 md:mr-5 bg-slate-100 dark:bg-slate-800/80 flex items-center justify-center mb-4 md:mb-0 transition-transform duration-300 border border-slate-200/50 dark:border-slate-700/50 group-hover:scale-105">
+                    <Icon name="tabler:brand-qq" class="w-8 h-8 md:w-10 md:h-10 text-slate-700 dark:text-gray-200" />
                   </div>
                   <div class="flex-grow text-center md:text-left overflow-hidden">
-                    <h3 class="text-base md:text-2xl font-black text-slate-800 dark:text-white mb-1 truncate">{group.name}</h3>
-                    <div class="flex flex-col gap-1">
-                      {group.limit && <p class="text-[10px] md:text-sm font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-tighter">{group.limit}</p>}
-                      <p class="text-[10px] md:text-xs text-slate-400 font-medium">官方合规交流群</p>
+                    <h3 class="text-base md:text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-1.5 truncate">{group.name}</h3>
+                    <div class="flex flex-col gap-1 inline-flex items-center md:items-start">
+                      {group.limit && <p class="text-[10px] md:text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-tight">{group.limit}</p>}
+                      <p class="text-[10px] md:text-xs text-slate-500 font-normal">官方合规交流群</p>
                     </div>
                   </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-3 w-full mt-auto relative z-10">
                   <button
-                    class="flex-1 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-800 dark:border-white shadow-lg hover:shadow-xl active:scale-95"
+                    class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-semibold text-xs md:text-sm border border-slate-200/50 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-[0.98]"
                     onclick={`showModal('${group.qrcode}', '${group.name}', '扫码加入群聊', [{text: '直接加入', href: '${group.joinLink}', target: '_blank', icon: 'fas fa-user-plus'}])`}
                   >
-                    <Icon name="tabler:qrcode" class="w-5 h-5 mr-2" />
+                    <Icon name="tabler:qrcode" class="w-4 h-4 mr-2" />
                     查看码
                   </button>
                   <a
                     href={group.joinLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex-1 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-black text-xs md:text-base border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm active:scale-95"
+                    class="flex-1 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center font-semibold text-xs md:text-sm border-none shadow-sm hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <Icon name="tabler:user-plus" class="w-5 h-5 mr-2" />
+                    <Icon name="tabler:user-plus" class="w-4 h-4 mr-2" />
                     加入群
                   </a>
                 </div>
-              </SpotlightCard>
+              </div>
 
           ))
         }

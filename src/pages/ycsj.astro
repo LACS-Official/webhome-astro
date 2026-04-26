@@ -1,13 +1,11 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features from '~/components/widgets/Features.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import ContactMethods from '~/components/widgets/ContactMethods.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
-import ycsjHero from '~/assets/images/heroes/ycsj-hero.jpg';
 const metadata = {
   title: '远程刷机服务 - 领创工作室',
   description:
@@ -130,32 +128,7 @@ const contactMethods = [
   </script>
   <CustomStyles />
 
-  <!-- Hero Section -->
-  <Hero
-    tagline="远程刷机服务"
-    title="专业安全的Android设备刷机服务"
-    subtitle="领创工作室提供专业的远程刷机服务，支持各种Android设备。我们拥有丰富的刷机经验和专业的技术团队，为您提供安全、可靠的刷机解决方案。"
-    image={{
-      src: ycsjHero,
-      alt: 'Remote Flashing Service',
-    }}
-  >
-    <div slot="actions" class="flex flex-col sm:flex-row gap-5 justify-center">
-      <a
-        href="#contact"
-        class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 text-lg font-bold rounded-full shadow-[var(--glow-primary)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
-      >
-        立即咨询
-      </a>
-      <a
-        href="#process"
-        class="bg-white/5 backdrop-blur-[var(--glass-blur)] text-white border border-[var(--glass-border)] hover:bg-white/10 hover:border-white/40 px-10 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-boutique-xl)] transition-all duration-300 active:scale-95 flex items-center justify-center w-full sm:w-auto"
-      >
-        了解流程
-      </a>
-    </div>
-  </Hero>
-  <!-- 联系方式-->
+
 
     <ContactMethods
       id="contact"
@@ -168,7 +141,7 @@ const contactMethods = [
         <span class="text-blue-500 font-bold tracking-widest uppercase">联系方式</span>
       </Fragment>
       <Fragment slot="bg">
-        <div class="absolute inset-0 bg-gray-50 dark:bg-slate-800"></div>
+        <div class="absolute inset-0 bg-slate-50 dark:bg-[#0a0a0a]"></div>
       </Fragment>
     </ContactMethods>
 
@@ -185,7 +158,7 @@ const contactMethods = [
         <span class="text-blue-500 font-bold tracking-widest uppercase">服务特色</span>
       </Fragment>
       <Fragment slot="bg">
-        <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+        <div class="absolute inset-0 bg-white dark:bg-transparent"></div>
       </Fragment>
     </Features>
 

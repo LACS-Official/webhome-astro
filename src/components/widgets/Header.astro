@@ -51,7 +51,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   class:list={[
     'fixed',
     { dark: isDark },
-    'top-0 z-50 flex-none mx-auto w-full glass-panel transition-[opacity] ease-in-out',
+    'top-0 z-[100] flex-none mx-auto w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-gray-200/50 dark:border-slate-800/50 transition-all ease-in-out',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -137,26 +137,26 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                   <>
                     <button
                       type="button"
-                      class="hover:text-primary dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap w-full md:w-auto transition-colors rounded-xl md:rounded-none hover:bg-primary/5 active:scale-95"
+                      class="hover:text-slate-900 dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap w-full md:w-auto transition-colors rounded-xl md:rounded-none hover:bg-slate-100 dark:hover:bg-slate-800/50 active:scale-[0.98]"
                     >
-                      {icon && <Icon name={icon} class="w-5 h-5 mr-3 md:hidden text-primary" />}
+                      {icon && <Icon name={icon} class="w-5 h-5 mr-3 md:hidden text-slate-500" />}
                       <span class="flex-grow text-left">{text}</span>
                       <Icon
                         name="tabler:chevron-down"
                         class="w-4 h-4 ml-auto md:ml-0.5 rtl:ml-0 rtl:mr-0.5 md:inline transition-transform group-hover/nav:rotate-180"
                       />
                     </button>
-                    <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded-xl md:absolute pl-8 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-2xl border border-gray-100 dark:border-slate-800 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <ul class="dropdown-menu md:backdrop-blur-md rounded-xl md:absolute pl-8 md:pl-0 md:hidden font-medium md:bg-white/95 md:dark:bg-slate-900/95 md:min-w-[200px] shadow-sm md:border border-gray-200/50 dark:border-slate-800/50 animate-in fade-in slide-in-from-top-2 duration-200">
                       {links.map(({ text: text2, href: href2, icon: icon2 }) => (
                         <li class="my-0.5">
                           <a
                             class:list={[
-                              'first:rounded-t-xl last:rounded-b-xl md:hover:bg-primary/10 hover:text-primary dark:hover:text-white px-5 py-2.5 flex items-center whitespace-no-wrap transition-all active:scale-95',
-                              { 'text-primary font-bold bg-primary/5': href2 === currentPath },
+                              'first:rounded-t-xl last:rounded-b-xl md:hover:bg-slate-100 dark:md:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white px-5 py-2.5 flex items-center whitespace-no-wrap transition-all active:scale-[0.98]',
+                              { 'text-slate-900 dark:text-white font-bold bg-slate-50 dark:bg-slate-800/50': href2 === currentPath },
                             ]}
                             href={href2}
                           >
-                            {icon2 && <Icon name={icon2} class="w-4 h-4 mr-3 text-primary/70" />}
+                            {icon2 && <Icon name={icon2} class="w-4 h-4 mr-3 text-slate-500" />}
                             {text2}
                           </a>
                         </li>
@@ -166,12 +166,12 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                 ) : (
                   <a
                     class:list={[
-                      'hover:text-primary dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap w-full md:w-auto transition-all rounded-xl md:rounded-none active:scale-95 hover:bg-primary/5',
-                      { 'text-primary font-extrabold md:bg-transparent bg-primary/10 shadow-sm': href === currentPath },
+                      'hover:text-slate-900 dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap w-full md:w-auto transition-all rounded-xl md:rounded-none active:scale-[0.98] hover:bg-slate-100 dark:hover:bg-slate-800/50',
+                      { 'text-slate-900 dark:text-white font-extrabold md:bg-transparent bg-slate-50 dark:bg-slate-800/50': href === currentPath },
                     ]}
                     href={href}
                   >
-                    {icon && <Icon name={icon} class="w-5 h-5 mr-3 md:hidden text-primary" />}
+                    {icon && <Icon name={icon} class="w-5 h-5 mr-3 md:hidden text-slate-500" />}
                     <span class="flex-grow">{text}</span>
                     <Icon name="tabler:chevron-right" class="w-4 h-4 ml-auto md:hidden text-gray-400 opacity-50" />
                   </a>
@@ -220,7 +220,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           actions?.length ? (
             <span class="ml-4 rtl:ml-0 rtl:mr-4">
               {actions.map((btnProps) => (
-                <Button {...btnProps} class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto" />
+                <Button {...btnProps} class="ml-2 py-2 px-5 md:px-6 font-semibold bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-none shadow-sm hover:scale-[1.02] active:scale-95 transition-transform text-sm w-auto" />
               ))}
             </span>
           ) : (

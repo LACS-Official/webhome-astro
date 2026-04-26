@@ -291,7 +291,8 @@ export interface Project {
   updateDate: string;
   link: string;
   icon: string;
-  p_language?: string[];  // 添加编程语言字段
+  background?: string;
+  p_language?: string[]; // 添加编程语言字段
 }
 
 export interface Site {
@@ -314,6 +315,8 @@ export interface ApiSiteResponse {
   domain: string;
   logo?: string;
   category?: string;
+  isShowInAboutUs?: boolean;
+  isActive?: boolean;
 }
 
 export interface Projects extends Omit<Headline, 'classes'>, Widget {
