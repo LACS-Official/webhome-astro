@@ -1,58 +1,18 @@
 ---
-// 启用 SSR - 每次请求时动态渲染此页面
-export const prerender = false;
+// 启用预渲染 - 静态生成此页面
+export const prerender = true;
 
 import Layout from '~/layouts/PageLayout.astro';
-import Content from '~/components/widgets/Content.astro';
-import Features from '~/components/widgets/Features.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Modal from '~/components/Modal.astro';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: '支持我们 - 领创工作室',
   description: '支持领创工作室的发展，您的捐赠将帮助我们提供更好的服务和开发更多优质项目。多种捐赠方式，感谢您的支持！',
   keywords: '捐赠,支持,赞助,领创工作室,开源项目',
 };
-
-// 定义捐赠者数据类型
-interface Donation {
-  name: string;
-  amount?: number;
-  donationDate: string;
-  message?: string;
-}
-
-import { fetchWithRetry } from '~/utils/utils';
-
-// 获取捐赠者数据
-let donationData: Donation[] = [];
-let apiError = false;
-
-try {
-  // 直接从外部 API 获取捐赠数据
-  const response = await fetchWithRetry('https://api-g.lacs.cc/api/donors');
-
-  if (response && response.ok) {
-    const result = await response.json();
-    if (result.success && result.data) {
-      donationData = result.data;
-      console.log('成功获取捐赠数据，共', donationData.length, '条记录');
-    } else {
-      apiError = true;
-    }
-  } else {
-    apiError = true;
-  }
-} catch (error) {
-  console.error('获取捐赠数据失败:', error instanceof Error ? error.message : error);
-  apiError = true;
-}
-
-// 如果 API 请求失败
-if (apiError || donationData.length === 0) {
-  console.warn('捐赠 API 获取失败或无数据');
-}
 
 // 捐赠用途
 const donationUsage = [
@@ -103,102 +63,141 @@ const supporterBenefits = [
 
 
   <!-- 二维码展示 -->
-  <section class="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br rgb(14 156 212) via-white to-orange-50 dark:from-[#0a0a0a] dark:via-slate-900 dark:to-[#0a0a0a]" id="donation-methods">
-
+  <section class="py-12 md:py-20 relative overflow-hidden bg-slate-50/50 dark:bg-slate-950/20 border-b border-slate-100 dark:border-slate-800/50" id="donation-methods">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-black mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-r  .light:from-black rgb(12 120 253) " >扫码支持</h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+        <h1 class="text-3xl md:text-4xl font-black mb-3 tracking-tight text-slate-900 dark:text-white">扫码支持</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
+          请使用微信或支付宝扫码支持我们，或长按保存二维码。
+          <span class="text-xs text-slate-400 dark:text-slate-500 mt-1 block">（支持信用卡、花呗等支付通道）</span>
+        </p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
           <!-- 微信卡片 -->
+          <div class="group relative flex flex-col items-center p-5 md:p-6 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 rounded-2xl hover:shadow-[0_12px_30px_rgba(28,100,242,0.08)] dark:hover:shadow-[0_12px_30px_rgba(1,97,239,0.15)] transition-all duration-300 overflow-hidden text-center h-full">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl -mr-8 -mt-8 transition-transform group-hover:scale-150 pointer-events-none"></div>
+            
+            <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 z-10">微信支付</h3>
+            
             <div
-              class="group relative flex flex-col w-full p-6 md:p-10 bg-white/80 dark:bg-slate-900/60 backdrop-blur border-2 border-transparent hover:border-green-400/50 dark:hover:border-green-500/50 rounded-[2rem] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(34,197,94,0.2)] transition-all duration-300 overflow-hidden text-center h-full"
+              class="relative w-44 h-44 md:w-48 md:h-48 mx-auto mb-4 p-2 bg-white rounded-2xl border border-slate-200 dark:border-slate-800 transition-all duration-300 cursor-pointer qr-code z-10"
+              data-image="/images/qrcodes/wx.webp"
+              data-title="微信支付"
+              data-description="扫码完成捐赠"
             >
-              <div class="absolute top-0 right-0 w-32 h-32 bg-green-400/10 rounded-full blur-3xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
-              
-
-              <h3 class="text-2xl font-bold tracking-tight mb-8 text-slate-900 dark:text-white z-10">微信支付</h3>
-
-              <div
-                class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl border-2 border-green-100 dark:border-slate-700 group-hover:border-green-300 transition-all duration-300 cursor-pointer qr-code z-10"
-                data-image="/images/qrcodes/wx.webp"
-                data-title="微信支付"
-                data-description="扫码向我付款"
-              >
-                <img
-                  src="/images/qrcodes/wx.webp"
-                  alt="微信二维码"
-                  class="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p class="text-xs font-bold text-green-600/70 dark:text-green-400/70 uppercase tracking-widest mt-auto z-10">WeChat Pay</p>
+              <img
+                src="/images/qrcodes/wx.webp"
+                alt="微信二维码"
+                class="w-full h-full object-contain rounded-xl"
+              />
             </div>
+            
+            <a
+              href="/images/qrcodes/wx.webp"
+              download="wx-qrcode.webp"
+              class="z-10 mt-auto px-4 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700/50 transition-colors cursor-pointer w-full flex items-center justify-center gap-1.5"
+            >
+              <Icon name="tabler:download" class="w-3.5 h-3.5" />
+              下载二维码
+            </a>
+          </div>
 
           <!-- 支付宝卡片 -->
+          <div class="group relative flex flex-col items-center p-5 md:p-6 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 rounded-2xl hover:shadow-[0_12px_30px_rgba(28,100,242,0.08)] dark:hover:shadow-[0_12px_30px_rgba(1,97,239,0.15)] transition-all duration-300 overflow-hidden text-center h-full">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl -mr-8 -mt-8 transition-transform group-hover:scale-150 pointer-events-none"></div>
+            
+            <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 z-10">支付宝支付</h3>
+            
             <div
-              class="group relative flex flex-col w-full p-6 md:p-10 bg-white/80 dark:bg-slate-900/60 backdrop-blur border-2 border-transparent hover:border-blue-400/50 dark:hover:border-blue-500/50 rounded-[2rem] hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] transition-all duration-300 overflow-hidden text-center h-full"
+              class="relative w-44 h-44 md:w-48 md:h-48 mx-auto mb-4 p-2 bg-white rounded-2xl border border-slate-200 dark:border-slate-800 transition-all duration-300 cursor-pointer qr-code z-10"
+              data-image="/images/qrcodes/zfb.webp"
+              data-title="支付宝"
+              data-description="扫码完成捐赠"
             >
-              <div class="absolute top-0 right-0 w-32 h-32 bg-blue-400/10 rounded-full blur-3xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
-              
-
-              <h3 class="text-2xl font-bold tracking-tight mb-8 text-slate-900 dark:text-white z-10">支付宝</h3>
-
-              <div
-                class="relative w-56 h-56 mx-auto mb-8 p-3 bg-white rounded-3xl border-2 border-blue-100 dark:border-slate-700 group-hover:border-blue-300 transition-all duration-300 cursor-pointer qr-code z-10"
-                data-image="/images/qrcodes/zfb.webp"
-                data-title="支付宝"
-                data-description="扫码向我付款"
-              >
-                <img
-                  src="/images/qrcodes/zfb.webp"
-                  alt="支付宝二维码"
-                  class="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p class="text-xs font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest mt-auto z-10">Alipay</p>
+              <img
+                src="/images/qrcodes/zfb.webp"
+                alt="支付宝二维码"
+                class="w-full h-full object-contain rounded-xl"
+              />
             </div>
-
+            
+            <a
+              href="/images/qrcodes/zfb.webp"
+              download="zfb-qrcode.webp"
+              class="z-10 mt-auto px-4 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700/50 transition-colors cursor-pointer w-full flex items-center justify-center gap-1.5"
+            >
+              <Icon name="tabler:download" class="w-3.5 h-3.5" />
+              下载二维码
+            </a>
+          </div>
+        </div>
+        
+        <div class="mt-8 text-center text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed border-t border-slate-100 dark:border-slate-800/80 pt-4">
+          温馨提示：支付完成后请截图保存凭证，并前往 <a href="/contact" class="text-primary hover:underline font-semibold">联系我们</a> 页面，添加客服登记您的支持者昵称，以便展示在下方支持者名单中并获取专属权益。
         </div>
       </div>
     </div>
   </section>
 
   <!-- 支持者名单 -->
-  <section class="py-16 md:py-20 bg-white dark:bg-[#0a0a0a]">
+  <section class="py-16 md:py-20 bg-white dark:bg-[#0a0a0a]" id="supporters-section">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">感谢您的捐赠</h2>
-        <p class="text-xl text-slate-500 dark:text-slate-400 mb-12">以下朋友对领创工作室提供了宝贵支持和资金</p>
+        <h2 class="text-3xl md:text-4xl font-black mb-2 text-slate-900 dark:text-white">感谢您的支持</h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-10 max-w-lg mx-auto">以下朋友对领创工作室提供了宝贵支持，是你们让我们的开源开发更有温度。</p>
 
-        <div class="mt-8">
-          {
-            donationData.length > 0 ? (
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {donationData.map((supporter) => (
-                  <div class="group p-5 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-400 to-orange-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                    <div class="flex items-center justify-between mb-3 z-10">
-                      <p class="font-bold text-lg text-slate-900 dark:text-white">{supporter.name}</p>
-                      <span class="text-[10px] font-bold bg-rose-50 rgb(245 149 5) rgb(254 138 12) dark:text-rose-400 px-2.5 py-1 rounded-full uppercase tracking-widest">
-                        支持者
-                      </span>
-                    </div>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium z-10">
-                      <i class="fas fa-calendar mr-1" />
-                      捐赠日期: {supporter.donationDate}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div class="text-center py-8">
-                <p class="text-slate-500 dark:text-slate-400">暂无支持者数据</p>
-              </div>
-            )
-          }
+        <!-- 统计面板 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 text-left">
+          <!-- 累计人数 -->
+          <div class="bg-slate-50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">累计支持人数</p>
+            <h3 class="text-2xl font-black text-primary" id="stat-count">0 人</h3>
+          </div>
+          <!-- 累计金额 -->
+          <div class="bg-slate-50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">累计赞助额度</p>
+            <h3 class="text-2xl font-black text-primary" id="stat-amount">￥0.00</h3>
+          </div>
+          <!-- 温暖文案 -->
+          <div class="bg-slate-50 dark:bg-slate-900/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 sm:col-span-1">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">开源动力</p>
+            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">每一份支持，都是前行的星光 ✨</p>
+          </div>
+        </div>
 
-          <div class="mt-8 p-5 bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 rounded-2xl">
-            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center justify-center">
-              <i class="fas fa-info-circle mr-2"></i>
+        <!-- 筛选与控制栏 -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 text-left">
+          <!-- 排序选项 -->
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <span class="text-xs font-semibold text-slate-500">排序：</span>
+            <select id="sort-select" class="text-xs font-semibold bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+              <option value="newest">最新捐赠</option>
+              <option value="oldest">最早捐赠</option>
+            </select>
+          </div>
+          <!-- 搜索框 -->
+          <div class="relative w-full sm:w-64">
+            <input type="text" id="search-input" placeholder="搜索支持者昵称..." class="w-full text-xs font-semibold bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-lg pl-8 pr-4 py-1.5 focus:outline-none focus:ring-1 focus:ring-primary" />
+            <Icon name="tabler:search" class="w-4 h-4 text-slate-400 absolute left-2.5 top-1/2 transform -translate-y-1/2" />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <!-- 名单网格 -->
+          <div id="supporters-list-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[100px] text-left">
+            <!-- JS 动态渲染 -->
+          </div>
+
+          <!-- 加载更多 -->
+          <div id="load-more-container" class="mt-8 text-center hidden">
+            <button id="load-more-btn" class="px-6 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-800 transition-all cursor-pointer">
+              加载更多支持者
+            </button>
+          </div>
+
+          <div class="mt-8 p-4 bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 rounded-2xl">
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center justify-center">
+              <Icon name="tabler:info-circle" class="w-4 h-4 mr-2 text-slate-400" />
               支持者名单一般情况在每月月末或月初更新，若未及时更新欢迎大家联系我们
             </p>
           </div>
@@ -207,36 +206,392 @@ const supporterBenefits = [
     </div>
   </section>
 
+  <script>
+    function escapeHtml(str: string) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
 
-    <Features
-      id="usage"
-      title="资金使用透明化"
-      subtitle="您的每一分支持都将用于以下方面"
-      tagline="资金用途"
-      items={donationUsage.map((usage) => ({
-        title: usage.title,
-        description: `${usage.description}<br><span class="text-rose-500 font-bold">${usage.percentage}</span>`,
-        icon: usage.icon,
-      }))}
-      columns={4}
-    >
-      <Fragment slot="tagline">
-        <span class="text-rose-500 font-bold tracking-widest uppercase">资金用途</span>
-      </Fragment>
-    </Features>
+    async function initDonorsList() {
+      const gridEl = document.getElementById('supporters-list-grid');
+      const loadMoreContainer = document.getElementById('load-more-container');
+      const loadMoreBtn = document.getElementById('load-more-btn');
+      const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+      const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
+      const statCount = document.getElementById('stat-count');
+      const statAmount = document.getElementById('stat-amount');
 
+      if (!gridEl) return;
+
+      // 临时展示 Loading 态
+      gridEl.innerHTML = `
+        <div class="col-span-full text-center py-12 text-slate-500 dark:text-slate-400 text-sm flex flex-col items-center justify-center gap-3">
+          <svg class="animate-spin h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          正在安全加载支持者名单...
+        </div>
+      `;
+
+      let donors: any[] = [];
+      let currentPage = 1;
+      const itemsPerPage = 9;
+      let searchQuery = '';
+      let currentSort = 'newest';
+
+      try {
+        const response = await fetch('https://api-g.lacs.cc/api/donors');
+        if (response && response.ok) {
+          const result = await response.json();
+          if (result.success && result.data) {
+            donors = result.data;
+          }
+        }
+      } catch (error) {
+        console.error('获取捐赠数据失败:', error);
+        gridEl.innerHTML = `
+          <div class="col-span-full text-center py-8 text-red-500 dark:text-red-400 text-sm">
+            获取支持者数据失败，请稍后刷新重试
+          </div>
+        `;
+        return;
+      }
+
+      const updateStats = () => {
+        if (statCount) statCount.textContent = `${donors.length} 人`;
+        if (statAmount) {
+          const total = donors.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+          statAmount.textContent = `￥${total.toFixed(2)}`;
+        }
+      };
+
+      const renderList = () => {
+        let filtered = donors.filter(d => {
+          const name = d.name || '';
+          const message = d.message || '';
+          const nameMatch = name.toLowerCase().includes(searchQuery.toLowerCase());
+          const msgMatch = message.toLowerCase().includes(searchQuery.toLowerCase());
+          return nameMatch || msgMatch;
+        });
+
+        if (currentSort === 'newest') {
+          filtered.sort((a, b) => new Date(b.donationDate).getTime() - new Date(a.donationDate).getTime());
+        } else if (currentSort === 'oldest') {
+          filtered.sort((a, b) => new Date(a.donationDate).getTime() - new Date(b.donationDate).getTime());
+        }
+
+        const totalItems = filtered.length;
+        const paginated = filtered.slice(0, currentPage * itemsPerPage);
+
+        if (paginated.length === 0) {
+          gridEl.innerHTML = `
+            <div class="col-span-full text-center py-8 text-slate-500 dark:text-slate-400 text-sm">
+              没有找到匹配的支持者
+            </div>
+          `;
+          if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+          return;
+        }
+
+        gridEl.innerHTML = paginated.map(supporter => {
+          const displayName = escapeHtml(supporter.name === '**' ? '匿名支持者 (**)' : supporter.name);
+          const amountBadge = supporter.amount 
+            ? `<span class="text-xs font-bold text-primary bg-primary/10 dark:bg-primary/20 px-2 py-0.5 rounded-md">￥${Number(supporter.amount).toFixed(2)}</span>`
+            : '';
+          const messageHtml = supporter.message
+            ? `<p class="text-xs text-slate-500 dark:text-slate-400 italic bg-slate-50/50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 mt-3 select-none">“ ${escapeHtml(supporter.message)} ”</p>`
+            : '';
+          const formattedDate = escapeHtml(supporter.donationDate);
+
+          return `
+            <div class="group p-5 bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-[0_12px_30px_rgba(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <p class="font-bold text-slate-800 dark:text-slate-100">${displayName}</p>
+                  ${amountBadge}
+                </div>
+                ${messageHtml}
+              </div>
+              
+              <div class="flex items-center justify-between mt-4 text-[11px] text-slate-500 dark:text-slate-400 font-medium z-10 border-t border-slate-100 dark:border-slate-800/60 pt-3">
+                <span>捐赠日期: ${formattedDate}</span>
+                <span class="text-[10px] font-bold text-primary dark:text-blue-400 uppercase tracking-widest bg-primary/5 dark:bg-blue-950/30 px-2.5 py-0.5 rounded-full">
+                  支持者
+                </span>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        if (currentPage * itemsPerPage < totalItems) {
+          if (loadMoreContainer) loadMoreContainer.classList.remove('hidden');
+        } else {
+          if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+        }
+      };
+
+      if (loadMoreBtn) {
+        const newBtn = loadMoreBtn.cloneNode(true);
+        if (loadMoreBtn.parentNode) {
+          loadMoreBtn.parentNode.replaceChild(newBtn, loadMoreBtn);
+        }
+        newBtn.addEventListener('click', () => {
+          currentPage++;
+          renderList();
+        });
+      }
+
+      if (searchInput) {
+        const newSearchInput = searchInput.cloneNode(true) as HTMLInputElement;
+        if (searchInput.parentNode) {
+          searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+        }
+        newSearchInput.addEventListener('input', (e) => {
+          searchQuery = (e.target as HTMLInputElement).value;
+          currentPage = 1;
+          renderList();
+        });
+      }
+
+      if (sortSelect) {
+        const newSortSelect = sortSelect.cloneNode(true) as HTMLSelectElement;
+        if (sortSelect.parentNode) {
+          sortSelect.parentNode.replaceChild(newSortSelect, sortSelect);
+        }
+        newSortSelect.addEventListener('change', (e) => {
+          currentSort = (e.target as HTMLSelectElement).value;
+          currentPage = 1;
+          renderList();
+        });
+      }
+
+      updateStats();
+      renderList();
+    }
+
+    initDonorsList();
+    document.addEventListener('astro:page-load', initDonorsList);
+    document.addEventListener('astro:after-swap', initDonorsList);
+  </script>
+
+
+  <!-- 资金用途 -->
+  <section class="py-16 md:py-20 bg-slate-50/50 dark:bg-slate-900/20 border-y border-slate-100 dark:border-slate-800/80" id="usage">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+          <p class="text-base text-primary dark:text-blue-200 font-bold tracking-wide uppercase">资金用途</p>
+          <h2 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white mt-1">资金使用透明化</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm md:text-base">您的每一分支持都将直接用于以下基础设施与研发投入</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-white dark:bg-slate-900/60 p-6 md:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <!-- 环形饼图可视化 (40% / 35% / 15% / 10%) -->
+          <div class="md:col-span-5 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-100 dark:border-slate-800 pb-6 md:pb-0 md:pr-8">
+            <div class="relative w-40 h-40 md:w-44 md:h-44">
+              <svg viewBox="0 0 120 120" class="w-full h-full">
+                <!-- 背景灰圈 -->
+                <circle cx="60" cy="60" r="50" fill="transparent" stroke="#F1F5F9" stroke-width="12" class="dark:stroke-slate-800" />
+                
+                <!-- 社区建设 (10%) - 天蓝 #38BDF8 -->
+                <circle cx="60" cy="60" r="50" fill="transparent" stroke="#38BDF8" stroke-width="12" 
+                        stroke-dasharray="31.42 314.16" stroke-dashoffset="-282.74" transform="rotate(-90 60 60)" />
+                        
+                <!-- 技术学习 (15%) - 深蓝 #1D4ED8 -->
+                <circle cx="60" cy="60" r="50" fill="transparent" stroke="#1D4ED8" stroke-width="12" 
+                        stroke-dasharray="47.12 314.16" stroke-dashoffset="-235.62" transform="rotate(-90 60 60)" />
+                        
+                <!-- 项目开发 (35%) - 浅蓝 #60A5FA -->
+                <circle cx="60" cy="60" r="50" fill="transparent" stroke="#60A5FA" stroke-width="12" 
+                        stroke-dasharray="109.96 314.16" stroke-dashoffset="-125.66" transform="rotate(-90 60 60)" />
+
+                <!-- 服务器维护 (40%) - 科技蓝 #3B82F6 -->
+                <circle cx="60" cy="60" r="50" fill="transparent" stroke="#3B82F6" stroke-width="12" 
+                        stroke-dasharray="125.66 314.16" stroke-dashoffset="0" transform="rotate(-90 60 60)" />
+              </svg>
+              <!-- 中心文字 -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-[9px] uppercase font-bold tracking-widest text-slate-400">公开透明</span>
+                <span class="text-base font-black text-slate-800 dark:text-slate-100">100%</span>
+              </div>
+            </div>
+            <!-- 饼图图例 -->
+            <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 mt-5 w-full text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <div class="flex items-center gap-1.5 justify-center">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6] shrink-0"></span>
+                <span>服务器 40%</span>
+              </div>
+              <div class="flex items-center gap-1.5 justify-center">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#60A5FA] shrink-0"></span>
+                <span>项目开发 35%</span>
+              </div>
+              <div class="flex items-center gap-1.5 justify-center">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#1D4ED8] shrink-0"></span>
+                <span>技术学习 15%</span>
+              </div>
+              <div class="flex items-center gap-1.5 justify-center">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#38BDF8] shrink-0"></span>
+                <span>社区建设 10%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 说明网格 (2x2) -->
+          <div class="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 pl-0 md:pl-2">
+            {donationUsage.map((usage, idx) => {
+              const colors = [
+                'bg-blue-50 text-[#3B82F6] dark:bg-[#3B82F6]/10 dark:text-[#3B82F6]',
+                'bg-blue-50 text-[#60A5FA] dark:bg-[#60A5FA]/10 dark:text-[#60A5FA]',
+                'bg-blue-50 text-[#1D4ED8] dark:bg-[#1D4ED8]/10 dark:text-[#1D4ED8]',
+                'bg-blue-50 text-[#38BDF8] dark:bg-[#38BDF8]/10 dark:text-[#38BDF8]'
+              ];
+              return (
+                <div class="flex flex-col text-left">
+                  <div class="flex items-center gap-3 mb-2">
+                    <div class={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${colors[idx]}`}>
+                      <Icon name={usage.icon} class="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-sm">{usage.title}</h4>
+                      <span class="text-xs font-black text-primary">{usage.percentage}</span>
+                    </div>
+                  </div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                    {usage.description}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- 支持者权益 -->
-  <Content title="支持者专属权益" subtitle="感谢您的支持，我们为支持者准备了专属权益" items={supporterBenefits}>
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">成为我们的支持者</h3>
-      支持金额不限，每一份心意都是对我们最大的鼓励。我们会定期公布资金使用情况，确保透明公开。
-    </Fragment>
+  <section class="py-16 md:py-20 bg-white dark:bg-[#0a0a0a]" id="benefits">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <p class="text-base text-primary dark:text-blue-200 font-bold tracking-wide uppercase">专属权益</p>
+          <h2 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white mt-1">支持者专属权益</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm md:text-base">感谢您的支持，我们为支持者准备了专属权益</p>
+        </div>
 
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
-    </Fragment>
-  </Content>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="text-left space-y-6">
+            <h3 class="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">成为我们的支持者</h3>
+            <div class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed space-y-4 font-normal">
+              <p>
+                领创工作室自成立以来，一直致力于为技术社区提供免费、优质的软件工具与创意设计，每一份项目 and 代码的迭代都凝聚了我们无数心血。
+              </p>
+              <p>
+                支持金额完全随缘、不限多少，您的每一份心意都是对我们最强有力的肯定与鞭策。
+              </p>
+              <p>
+                我们坚决实行资金公开透明制，承诺定期向全体支持者公布详细的支出账单，让每一笔赞助的去向都有据可查。
+              </p>
+            </div>
+            
+            <div class="pt-4 flex flex-col sm:flex-row gap-3">
+              <a href="#donation-methods" class="px-6 py-3 bg-primary hover:bg-primary/95 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-sm shadow-primary/20 flex items-center justify-center gap-1.5 cursor-pointer">
+                <Icon name="tabler:heart" class="w-4 h-4" />
+                立即支持
+              </a>
+              <a href="/contact" class="px-6 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 dark:bg-slate-900/60 dark:hover:bg-slate-800 text-sm font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer">
+                <Icon name="tabler:message-circle" class="w-4 h-4" />
+                联系我们
+              </a>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 text-left">
+            {supporterBenefits.map((benefit) => (
+              <div class="group flex gap-4 p-5 bg-slate-50/50 dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800 rounded-2xl hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-primary dark:bg-blue-950/30 dark:text-blue-400 flex items-center justify-center shrink-0">
+                  <Icon name={benefit.icon} class="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-800 dark:text-slate-100 text-base mb-1">{benefit.title}</h4>
+                  <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal">{benefit.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FAQ Section -->
+  <section class="py-16 md:py-20 bg-slate-50/50 dark:bg-slate-900/20 border-t border-slate-100 dark:border-slate-800/80">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-10">
+          <p class="text-base text-primary dark:text-blue-200 font-bold tracking-wide uppercase">常见问题</p>
+          <h2 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white mt-1">捐赠常见疑问解答</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-3 text-sm">如果您对捐赠资金去向、公示机制等有疑问，可在此找到解答</p>
+        </div>
+
+        <div class="space-y-4 text-left">
+          <details class="group bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all duration-300 open:shadow-sm">
+            <summary class="flex items-center justify-between gap-1.5 focus:outline-none select-none">
+              <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm md:text-base">1. 捐赠完全是自愿的吗？</h3>
+              <span class="relative shrink-0 w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                <Icon name="tabler:chevron-down" class="w-5 h-5 absolute inset-0" />
+              </span>
+            </summary>
+            <div class="mt-4 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal border-t border-slate-100 dark:border-slate-800/60 pt-3">
+              是的，领创工作室发布的所有开源项目、设计资源和在线工具均完全免费提供。捐赠是完全基于自愿原则，旨在帮助我们分担服务器租用、网络宽带及日常开发开销。无论是否捐赠，您都可以无限制使用我们的免费项目。
+            </div>
+          </details>
+
+          <details class="group bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all duration-300 open:shadow-sm">
+            <summary class="flex items-center justify-between gap-1.5 focus:outline-none select-none">
+              <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm md:text-base">2. 捐赠完成后，支持者名单多长时间更新？</h3>
+              <span class="relative shrink-0 w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                <Icon name="tabler:chevron-down" class="w-5 h-5 absolute inset-0" />
+              </span>
+            </summary>
+            <div class="mt-4 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal border-t border-slate-100 dark:border-slate-800/60 pt-3">
+              由于捐赠系统目前未与个人收款接口做自动化对接，因此名单采用手动记录更新方式。我们一般会在收到客服登记后的 1-3 个工作日内同步到页面列表中。若您捐赠后超过3天未见显示，随时可以添加客服微信/QQ进行催促。
+            </div>
+          </details>
+
+          <details class="group bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all duration-300 open:shadow-sm">
+            <summary class="flex items-center justify-between gap-1.5 focus:outline-none select-none">
+              <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm md:text-base">3. 我可以隐藏赞助金额或者选择完全匿名吗？</h3>
+              <span class="relative shrink-0 w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                <Icon name="tabler:chevron-down" class="w-5 h-5 absolute inset-0" />
+              </span>
+            </summary>
+            <div class="mt-4 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal border-t border-slate-100 dark:border-slate-800/60 pt-3">
+              完全可以。您可以联系客服微信或在加好友时直接说明。我们可以帮您隐藏赞助的具体金额，或者将昵称显示为“匿名支持者”，甚至不在列表中展现您的记录。您的隐私和个人意愿会受到绝对尊重。
+            </div>
+          </details>
+
+          <details class="group bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all duration-300 open:shadow-sm">
+            <summary class="flex items-center justify-between gap-1.5 focus:outline-none select-none">
+              <h3 class="font-bold text-slate-800 dark:text-slate-100 text-sm md:text-base">4. 捐赠资金的往期使用情况是否有历史公示？</h3>
+              <span class="relative shrink-0 w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                <Icon name="tabler:chevron-down" class="w-5 h-5 absolute inset-0" />
+              </span>
+            </summary>
+            <div class="mt-4 text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal border-t border-slate-100 dark:border-slate-800/60 pt-3">
+              有的。我们坚持资金完全公开透明原则，所有服务器支出明细和账单、开发工具订购凭证均会在社区文档库和官方分站中予以同步公示，您可以通过点击 <a href="/contact" class="text-primary hover:underline font-semibold">联系我们</a> 索取往期财务公示文件或进入公开飞书看板查看。
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Call to Action -->
   <CallToAction

@@ -74,40 +74,45 @@ const quickLinks = [
     description: '商务合作与咨询',
     href: '/contact',
     icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
-    colorClass: 'blue',
-    hoverColorClass: 'primary',
+    iconBgClass: 'bg-blue-50 dark:bg-blue-900/10',
+    iconTextClass: 'text-blue-600 dark:text-blue-400',
+    hoverArrowBgClass: 'group-hover:bg-blue-600',
   },
   {
     title: '媒体平台',
     description: 'B站、CSDN等平台',
     href: '/contact#media-platforms',
     icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z',
-    colorClass: 'purple',
-    hoverColorClass: 'purple-600',
+    iconBgClass: 'bg-purple-50 dark:bg-purple-900/10',
+    iconTextClass: 'text-purple-600 dark:text-purple-400',
+    hoverArrowBgClass: 'group-hover:bg-purple-600',
   },
   {
     title: '社区群聊',
     description: '加入我们的社区',
     href: '/contact#qun-group',
     icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
-    colorClass: 'green',
-    hoverColorClass: 'green-600',
+    iconBgClass: 'bg-green-50 dark:bg-green-900/10',
+    iconTextClass: 'text-green-600 dark:text-green-400',
+    hoverArrowBgClass: 'group-hover:bg-green-600',
   },
   {
     title: '远程刷机',
     description: '专业刷机服务',
     href: '/ycsj',
     icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
-    colorClass: 'orange',
-    hoverColorClass: 'orange-600',
+    iconBgClass: 'bg-orange-50 dark:bg-orange-900/10',
+    iconTextClass: 'text-orange-600 dark:text-orange-400',
+    hoverArrowBgClass: 'group-hover:bg-orange-600',
   },
   {
     title: '我要打赏',
     description: '支持我们的持续创作',
     href: '/donate',
     icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
-    colorClass: 'red',
-    hoverColorClass: 'red-600',
+    iconBgClass: 'bg-red-50 dark:bg-red-900/10',
+    iconTextClass: 'text-red-600 dark:text-red-400',
+    hoverArrowBgClass: 'group-hover:bg-red-600',
   },
 ];
 ---
@@ -134,7 +139,7 @@ const quickLinks = [
   <!-- Hero Widget ******************* -->
 
   <section
-    class="hero-section relative min-h-[70vh] lg:h-screen w-full not-prose overflow-hidden flex items-center justify-center bg-white dark:bg-[#0a0a0a] lg:bg-transparent"
+    class="hero-section relative min-h-[55vh] md:min-h-[70vh] lg:h-screen w-full not-prose overflow-hidden flex items-center justify-center bg-white dark:bg-[#0a0a0a] lg:bg-transparent"
   >
     <!-- 视频背景（大屏幕） -->
     <video
@@ -151,8 +156,14 @@ const quickLinks = [
     <!-- 视频遮罩层 (大屏) -->
     <div class="hidden lg:block absolute inset-0 bg-slate-900/60"></div>
 
+    <!-- 渐变网格背景 (与下方项目区融合) -->
+    <div
+      class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_100%,#000_70%,transparent_100%)] pointer-events-none z-0"
+    >
+    </div>
+
     <!-- 主要内容 -->
-    <div class="relative w-full px-6 sm:px-8 lg:px-12 z-10 py-16 lg:py-0 mt-8 lg:mt-0">
+    <div class="relative w-full px-6 sm:px-8 lg:px-12 z-10 py-10 md:py-16 lg:py-0 mt-4 md:mt-8 lg:mt-0">
       <div
         class="text-center max-w-3xl mx-auto flex flex-col items-center justify-center"
       >
@@ -161,6 +172,8 @@ const quickLinks = [
           <img
             src="https://img-g.lacs.cc/file/lacswebsite/1770644464021_工作室背景_baizi.webp"
             alt="领创工作室"
+            width="500"
+            height="176"
             class="h-20 sm:h-24 md:h-32 lg:h-44 w-auto mx-auto object-contain drop-shadow-md lg:drop-shadow-2xl"
             loading="eager"
           />
@@ -175,7 +188,7 @@ const quickLinks = [
 
         <!-- 副标题 -->
         <p
-          class="text-[1.05rem] sm:text-lg lg:text-xl text-slate-500 dark:text-slate-400 lg:text-slate-200 mb-10 max-w-2xl mx-auto font-normal leading-relaxed"
+          class="text-[1.05rem] sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 lg:text-slate-200 mb-10 max-w-2xl mx-auto font-normal leading-relaxed"
         >
           致力于移动设备工具开发与数字内容创作的创新团队，<br class="hidden md:block" />
           为您提供高质量的软件使用体验。
@@ -185,13 +198,13 @@ const quickLinks = [
         <div class="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
           <a
             href="#projects"
-            class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 lg:bg-white lg:text-slate-900 px-8 py-3.5 sm:px-10 sm:py-4 text-base sm:text-lg font-medium rounded-full transition-transform hover:scale-[1.02] active:scale-95 flex items-center justify-center w-full sm:w-auto"
+            class="bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/10 hover:shadow-lg hover:shadow-blue-600/20 px-8 py-3.5 sm:px-10 sm:py-4 text-base sm:text-lg font-semibold rounded-full transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center w-full sm:w-auto"
           >
             查看项目
           </a>
           <a
             href="#sites"
-            class="bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white lg:bg-white/10 lg:text-white lg:backdrop-blur-md lg:border lg:border-white/10 px-8 py-3.5 sm:px-10 sm:py-4 text-base sm:text-lg font-medium rounded-full transition-transform hover:scale-[1.02] active:scale-95 flex items-center justify-center w-full sm:w-auto"
+            class="bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 px-8 py-3.5 sm:px-10 sm:py-4 text-base sm:text-lg font-medium rounded-full transition-all duration-200 hover:scale-[1.02] active:scale-95 flex items-center justify-center w-full sm:w-auto"
           >
             探索分站
           </a>
@@ -201,7 +214,7 @@ const quickLinks = [
 
     <!-- 滚动提示 (优化样式) -->
     <div
-      class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-40 hover:opacity-80 transition-opacity"
+      class="hidden lg:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 flex-col items-center gap-2 opacity-40 hover:opacity-80 transition-opacity"
     >
       <div class="w-5 h-8 border-2 border-slate-400 dark:border-slate-500 rounded-full flex justify-center p-1">
         <div class="w-1 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-wheel"></div>
@@ -343,10 +356,10 @@ const quickLinks = [
               >
                 <a href={link.href} class="flex items-center gap-3 p-3 md:p-5 bg-white/40 dark:bg-transparent group h-full">
                   <div
-                    class={`w-12 h-12 md:w-14 md:h-14 bg-${link.colorClass}-50 dark:bg-${link.colorClass}-900/10 rounded-xl md:rounded-2xl flex items-center justify-center `}
+                    class={`w-12 h-12 md:w-14 md:h-14 ${link.iconBgClass} rounded-xl md:rounded-2xl flex items-center justify-center `}
                   >
                     <svg
-                      class={`w-6 h-6 md:w-7 md:h-7 text-${link.colorClass}-600 dark:text-${link.colorClass}-400 `}
+                      class={`w-6 h-6 md:w-7 md:h-7 ${link.iconTextClass} `}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -358,7 +371,7 @@ const quickLinks = [
                     <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-base">{link.title}</h4>
                     <p class="hidden md:block text-xs text-slate-500 dark:text-slate-400">{link.description}</p>
                   </div>
-                  <div class={`hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800/50 group-hover:bg-${link.hoverColorClass} transition-colors`}>
+                  <div class={`hidden md:flex p-2 rounded-full bg-slate-50 dark:bg-slate-800/50 ${link.hoverArrowBgClass} transition-colors`}>
                     <svg
                       class="w-4 h-4 text-slate-400"
                       fill="none"

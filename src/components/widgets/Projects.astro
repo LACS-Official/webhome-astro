@@ -33,28 +33,28 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
   <!-- 项目分类筛选按钮 -->
   <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12" id="project-filters">
     <button
-      class="filter-btn active group relative inline-flex items-center justify-center px-6 py-2 overflow-hidden text-sm font-semibold text-white dark:text-slate-900 rounded-full bg-slate-900 dark:bg-white transition-colors duration-200 border border-slate-900 dark:border-white"
+      class="filter-btn active text-sm font-semibold px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 transition-all duration-200 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
       data-category="all"
     >
-      <span class="relative z-10">全部项目</span>
+      全部项目
     </button>
     <button
-      class="filter-btn group relative inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 rounded-full hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-200 pointer-events-auto"
+      class="filter-btn text-sm font-semibold px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 transition-all duration-200 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
       data-category="project1"
     >
-      <span class="relative z-10">玩机工具</span>
+      玩机工具
     </button>
     <button
-      class="filter-btn group relative inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 rounded-full hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-200 pointer-events-auto"
+      class="filter-btn text-sm font-semibold px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 transition-all duration-200 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
       data-category="project2"
     >
-      <span class="relative z-10">面具模块</span>
+      面具模块
     </button>
     <button
-      class="filter-btn group relative inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 rounded-full hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-200 pointer-events-auto"
+      class="filter-btn text-sm font-semibold px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 transition-all duration-200 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
       data-category="project3"
     >
-      <span class="relative z-10">小工具</span>
+      小工具
     </button>
   </div>
 
@@ -101,7 +101,7 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
                     </h3>
                   </div>
                   <span class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium truncate block">
-                    {project.platform}
+                      {project.platform}
                   </span>
                 </div>
               </div>
@@ -111,7 +111,7 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
             </div>
 
             <div class="mb-4 h-12 md:h-16 overflow-y-auto no-scrollbar relative z-10 w-full">
-              <p class="text-slate-500 dark:text-slate-400 text-[11px] md:text-sm leading-relaxed">
+              <p class="text-slate-600 dark:text-slate-300 text-xs md:text-sm leading-relaxed">
                 {project.description}
               </p>
             </div>
@@ -128,7 +128,7 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
                   target="_blank"
                   rel="noopener noreferrer"
                   data-magnetic
-                  class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:scale-[1.02] active:scale-[0.98] text-[11px] md:text-sm font-semibold rounded-lg transition-transform duration-200 w-full"
+                  class="inline-flex items-center justify-center px-4 py-2 bg-primary hover:bg-primary/95 text-xs md:text-sm font-semibold text-white rounded-xl transition-all duration-200 w-full shadow-sm shadow-primary/10 hover:shadow-md hover:shadow-primary/20"
                 >
                   <Icon name="tabler:external-link" class="hidden md:block w-4 h-4 mr-2" />
                   访问项目
@@ -144,7 +144,7 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
 
 <script>
   // 项目筛选功能
-  document.addEventListener('DOMContentLoaded', () => {
+  const initProjectFilters = () => {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
@@ -154,18 +154,13 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
 
         // 更新按钮状态
         filterButtons.forEach((btn) => {
-          btn.classList.remove('active', 'bg-primary', 'text-white', 'shadow-neon-primary', 'border', 'border-primary');
-          btn.classList.add('glass-panel', 'text-slate-600', 'dark:text-slate-300');
+          btn.classList.remove('active');
         });
-
-        button.classList.add('active', 'bg-primary', 'text-white', 'shadow-neon-primary', 'border', 'border-primary');
-        button.classList.remove('glass-panel', 'text-slate-600', 'dark:text-slate-300');
+        button.classList.add('active');
 
         // 筛选项目卡片
         projectCards.forEach((card) => {
           const cardCategory = card.getAttribute('data-category');
-          // 修复 TS2339: 类型"Element"上不存在属性"style"
-          // 通过类型断言告诉 TypeScript 这是一个 HTMLElement
           const htmlCard = card as HTMLElement;
           if (category === 'all' || cardCategory === category) {
             htmlCard.style.display = 'block';
@@ -177,14 +172,10 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
         });
       });
     });
+  };
 
-    // 项目卡片点击事件
-    projectCards.forEach((card) => {
-      card.addEventListener('click', () => {
-        // 后续可在这里实现模态框逻辑
-      });
-    });
-  });
+  document.addEventListener('DOMContentLoaded', initProjectFilters);
+  document.addEventListener('astro:after-swap', initProjectFilters);
 </script>
 
 <style>
@@ -214,5 +205,28 @@ const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
   .mask-fade-right {
     -webkit-mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
     mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
+  }
+
+  /* 筛选按钮激活状态与品牌色呼应 */
+  .filter-btn.active {
+    background-color: var(--aw-color-primary) !important;
+    border-color: var(--aw-color-primary) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(28, 100, 242, 0.2);
+  }
+  
+  :global(.dark) .filter-btn.active {
+    box-shadow: 0 4px 12px rgba(1, 97, 239, 0.3);
+  }
+
+  /* 悬浮微动画及按压反馈 */
+  .project-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+  }
+  .project-card:active {
+    transform: translateY(-1px) scale(0.995);
   }
 </style>

@@ -57,8 +57,11 @@ const {
           <div class="mb-6">
             <div
               class="qr-area bg-slate-50 dark:bg-slate-900 rounded-xl p-4 mb-4 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-400 border border-slate-100 dark:border-slate-800"
-              onclick={`window.showModal && window.showModal('${method.qrCode}', '${method.title}', '${method.description}', [{text: '${method.linkText}', href: '${method.link}', target: '_blank', icon: 'fas fa-external-link-alt'}])`}
-              onkeydown="if(event.key==='Enter'||event.key===' '){this.click()}"
+              data-qr-code={method.qrCode}
+              data-title={method.title}
+              data-description={method.description}
+              data-link-text={method.linkText}
+              data-link={method.link}
               tabindex="0"
               role="button"
               aria-label={`查看${method.title}二维码`}
@@ -95,8 +98,9 @@ const {
             
             <!-- 复制链接按钮 -->
             <button
-              onclick={`copyToClipboard('${method.link}', '${method.title}')`}
-              class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
+              class="btn-copy inline-flex items-center justify-center w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
+              data-link={method.link}
+              data-title={method.title}
             >
               <Icon name="tabler:copy" class="w-4 h-4 mr-2" />
               复制链接
@@ -138,27 +142,40 @@ const {
 </WidgetWrapper>
 
 <script>
-  function showToast(message) {
+  // 提示框逻辑
+  let toastContainer: HTMLElement | null = null;
+  function showToast(message: string) {
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.className = 'fixed bottom-5 left-1/2 transform -translate-x-1/2 z-[10000] flex flex-col gap-2 pointer-events-none';
+      document.body.appendChild(toastContainer);
+    }
+
     const toast = document.createElement('div');
-    toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-2xl shadow-2xl z-[10000] transition-all duration-300 transform translate-y-[-20px] opacity-0 font-bold';
-    toast.textContent = message;
-    document.body.appendChild(toast);
+    toast.className = 'bg-slate-900/90 dark:bg-white/95 text-white dark:text-slate-900 px-6 py-3 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-2 opacity-0 font-bold text-xs md:text-sm flex items-center gap-1.5 border border-slate-800/10 dark:border-white/10';
+    toast.innerHTML = `<svg class="w-3.5 h-3.5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>${message}`;
+    toastContainer.appendChild(toast);
 
-    // 动画入场
-    setTimeout(() => {
-      toast.classList.remove('translate-y-[-20px]', 'opacity-0');
-    }, 10);
+    // 触发重绘以执行动画
+    toast.offsetHeight;
 
-    // 3秒后自动移除
+    toast.classList.remove('opacity-0', 'translate-y-2');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
     setTimeout(() => {
-      toast.classList.add('translate-y-[-20px]', 'opacity-0');
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-2');
       setTimeout(() => {
-        document.body.removeChild(toast);
+        toast.remove();
+        if (toastContainer && toastContainer.childElementCount === 0) {
+          toastContainer.remove();
+          toastContainer = null;
+        }
       }, 300);
     }, 3000);
   }
 
-  function fallbackCopyTextToClipboard(text, title) {
+  function fallbackCopyTextToClipboard(text: string, title: string) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
     textArea.style.top = "0";
@@ -177,7 +194,7 @@ const {
     document.body.removeChild(textArea);
   }
 
-  function copyToClipboard(text, title) {
+  function copyToClipboard(text: string, title: string) {
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(text).then(() => {
         showToast(`${title}链接已复制到剪贴板`);
@@ -189,17 +206,66 @@ const {
     }
   }
 
-  // 绑定到 window 对象以便 onclick 调用
-  function initContactMethods() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).copyToClipboard = copyToClipboard;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).showToast = showToast;
+  function handleContactMethodsClick(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    
+    // 处理复制按钮点击
+    const copyBtn = target.closest('.btn-copy') as HTMLElement | null;
+    if (copyBtn) {
+      e.preventDefault();
+      const link = copyBtn.dataset.link || '';
+      const title = copyBtn.dataset.title || '';
+      copyToClipboard(link, title);
+      return;
+    }
+
+    // 处理二维码点击
+    const qrArea = target.closest('.qr-area') as HTMLElement | null;
+    if (qrArea) {
+      e.preventDefault();
+      const qrCode = qrArea.dataset.qrCode || '';
+      const title = qrArea.dataset.title || '';
+      const description = qrArea.dataset.description || '';
+      const linkText = qrArea.dataset.linkText || '';
+      const link = qrArea.dataset.link || '';
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const showModal = (window as any).showModal;
+      if (showModal) {
+        showModal(qrCode, title, description, [
+          {
+            text: linkText,
+            href: link,
+            target: '_blank',
+            icon: 'fas fa-external-link-alt',
+          },
+        ]);
+      }
+    }
   }
 
-  initContactMethods();
-  document.addEventListener('astro:page-load', initContactMethods);
-  document.addEventListener('astro:after-swap', initContactMethods);
+  function handleContactMethodsKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const qrArea = (e.target as HTMLElement).closest('.qr-area') as HTMLElement | null;
+      if (qrArea) {
+        e.preventDefault();
+        (qrArea as any).click();
+      }
+    }
+  }
+
+  function setupContactMethods() {
+    document.removeEventListener('click', handleContactMethodsClick);
+    document.removeEventListener('keydown', handleContactMethodsKeydown);
+    
+    document.addEventListener('click', handleContactMethodsClick);
+    document.addEventListener('keydown', handleContactMethodsKeydown);
+    console.log('Contact methods delegation setup completed');
+  }
+
+  setupContactMethods();
+  document.addEventListener('astro:page-load', setupContactMethods);
+  document.addEventListener('astro:after-swap', setupContactMethods);
 </script>
 
 <style>
