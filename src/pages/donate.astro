@@ -239,40 +239,29 @@ const supporterBenefits = [
         </div>
       `;
 
-      let donors: any[] = [];
+      interface Donor {
+        name: string;
+        amount: string | number;
+        message: string;
+        donationDate: string;
+      }
+
+      let donors: Donor[] = [];
       let currentPage = 1;
       const itemsPerPage = 9;
       let searchQuery = '';
       let currentSort = 'newest';
 
-      try {
-        const response = await fetch('https://api-g.lacs.cc/api/donors');
-        if (response && response.ok) {
-          const result = await response.json();
-          if (result.success && result.data) {
-            donors = result.data;
-          }
-        }
-      } catch (error) {
-        console.error('获取捐赠数据失败:', error);
-        gridEl.innerHTML = `
-          <div class="col-span-full text-center py-8 text-red-500 dark:text-red-400 text-sm">
-            获取支持者数据失败，请稍后刷新重试
-          </div>
-        `;
-        return;
-      }
-
       const updateStats = () => {
         if (statCount) statCount.textContent = `${donors.length} 人`;
         if (statAmount) {
-          const total = donors.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+          const total = donors.reduce((sum, d: Donor) => sum + (Number(d.amount) || 0), 0);
           statAmount.textContent = `￥${total.toFixed(2)}`;
         }
       };
 
       const renderList = () => {
-        let filtered = donors.filter(d => {
+        const filtered = donors.filter(d => {
           const name = d.name || '';
           const message = d.message || '';
           const nameMatch = name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -300,7 +289,8 @@ const supporterBenefits = [
         }
 
         gridEl.innerHTML = paginated.map(supporter => {
-          const displayName = escapeHtml(supporter.name === '**' ? '匿名支持者 (**)' : supporter.name);
+          const rawName = supporter.name ? (supporter.name === '**' ? '匿名支持者 (**)' : supporter.name) : '匿名支持者';
+          const displayName = escapeHtml(rawName);
           const amountBadge = supporter.amount 
             ? `<span class="text-xs font-bold text-primary bg-primary/10 dark:bg-primary/20 px-2 py-0.5 rounded-md">￥${Number(supporter.amount).toFixed(2)}</span>`
             : '';
@@ -371,13 +361,45 @@ const supporterBenefits = [
         });
       }
 
-      updateStats();
-      renderList();
+      // 尝试从会话级缓存读取数据
+      const cacheKey = 'lacs_donors_data';
+      const cachedData = sessionStorage.getItem(cacheKey);
+      if (cachedData) {
+        try {
+          donors = JSON.parse(cachedData);
+        } catch (e) {
+          console.error('解析缓存数据失败:', e);
+        }
+      }
+
+      if (donors.length > 0) {
+        updateStats();
+        renderList();
+      } else {
+        try {
+          const response = await fetch('https://api-g.lacs.cc/api/donors');
+          if (response && response.ok) {
+            const result = await response.json();
+            if (result.success && result.data) {
+              donors = result.data;
+              sessionStorage.setItem(cacheKey, JSON.stringify(donors));
+            }
+          }
+        } catch (error) {
+          console.error('获取捐赠数据失败:', error);
+          gridEl.innerHTML = `
+            <div class="col-span-full text-center py-8 text-red-500 dark:text-red-400 text-sm">
+              获取支持者数据失败，请稍后刷新重试
+            </div>
+          `;
+          return;
+        }
+        updateStats();
+        renderList();
+      }
     }
 
-    initDonorsList();
     document.addEventListener('astro:page-load', initDonorsList);
-    document.addEventListener('astro:after-swap', initDonorsList);
   </script>
 
 

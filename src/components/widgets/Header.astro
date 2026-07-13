@@ -233,7 +233,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 </header>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const mobileBackToTopButton = document.getElementById('mobile-back-to-top');
     const mobileGoToBottomButton = document.getElementById('mobile-go-to-bottom');
     const desktopBackToTopButton = document.getElementById('desktop-back-to-top');

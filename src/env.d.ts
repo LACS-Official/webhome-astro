@@ -3,3 +3,20 @@
 /// <reference types="astro/client" />
 /// <reference types="vite/client" />
 /// <reference types="../vendor/integration/types.d.ts" />
+
+interface Window {
+  showModal?: (
+    imageUrl: string,
+    title?: string,
+    description?: string,
+    actions?: Array<{
+      text: string;
+      href?: string;
+      target?: string;
+      icon?: string;
+      className?: string;
+    }>
+  ) => void;
+  hideModal?: () => void;
+}
+
